@@ -67,7 +67,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Jakarta',
 
     /*
     |--------------------------------------------------------------------------
@@ -169,11 +169,11 @@ return [
         /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
+        Sixceed\Providers\AppServiceProvider::class,
+        Sixceed\Providers\AuthServiceProvider::class,
+        // Sixceed\Providers\BroadcastServiceProvider::class,
+        Sixceed\Providers\EventServiceProvider::class,
+        Sixceed\Providers\RouteServiceProvider::class,
 
     ],
 
