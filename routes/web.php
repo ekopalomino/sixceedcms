@@ -14,6 +14,9 @@
 Route::get('/', function () {
     return view('backend.pages.login');
 });
+Route::get('/dashboard', function () {
+    return view('backend.pages.home');
+});
 
 Auth::routes();
 
