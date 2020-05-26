@@ -6,6 +6,36 @@
 		<li class="nav-item d-none d-sm-inline-block">
 			<a href="#" class="nav-link ">Home</a>
 		</li>
+		<li class="nav-item d-none d-sm-inline-block">
+			<a href="#" class="nav-link ">Website Official</a>
+		</li>
+		<li class="nav-item d-none d-sm-inline-block">
+			<a href="#" class="nav-link ">Ditjen PDN</a>
+		</li>
+		<li class="nav-item d-none d-sm-inline-block">
+			<a href="#" class="nav-link ">Ditjen Daglu</a>
+		</li>
+		<li class="nav-item d-none d-sm-inline-block">
+			<a href="#" class="nav-link ">Ditjen PKTN</a>
+		</li>
+		<li class="nav-item d-none d-sm-inline-block">
+			<a href="#" class="nav-link ">Ditjen PEN</a>
+		</li>
+		<li class="nav-item d-none d-sm-inline-block">
+			<a href="#" class="nav-link ">BPPP</a>
+		</li>
+		<li class="nav-item d-none d-sm-inline-block">
+			<a href="#" class="nav-link ">Biro Advokasi</a>
+		</li>
+		<li class="nav-item d-none d-sm-inline-block">
+			<a href="#" class="nav-link ">KPPI</a>
+		</li>
+		<li class="nav-item d-none d-sm-inline-block">
+			<a href="#" class="nav-link ">KADI</a>
+		</li>
+		<li class="nav-item d-none d-sm-inline-block">
+			<a href="#" class="nav-link ">Itjen</a>
+		</li>
 	</ul>
 	<ul class="navbar-nav ml-auto">
 		<li class="nav-item dropdown">

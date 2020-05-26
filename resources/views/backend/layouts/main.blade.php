@@ -14,7 +14,7 @@
   	@yield('header.plugins')
   	@yield('header.styles')
 </head>
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini sidebar-collapse">
 	<div class="wrapper">
 		@include('backend.includes.header')
 		@include('backend.includes.sidebar')
