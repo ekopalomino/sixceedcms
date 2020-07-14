@@ -17,6 +17,7 @@
 <body class="hold-transition sidebar-mini">
 	<div class="wrapper">
 		@include('backend.includes.header')
+    @include('backend.includes.sidebar')
 		<div class="content-wrapper" style="font-size: 14px;">
 			@yield('content')
 		</div>
