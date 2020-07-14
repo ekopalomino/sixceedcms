@@ -82,8 +82,8 @@
 					</li>
 				</ul>
 			</li>
-			<li class="nav-item has-treeview ">
-				<a href="#" class="nav-link ">
+			<li class="nav-item has-treeview {{set_open(['country.index']) }}">
+				<a href="#" class="nav-link {{set_active(['country.index']) }}">
 					<i class="nav-icon fas fa-database"></i>
 					<p>
 						Master Data
@@ -91,14 +91,14 @@
 					</p>
 				</a>
 				<ul class="nav nav-treeview">
-					<li class="nav-item">
-						<a href="" class="nav-link ">
+					<li class="nav-item {{set_open(['country.index']) }}">
+						<a href="" class="nav-link {{set_active(['country.index']) }}">
 							<i class="right fas fa-angle-left"></i>
 							<p>Demographic</p>
 						</a>
 						<ul class="nav nav-treeview">
 							<li class="nav-item">
-								<a href="" class="nav-link ">
+								<a href="{{ route('country.index') }}" class="nav-link {{set_active('country.index') }}">
 									<i class="far fa-circle nav-icon"></i>
 									<p>Countries</p>
 								</a>

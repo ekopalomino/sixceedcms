@@ -37,6 +37,12 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::post('roles/update/{id}','Backend\UserManagementController@roleUpdate')->name('roles.update');
     Route::post('roles/suspend/{id}','Backend\UserManagementController@roleDestroy')->name('roles.destroy');
     Route::get('/activity-log','Backend\UserManagementController@logActivities')->name('log.index');
+
+    Route::get('/masterdata/countries','Backend\MasterDataController@countryIndex')->name('country.index');
+    Route::post('/masterdata/countries/store','Backend\MasterDataController@countryStore')->name('country.store');
+    Route::get('/masterdata/countries/edit/{id}','Backend\MasterDataController@countryEdit')->name('user.edit');
+    Route::post('/masterdata/countries/update/{id}','Backend\MasterDataController@countryUpdate')->name('country.update');
+    Route::post('/masterdata/countries/delete/{id}','Backend\MasterDataController@countryDestroy')->name('country.destroy');
 });
 /*Route::get('/home', 'HomeController@index')->name('home');*/
 
