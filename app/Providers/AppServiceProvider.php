@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace Sixceed\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
