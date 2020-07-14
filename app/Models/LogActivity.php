@@ -1,6 +1,6 @@
 <?php
 
-namespace iteos\Models;
+namespace Sixceed\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

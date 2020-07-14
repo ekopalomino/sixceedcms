@@ -35,7 +35,8 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::get('/roles/edit/{id}','Backend\UserManagementController@roleEdit')->name('roles.edit');
     Route::post('/roles/store','Backend\UserManagementController@roleStore')->name('roles.store');
     Route::post('roles/update/{id}','Backend\UserManagementController@roleUpdate')->name('roles.update');
-Route::post('roles/suspend/{id}','Backend\UserManagementController@roleDestroy')->name('roles.destroy');
+    Route::post('roles/suspend/{id}','Backend\UserManagementController@roleDestroy')->name('roles.destroy');
+    Route::get('/activity-log','Backend\UserManagementController@logActivities')->name('log.index');
 });
 /*Route::get('/home', 'HomeController@index')->name('home');*/
 

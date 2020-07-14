@@ -3,14 +3,14 @@
 Kementerian Perdagangan Republik Indonesia | User Database
 @endsection
 @section('header.plugins')
-<link rel="stylesheet" href="{{ asset('public/bower_components/admin-lte/plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
+<link rel="stylesheet" href="{{ asset('bower_components/admin-lte/plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
 @endsection
 @section('content')
 <section class="content-header">
 	<div class="container-fluid">
       	<div class="row mb-2">
        		<div class="col-sm-6">
-          		<h1>User Database</h1>
+          		<h1>Data Pengguna</h1>
        		</div>
        	</div>
     </div>
@@ -21,13 +21,13 @@ Kementerian Perdagangan Republik Indonesia | User Database
 			<div class="card card-info card-outline">
 				<div class="card-header">
 					<button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modal-lg">
-						Add New
+						Tambah
 					</button>
 					<div class="modal fade" id="modal-lg">
 						<div class="modal-dialog modal-lg">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h4 class="modal-title">New User</h4>
+									<h4 class="modal-title">Pengguna Baru</h4>
 									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 										<span aria-hidden="true">&times;</span>
 									</button>
@@ -99,12 +99,12 @@ Kementerian Perdagangan Republik Indonesia | User Database
 								<th>No</th>
 								<th>Username</th>
 								<th>Email</th>
-								<th>Access Role</th>
-								<th>Site Access</th>
+								<th>Hak Akses</th>
+								<th>Akses Situs</th>
 								<th>Status</th>
-								<th>Last Login At</th>
-								<th>Last Login From</th>
-								<th>Created At</th>
+								<th>Login Terakhir</th>
+								<th>Login Dari</th>
+								<th>Dibuat Pada</th>
 								<th></th>
 							</tr>
 						</thead>
@@ -121,7 +121,7 @@ Kementerian Perdagangan Republik Indonesia | User Database
 										@endforeach
 									@endif 
 								</td>
-								<td></td>
+								<td>{{ $user->Sites->site_name }}</td>
             					<td>
 									@if(($user->status_id) == 'f13c7f2e-4723-47a7-b75c-fbec0aaca411' )
 										<span class="badge badge-info">{{ $user->status->status_name }}</span>
@@ -141,7 +141,7 @@ Kementerian Perdagangan Republik Indonesia | User Database
 								</td>
 								<td>{{date("d F Y H:i",strtotime($user->created_at)) }}</td>
 								<td>
-									<a class="btn btn-xs btn-info modalMd" href="#" value="{{ action('Backend\UserManagementController@userEdit',['id'=>$user->id]) }}" data-toggle="modal" data-target="#modalMd"><i class="fa fa-edit"></i></a>
+									<a class="btn btn-xs btn-info modalLg" href="#" value="{{ action('Backend\UserManagementController@userEdit',['id'=>$user->id]) }}" data-toggle="modal" data-target="#modalLg"><i class="fa fa-edit"></i></a>
 									{!! Form::open(['method' => 'POST','route' => ['user.destroy', $user->id],'style'=>'display:inline','onsubmit' => 'return ConfirmSuspend()']) !!}
 									{!! Form::button('<i class="fas fa-user-slash"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger']) !!}
 									{!! Form::close() !!}
@@ -157,8 +157,8 @@ Kementerian Perdagangan Republik Indonesia | User Database
 </section>
 @endsection
 @section('footer.scripts')
-<script src="{{ asset('public/bower_components/admin-lte/plugins/datatables/jquery.dataTables.js') }}"></script>
-<script src="{{ asset('public/bower_components/admin-lte/plugins/datatables-bs4/js/dataTables.bootstrap4.js') }}"></script><script>
+<script src="{{ asset('bower_components/admin-lte/plugins/datatables/jquery.dataTables.js') }}"></script>
+<script src="{{ asset('bower_components/admin-lte/plugins/datatables-bs4/js/dataTables.bootstrap4.js') }}"></script><script>
   $(function () {
     $("#example1").DataTable();
     $('#example2').DataTable({

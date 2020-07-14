@@ -3,14 +3,14 @@
 Kementerian Perdagangan Republik Indonesia | Access Roles
 @endsection
 @section('header.plugins')
-<link rel="stylesheet" href="{{ asset('public/bower_components/admin-lte/plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
+<link rel="stylesheet" href="{{ asset('bower_components/admin-lte/plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
 @endsection
 @section('content')
 <section class="content-header">
 	<div class="container-fluid">
       	<div class="row mb-2">
        		<div class="col-sm-6">
-          		<h1>Access Roles</h1>
+          		<h1>Hak Akses</h1>
        		</div>
        	</div>
     </div>
@@ -21,7 +21,7 @@ Kementerian Perdagangan Republik Indonesia | Access Roles
 			<div class="card card-info card-outline">
 				<div class="card-header">
        				<a class="btn btn-sm btn-danger" href="{{ route('roles.create') }}">
-         			Add New</a>
+         			Tambah</a>
          		
          	</div>
          	<div class="card-body">
@@ -56,8 +56,8 @@ Kementerian Perdagangan Republik Indonesia | Access Roles
 </section>
 @endsection
 @section('footer.scripts')
-<script src="{{ asset('public/bower_components/admin-lte/plugins/datatables/jquery.dataTables.js') }}"></script>
-<script src="{{ asset('public/bower_components/admin-lte/plugins/datatables-bs4/js/dataTables.bootstrap4.js') }}"></script><script>
+<script src="{{ asset('bower_components/admin-lte/plugins/datatables/jquery.dataTables.js') }}"></script>
+<script src="{{ asset('bower_components/admin-lte/plugins/datatables-bs4/js/dataTables.bootstrap4.js') }}"></script><script>
   $(function () {
     $("#example1").DataTable();
     $('#example2').DataTable({

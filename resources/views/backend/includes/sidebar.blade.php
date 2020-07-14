@@ -30,8 +30,8 @@
 					</p>
 				</a>
 			</li>
-			<li class="nav-item has-treeview {{set_open(['user.index','roles.index','roles.create']) }}">
-				<a href="#" class="nav-link {{set_active(['user.index','roles.index','roles.create']) }}">
+			<li class="nav-item has-treeview {{set_open(['user.index','roles.index','roles.create','log.index']) }}">
+				<a href="#" class="nav-link {{set_active(['user.index','roles.index','roles.create','log.index']) }}">
 					<i class="nav-icon fas fa-users"></i>
 					<p>
 						Manajemen Pengguna
@@ -52,7 +52,7 @@
 						</a>
 					</li>
 					<li class="nav-item">
-						<a href="" class="nav-link ">
+						<a href="{{ route('log.index') }}" class="nav-link {{set_active('log.index') }}">
 							<i class="far fa-circle nav-icon"></i>
 							<p>Log Aktifitas</p>
 						</a>

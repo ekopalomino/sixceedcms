@@ -45,4 +45,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Status::class,'status_id');
     }
+
+    public function Sites()
+    {
+        return $this->belongsTo(Site::class,'site_id');
+    }
 }
