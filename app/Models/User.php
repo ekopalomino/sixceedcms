@@ -40,4 +40,9 @@ class User extends Authenticatable
     ];
 
     public $incrementing = false;
+
+    public function status()
+    {
+        return $this->belongsTo(Status::class,'status_id');
+    }
 }

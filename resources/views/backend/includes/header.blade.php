@@ -24,12 +24,6 @@
 		<li class="nav-item d-none d-sm-inline-block">
 			<a href="" class="nav-link ">Ditjen PDN</a>
 		</li>
-		<li class="nav-item d-none d-sm-inline-block">
-			<a href="" class="nav-link ">Help</a>
-		</li>
-		<li class="nav-item d-none d-sm-inline-block">
-			<a href="" class="nav-link ">Report Problem</a>
-		</li>
 	</ul>
 	<ul class="navbar-nav ml-auto">
 		<li class="nav-item dropdown">
