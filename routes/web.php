@@ -24,10 +24,18 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::get('/perdagangan-luar-negeri','Backend\HomeController@plnIndex')->name('pln.index');
     Route::get('/perlindungan-konsumen-tertib-niaga','Backend\HomeController@pktnIndex')->name('pktn.index');
     Route::get('/perdagangan-dalam-negeri','Backend\HomeController@pdnIndex')->name('pdn.index');
+
+    Route::get('/users','Backend\UserManagementController@userIndex')->name('user.index');
+    Route::get('/users/edit/{id}','Backend\UserManagementController@userEdit')->name('user.edit');
+    Route::post('/users/store','Backend\UserManagementController@userStore')->name('user.store');
+    Route::post('users/update/{id}','Backend\UserManagementController@userUpdate')->name('user.update');
+    Route::post('users/suspend/{id}','Backend\UserManagementController@userDestroy')->name('user.destroy');
+    Route::get('/roles','Backend\UserManagementController@rolesIndex')->name('roles.index');
+    Route::get('/roles/create','Backend\UserManagementController@roleCreate')->name('roles.create');
+    Route::get('/roles/edit/{id}','Backend\UserManagementController@roleEdit')->name('roles.edit');
+    Route::post('/roles/store','Backend\UserManagementController@roleStore')->name('roles.store');
+    Route::post('roles/update/{id}','Backend\UserManagementController@roleUpdate')->name('roles.update');
+Route::post('roles/suspend/{id}','Backend\UserManagementController@roleDestroy')->name('roles.destroy');
 });
 /*Route::get('/home', 'HomeController@index')->name('home');*/
-Route::get('/users','Backend\UserManagementController@userIndex')->name('user.index');
-Route::get('/users/edit/{id}','Backend\UserManagementController@userEdit')->name('user.edit');
-Route::post('/users/store','Backend\UserManagementController@userStore')->name('user.store');
-Route::post('users/update/{id}','Backend\UserManagementController@userUpdate')->name('user.update');
-Route::post('users/suspend/{id}','Backend\UserManagementController@userDestroy')->name('user.destroy');
+

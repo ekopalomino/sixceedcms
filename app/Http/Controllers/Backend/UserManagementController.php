@@ -162,4 +162,36 @@ class UserManagementController extends Controller
         return redirect()->route('users.index')
                         ->with($notification);
     }
+
+    public function rolesIndex()
+    {
+        $data = Role::orderBy('id','ASC')->get();
+
+        return view('backend.pages.roles',compact('data'));
+    }
+
+    public function roleCreate()
+    {
+        return view('backend.input.roles');
+    }
+
+    public function roleStore()
+    {
+
+    }
+
+    public function roleEdit()
+    {
+
+    }
+
+    public function roleUpdate()
+    {
+
+    }
+
+    public function roleDestroy()
+    {
+
+    }
 }

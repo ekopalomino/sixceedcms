@@ -7,19 +7,21 @@
 				<img src="{{ asset('bower_components/admin-lte/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
 			</div>
 	        <div class="info">
-	           <a href="" class="d-block"></a>
+	           <a href="{{ route('main.index') }}" class="d-block">{{{ isset(Auth::user()->name) ? Auth::user()->name : Auth::user()->email }}}</a>
 	        </div>
 	    </div>
 	    <nav class="mt-2">
 	    	<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-			<li class="nav-item ">
-	    		<a href="" class="nav-link ">
+	    	@if(\Route::is(['main.index']))
+			<li class="nav-item {{set_open('main.index') }}">
+	    		<a href="{{ route('main.index') }}" class="nav-link {{set_active('main.index') }}">
 					<i class="nav-icon fas fa-tachometer-alt"></i>
 					<p>
-						Dashboard
+						Beranda
 					</p>
 				</a>
 			</li>
+			@endif
 			<li class="nav-item">
 				<a href="" class="nav-link ">
 					<i class="nav-icon fas fa-cog"></i>
@@ -28,31 +30,31 @@
 					</p>
 				</a>
 			</li>
-			<li class="nav-item has-treeview ">
-				<a href="#" class="nav-link ">
+			<li class="nav-item has-treeview {{set_open(['user.index','roles.index','roles.create']) }}">
+				<a href="#" class="nav-link {{set_active(['user.index','roles.index','roles.create']) }}">
 					<i class="nav-icon fas fa-users"></i>
 					<p>
-						User Management
+						Manajemen Pengguna
 						<i class="right fas fa-angle-left"></i>
 					</p>
 				</a>
 				<ul class="nav nav-treeview">
 					<li class="nav-item">
-						<a href="" class="nav-link ">
+						<a href="{{ route('user.index') }}" class="nav-link {{set_active('user.index') }}">
 							<i class="far fa-circle nav-icon"></i>
-							<p>User Database</p>
+							<p>Database Pengguna</p>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="{{ route('roles.index') }}" class="nav-link {{set_active(['roles.index','roles.create']) }}">
+							<i class="far fa-circle nav-icon"></i>
+							<p>Hak Akses</p>
 						</a>
 					</li>
 					<li class="nav-item">
 						<a href="" class="nav-link ">
 							<i class="far fa-circle nav-icon"></i>
-							<p>Access Roles</p>
-						</a>
-					</li>
-					<li class="nav-item">
-						<a href="" class="nav-link ">
-							<i class="far fa-circle nav-icon"></i>
-							<p>Activity Log</p>
+							<p>Log Aktifitas</p>
 						</a>
 					</li>
 				</ul>

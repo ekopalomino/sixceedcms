@@ -13,12 +13,7 @@ class SiteTableSeeder extends Seeder
     public function run()
     {
         $sites = [
-            'Main Website',
-            'Direktorat Jenderal Pengembangan Ekspor Nasional',
-            'Direktorat Jenderal Perundingan Perdagangan Internasional',
-            'Direktorat Jenderal Perdagangan Luar Negeri',
-            'Direktorat Jenderal Perlindungan Konsumen dan Tertib Niaga',
-            'Direktorat Jenderal Perdagangan Dalam Negeri',
+            'All Site',
         ];
 
         foreach ($sites as $site) {
