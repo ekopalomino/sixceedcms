@@ -27,8 +27,8 @@
                 </div>
             <label for="email" class="col-sm-12 col-form-label">Site Access</label>
                 <div class="col-sm-12">
-                    {!! Form::select('sites', $sites,old('site_id'), array('class' => 'form-control')) !!}
-                </div>
+                    {!! Form::select('site_id', $sites,old('site_id'), array('class' => 'form-control')) !!}
+                </div> 
             <div class="modal-footer">
                 <button type="close" class="btn btn-default" data-dismiss="modal">Close</button>
                 <button id="register" type="submit" class="btn btn-primary">Save changes</button>

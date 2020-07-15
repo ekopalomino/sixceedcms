@@ -30,7 +30,9 @@ class LoginController extends Controller
 
     protected function redirectTo()
     {
-        if(Auth::user()->site_id == '47b71eb9-d8a2-4e89-88fe-97bac68a63b8') {
+        if(Auth::user()->site_id == 'ee145b28-ffd9-4d86-8711-80d92e3d6152') {
+            return 'apps/config';
+        } elseif(Auth::user()->site_id == '47b71eb9-d8a2-4e89-88fe-97bac68a63b8') {
             return '/apps/main';
         } elseif(Auth::user()->site_id == '10bf5f46-4ece-49bf-ad42-e6eed3f2d0bf') {
             return '/apps/pengembangan-ekspor-nasional';

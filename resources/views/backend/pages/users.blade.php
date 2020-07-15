@@ -68,7 +68,7 @@ Kementerian Perdagangan Republik Indonesia | User Database
 									<div class="form-group row">
 										<label for="inputEmail" class="col-sm-2 col-form-label">Site Access</label>
 										<div class="col-sm-10">
-											{!! Form::select('sites', [null=>'Please Select'] + $sites,[], array('class' => 'form-control')) !!}
+											{!! Form::select('site_id', [null=>'Please Select'] + $sites,[], array('class' => 'form-control')) !!}
 										</div>
 									</div>
 								</div>

@@ -30,7 +30,7 @@ class UserManagementController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|same:confirm-password',
             'roles' => 'required',
-            'sites' => 'required',
+            'site_id' => 'required',
         ]);
 
 
@@ -47,7 +47,7 @@ class UserManagementController extends Controller
             'message' => 'User '.($user->name).' berhasil disimpan',
             'alert-type' => 'success'
         ); 
-        return redirect()->route('users.index')
+        return redirect()->route('user.index')
                         ->with($notification);
     }
 
@@ -69,7 +69,7 @@ class UserManagementController extends Controller
             'email' => 'required|email|unique:users,email,'.$id,
             'password' => 'same:confirm-password',
             'roles' => 'required',
-            'sites' => 'required',
+            'site_id' => 'required',
         ]);
 
 
@@ -92,7 +92,7 @@ class UserManagementController extends Controller
             'message' => 'User '.($user->name).' berhasil diubah',
             'alert-type' => 'success'
         );
-        return redirect()->route('users.index')
+        return redirect()->route('user.index')
                         ->with($notification);
     }
 
@@ -160,7 +160,7 @@ class UserManagementController extends Controller
             'message' => 'User '.($user->name).' berhasil dinonaktifkan',
             'alert-type' => 'success'
         );
-        return redirect()->route('users.index')
+        return redirect()->route('user.index')
                         ->with($notification);
     }
 
