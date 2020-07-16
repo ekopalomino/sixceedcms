@@ -13,7 +13,7 @@ class SiteTableSeeder extends Seeder
     public function run()
     {
         $sites = [
-            'All Site',
+            'Pusat Pengembangan Sumber Daya Kemetrologian',
         ];
 
         foreach ($sites as $site) {

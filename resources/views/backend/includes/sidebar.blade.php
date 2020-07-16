@@ -12,9 +12,9 @@
 	    </div>
 	    <nav class="mt-2">
 	    	<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-	    	@if(\Route::is(['main.index']))
-			<li class="nav-item {{set_open('main.index') }}">
-	    		<a href="{{ route('main.index') }}" class="nav-link {{set_active('main.index') }}">
+	    	@if(\Route::is(['config.index']))
+			<li class="nav-item {{set_open('config.index') }}">
+	    		<a href="{{ route('config.index') }}" class="nav-link {{set_active('config.index') }}">
 					<i class="nav-icon fas fa-tachometer-alt"></i>
 					<p>
 						Beranda
@@ -26,7 +26,7 @@
 				<a href="" class="nav-link ">
 					<i class="nav-icon fas fa-cog"></i>
 					<p>
-						General Setting
+						Konfigurasi Umum
 					</p>
 				</a>
 			</li>
@@ -63,7 +63,7 @@
 				<a href="#" class="nav-link ">
 					<i class="nav-icon fas fa-users"></i>
 					<p>
-						Maintenance
+						Perawatan
 						<i class="right fas fa-angle-left"></i>
 					</p>
 				</a>
@@ -71,13 +71,13 @@
 					<li class="nav-item">
 						<a href="" class="nav-link ">
 							<i class="far fa-circle nav-icon"></i>
-							<p>Backup</p>
+							<p>Cadangkan Data</p>
 						</a>
 					</li>
 					<li class="nav-item">
 						<a href="" class="nav-link ">
 							<i class="far fa-circle nav-icon"></i>
-							<p>Maintenance</p>
+							<p>Perawatan Situs</p>
 						</a>
 					</li>
 				</ul>
@@ -94,25 +94,25 @@
 					<li class="nav-item {{set_open(['country.index']) }}">
 						<a href="" class="nav-link {{set_active(['country.index']) }}">
 							<i class="right fas fa-angle-left"></i>
-							<p>Demographic</p>
+							<p>Wilayah</p>
 						</a>
 						<ul class="nav nav-treeview">
 							<li class="nav-item">
 								<a href="{{ route('country.index') }}" class="nav-link {{set_active('country.index') }}">
 									<i class="far fa-circle nav-icon"></i>
-									<p>Countries</p>
+									<p>Negara</p>
 								</a>
 							</li>
 							<li class="nav-item">
 								<a href="" class="nav-link ">
 									<i class="far fa-circle nav-icon"></i>
-									<p>Region</p>
+									<p>Provinsi</p>
 								</a>
 							</li>
 							<li class="nav-item">
 								<a href="" class="nav-link ">
 									<i class="far fa-circle nav-icon"></i>
-									<p>Cities</p>
+									<p>Kota</p>
 								</a>
 							</li>
 						</ul>
@@ -120,7 +120,7 @@
 					<li class="nav-item">
 						<a href="" class="nav-link ">
 							<i class="right fas fa-angle-left"></i>
-							<p>Categories</p>
+							<p>Kategori</p>
 						</a>
 						<ul class="nav nav-treeview">
 							<li class="nav-item">
@@ -157,17 +157,17 @@
 					</li>
 				</ul>
 			</li>
-			<li class="nav-item has-treeview ">
-				<a href="#" class="nav-link ">
+			<li class="nav-item has-treeview {{set_open(['video.index']) }}">
+				<a href="#" class="nav-link {{set_active(['video.index']) }}">
 					<i class="nav-icon fas fa-newspaper"></i>
 					<p>
 						Konten
 						<i class="right fas fa-angle-left"></i>
 					</p>
 				</a>
-				<ul class="nav nav-treeview">
-					<li class="nav-item">
-						<a href="" class="nav-link ">
+				<ul class="nav nav-treeview {{set_open(['video.index']) }}">
+					<li class="nav-item {{set_open(['video.index']) }}">
+						<a href="" class="nav-link {{set_active(['video.index']) }}">
 							<i class="right fas fa-angle-left"></i>
 							<p>Media</p>
 						</a>
@@ -179,7 +179,7 @@
 								</a>
 							</li>
 							<li class="nav-item">
-								<a href="" class="nav-link ">
+								<a href="{{ route('video.index') }}" class="nav-link {{set_active('video.index') }}">
 									<i class="far fa-circle nav-icon"></i>
 									<p>Berita Video</p>
 								</a>

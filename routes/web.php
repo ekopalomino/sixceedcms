@@ -43,6 +43,13 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::get('/masterdata/countries/edit/{id}','Backend\MasterDataController@countryEdit')->name('user.edit');
     Route::post('/masterdata/countries/update/{id}','Backend\MasterDataController@countryUpdate')->name('country.update');
     Route::post('/masterdata/countries/delete/{id}','Backend\MasterDataController@countryDestroy')->name('country.destroy');
+
+    Route::get('/konten/media/berita-video','Backend\ContentManagementController@videoIndex')->name('video.index');
+    Route::post('/konten/media/berita-video/store','Backend\ContentManagementController@videoStore')->name('video.store');
+    Route::get('/konten/media/berita-video/show/{id}','Backend\ContentManagementController@videoShow')->name('video.show');
+    Route::get('/konten/media/berita-video/edit/{id}','Backend\ContentManagementController@videoEdit')->name('video.edit');
+    Route::post('/konten/media/berita-video/update/{id}','Backend\ContentManagementController@videoUpdate')->name('video.update');
+    Route::post('/konten/media/berita-video/delete/{id}','Backend\ContentManagementController@videoDestroy')->name('video.destroy');
 });
 /*Route::get('/home', 'HomeController@index')->name('home');*/
 
