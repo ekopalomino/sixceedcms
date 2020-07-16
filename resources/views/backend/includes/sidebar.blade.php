@@ -82,8 +82,8 @@
 					</li>
 				</ul>
 			</li>
-			<li class="nav-item has-treeview {{set_open(['country.index']) }}">
-				<a href="#" class="nav-link {{set_active(['country.index']) }}">
+			<li class="nav-item has-treeview {{set_open(['country.index','region.index','city.index']) }}">
+				<a href="#" class="nav-link {{set_active(['country.index','region.index','city.index']) }}">
 					<i class="nav-icon fas fa-database"></i>
 					<p>
 						Master Data
@@ -91,8 +91,8 @@
 					</p>
 				</a>
 				<ul class="nav nav-treeview">
-					<li class="nav-item {{set_open(['country.index']) }}">
-						<a href="" class="nav-link {{set_active(['country.index']) }}">
+					<li class="nav-item {{set_open(['country.index','region.index','city.index']) }}">
+						<a href="" class="nav-link {{set_active(['country.index','region.index','city.index']) }}">
 							<i class="right fas fa-angle-left"></i>
 							<p>Wilayah</p>
 						</a>
@@ -104,13 +104,13 @@
 								</a>
 							</li>
 							<li class="nav-item">
-								<a href="" class="nav-link ">
+								<a href="{{ route('region.index') }}" class="nav-link {{set_active('region.index') }}">
 									<i class="far fa-circle nav-icon"></i>
 									<p>Provinsi</p>
 								</a>
 							</li>
 							<li class="nav-item">
-								<a href="" class="nav-link ">
+								<a href="{{ route('city.index') }}" class="nav-link {{set_active('city.index') }}">
 									<i class="far fa-circle nav-icon"></i>
 									<p>Kota</p>
 								</a>

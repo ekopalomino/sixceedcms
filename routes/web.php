@@ -43,6 +43,16 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::get('/masterdata/countries/edit/{id}','Backend\MasterDataController@countryEdit')->name('user.edit');
     Route::post('/masterdata/countries/update/{id}','Backend\MasterDataController@countryUpdate')->name('country.update');
     Route::post('/masterdata/countries/delete/{id}','Backend\MasterDataController@countryDestroy')->name('country.destroy');
+    Route::get('/masterdata/region','Backend\MasterDataController@regionIndex')->name('region.index');
+    Route::post('/masterdata/region/store','Backend\MasterDataController@regionStore')->name('region.store');
+    Route::get('/masterdata/region/edit/{id}','Backend\MasterDataController@regionEdit')->name('region.edit');
+    Route::post('/masterdata/region/update/{id}','Backend\MasterDataController@regionUpdate')->name('region.update');
+    Route::post('/masterdata/region/delete/{id}','Backend\MasterDataController@regionDestroy')->name('region.destroy');
+    Route::get('/masterdata/cities','Backend\MasterDataController@cityIndex')->name('city.index');
+    Route::post('/masterdata/cities/store','Backend\MasterDataController@cityStore')->name('city.store');
+    Route::get('/masterdata/cities/edit/{id}','Backend\MasterDataController@cityEdit')->name('city.edit');
+    Route::post('/masterdata/cities/update/{id}','Backend\MasterDataController@cityUpdate')->name('city.update');
+    Route::post('/masterdata/cities/delete/{id}','Backend\MasterDataController@cityDestroy')->name('city.destroy');
 
     Route::get('/konten/media/berita-video','Backend\ContentManagementController@videoIndex')->name('video.index');
     Route::post('/konten/media/berita-video/store','Backend\ContentManagementController@videoStore')->name('video.store');

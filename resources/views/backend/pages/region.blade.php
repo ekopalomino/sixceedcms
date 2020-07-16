@@ -1,6 +1,6 @@
 @extends('backend.layout.main')
 @section('header.title')
-Kementerian Perdagangan Republik Indonesia | Country Database
+Kementerian Perdagangan Republik Indonesia | Region Database
 @endsection
 @section('header.plugins')
 <link rel="stylesheet" href="{{ asset('bower_components/admin-lte/plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
@@ -10,7 +10,7 @@ Kementerian Perdagangan Republik Indonesia | Country Database
 	<div class="container-fluid">
       	<div class="row mb-2">
        		<div class="col-sm-6">
-          		<h1>Data Negara</h1>
+          		<h1>Data Provinsi</h1>
        		</div>
        	</div>
     </div>
@@ -33,12 +33,18 @@ Kementerian Perdagangan Republik Indonesia | Country Database
 									</button>
 								</div>
 								<div class="modal-body">
-									{!! Form::open(array('route' => 'country.store','method'=>'POST', 'class' => 'form-horizontal')) !!}
+									{!! Form::open(array('route' => 'region.store','method'=>'POST', 'class' => 'form-horizontal')) !!}
 									@csrf
 									<div class="form-group row">
 										<label for="inputEmail" class="col-sm-2 col-form-label">Nama Negara</label>
 										<div class="col-sm-10">
-											{!! Form::text('country_name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
+											{!! Form::select('country_id', [null=>'Please Select'] + $countries,[], array('class' => 'form-control')) !!}
+										</div>
+									</div>
+									<div class="form-group row">
+										<label for="inputEmail" class="col-sm-2 col-form-label">Nama Provinsi</label>
+										<div class="col-sm-10">
+											{!! Form::text('region_name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
 										</div>
 									</div>
 								</div>
@@ -68,19 +74,21 @@ Kementerian Perdagangan Republik Indonesia | Country Database
 							<tr>
 								<th>No</th>
 								<th>Nama Negara</th>
+								<th>Nama Provinsi</th>
 								<th>Dibuat Pada</th>
 								<th></th>
 							</tr>
 						</thead>
 						<tbody>
-							@foreach($data as $key=>$country) 
+							@foreach($data as $key=>$region) 
 							<tr>
 								<td>{{ $key+1 }}</td>
-								<td>{{ $country->country_name }}</td>
-            					<td>{{date("d F Y H:i",strtotime($country->created_at)) }}</td>
+								<td>{{ $region->Countries->country_name }}</td>
+								<td>{{ $region->region_name }}</td>
+            					<td>{{date("d F Y H:i",strtotime($region->created_at)) }}</td>
 								<td>
-									<a class="btn btn-xs btn-info modalLg" href="#" value="{{ action('Backend\MasterDataController@countryEdit',['id'=>$country->id]) }}" data-toggle="modal" data-target="#modalLg" title="Ubah Data"><i class="far fa-edit"></i></a>
-									{!! Form::open(['method' => 'POST','route' => ['country.destroy', $country->id],'style'=>'display:inline','onsubmit' => 'return ConfirmSuspend()']) !!}
+									<a class="btn btn-xs btn-info modalLg" href="#" value="{{ action('Backend\MasterDataController@regionEdit',['id'=>$region->id]) }}" data-toggle="modal" data-target="#modalLg" title="Ubah Data"><i class="far fa-edit"></i></a>
+									{!! Form::open(['method' => 'POST','route' => ['region.destroy', $region->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
 									{!! Form::button('<i class="fas fa-trash-alt"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger']) !!}
 									{!! Form::close() !!}
 								</td>
@@ -110,9 +118,9 @@ Kementerian Perdagangan Republik Indonesia | Country Database
   });
 </script>
 <script>
-    function ConfirmSuspend()
+    function ConfirmDelete()
     {
-    var x = confirm("User Suspended?");
+    var x = confirm("Data Akan Dihapus?");
     if (x)
         return true;
     else
