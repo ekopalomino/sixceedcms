@@ -76,6 +76,7 @@ Kementerian Perdagangan Republik Indonesia | Berita Video
 								<th>Judul Berita</th>
 								<th>Deskripsi</th>
 								<th>Thumbnail</th>
+								<th>Tgl Input</th>
 								<th></th>
 							</tr>
 						</thead>
@@ -84,11 +85,13 @@ Kementerian Perdagangan Republik Indonesia | Berita Video
 							<tr>
 								<td>{{ $key+1 }}</td>
 								<td>{{ $video->title }}</td>
+								<td>{{ $video->description }}</td>
+								<td><img src="{{ $video->thumbnail_small }}" width="100" height="100" /></td>
             					<td>{{date("d F Y H:i",strtotime($video->created_at)) }}</td>
 								<td>
-									<a class="btn btn-xs btn-info modalLg" href="#" value="{{ action('Backend\ContentManagementController@videoEdit',['id'=>$video->id]) }}" data-toggle="modal" data-target="#modalLg"><i class="fa fa-edit"></i></a>
-									{!! Form::open(['method' => 'POST','route' => ['video.destroy', $video->id],'style'=>'display:inline','onsubmit' => 'return ConfirmSuspend()']) !!}
-									{!! Form::button('<i class="fas fa-user-slash"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger']) !!}
+									<a class="btn btn-xs btn-info modalLg" href="#" value="{{ action('Backend\ContentManagementController@videoEdit',['id'=>$video->id]) }}" data-toggle="modal" data-target="#modalLg" title="Ubah Data"><i class="far fa-edit"></i></a>
+									{!! Form::open(['method' => 'POST','route' => ['video.destroy', $video->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
+									{!! Form::button('<i class="fas fa-trash-alt"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Hapus Data']) !!}
 									{!! Form::close() !!}
 								</td>
             				</tr>
@@ -117,9 +120,9 @@ Kementerian Perdagangan Republik Indonesia | Berita Video
   });
 </script>
 <script>
-    function ConfirmSuspend()
+    function ConfirmDelete()
     {
-    var x = confirm("User Suspended?");
+    var x = confirm("Data Akan Dihapus?");
     if (x)
         return true;
     else

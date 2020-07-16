@@ -1,11 +1,11 @@
 @extends('backend.layout.main') 
 @section('content')
 <section class="content">
-	<div class="row">
-		<div class="col-12">
-			{!! Form::model($user, ['method' => 'POST','route' => ['user.update', $user->id]]) !!}
-			@csrf
-			<label for="name" class="col-sm-12 col-form-label">Name</label>
+    <div class="row">
+        <div class="col-12">
+            {!! Form::model($user, ['method' => 'POST','route' => ['user.update', $user->id]]) !!}
+            @csrf
+            <label for="name" class="col-sm-12 col-form-label">Name</label>
                 <div class="col-sm-12">
                     {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
                 </div>
@@ -37,4 +37,5 @@
         </div>
     </div>
 </section>
+
 @endsection

@@ -4,6 +4,7 @@ namespace Sixceed\Http\Controllers\Backend;
 
 use Illuminate\Http\Request;
 use Sixceed\Http\Controllers\Controller;
+use Alaouy\Youtube\Facades\Youtube;
 use Sixceed\Models\Video;
 
 class ContentManagementController extends Controller
@@ -46,8 +47,7 @@ class ContentManagementController extends Controller
             'message' => 'Video '.($video->title).' berhasil disimpan',
             'alert-type' => 'success'
         );
-        return redirect()->route('beritavideo.index')
-                            ->with($notification);
+        return redirect()->route('video.index')->with($notification);
     }
 
     public function videoShow($id)
@@ -59,8 +59,8 @@ class ContentManagementController extends Controller
 
     public function videoEdit($id)
     {
-        $videos = Video::find($id);
-        return view('backend.edit.video',compact('videos'))->renderSections()['content'];
+        $data = Video::find($id);
+        return view('backend.edit.video',compact('data'))->renderSections()['content'];
     }
 
     public function videoUpdate(Request $request, $id)
@@ -93,22 +93,20 @@ class ContentManagementController extends Controller
             'alert-type' => 'success'
         );
         
-        return redirect()->route('beritavideo.index')
-                            ->with($notification);
+        return redirect()->route('video.index')->with($notification);
     }
 
     public function videoDestroy($id)
     {
-        $input = ['active' => '01386b22-8b0e-4aec-8ad2-cf87792f8315'];
         $videos = Video::find($id);
-        $videos->update($input);
         $data = 'Video '.($videos->title).' berhasil dihapus';
+        $videos->destroy($id);
+        
          \LogActivity::addToLog($data);
         $notification = array (
             'message' => 'Video '.($videos->title).' berhasil dihapus',
             'alert-type' => 'success'
         );
-        return redirect()->route('beritavideo.index')
-                            ->with($notification);
+        return redirect()->route('video.index')->with($notification);
     }
 }

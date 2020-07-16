@@ -4,10 +4,11 @@ namespace Sixceed\Models;
 
 use Sixceed\Traits\Uuid;
 use Illuminate\Database\Eloquent\Model;
+use Cviebrock\EloquentSluggable\Sluggable;
 
 class Video extends Model
 {
-    use Uuid;
+    use Uuid, Sluggable;
 
     protected $fillable = [
         'video_id',
@@ -20,4 +21,13 @@ class Video extends Model
     ];
 
     public $incrementing = false;
+
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' => 'title',
+            ],
+        ];
+    }
 }
