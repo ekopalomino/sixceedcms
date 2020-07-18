@@ -75,6 +75,7 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::get('/konten/media/berita-video/edit/{id}','Backend\ContentManagementController@videoEdit')->name('video.edit');
     Route::post('/konten/media/berita-video/update/{id}','Backend\ContentManagementController@videoUpdate')->name('video.update');
     Route::post('/konten/media/berita-video/delete/{id}','Backend\ContentManagementController@videoDestroy')->name('video.destroy');
+    Route::get('/konten/media/berita-foto','Backend\ContentManagementController@albumIndex')->name('foto.index');
 });
 /*Route::get('/home', 'HomeController@index')->name('home');*/
 

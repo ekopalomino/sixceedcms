@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Sixceed\Http\Controllers\Controller;
 use Alaouy\Youtube\Facades\Youtube;
 use Sixceed\Models\Video;
+use Sixceed\Models\Album; 
+use Sixceed\Models\Image; 
+use File;
 
 class ContentManagementController extends Controller
 {
@@ -108,5 +111,121 @@ class ContentManagementController extends Controller
             'alert-type' => 'success'
         );
         return redirect()->route('video.index')->with($notification);
+    }
+
+    public function albumIndex(Request $request)
+  	{
+    	$albums = Album::with('Photos')->orderBy('updated_at','DESC')->paginate(4);
+    	return view('backend.pages.albums', compact('albums'))
+              ->with('i', ($request->input('page', 1) - 1) * 4);
+  	}
+
+    public function albumShow($id)
+    {
+        $album = Album::with('Photos')->find($id);
+        return view('backend.show.album', compact('album'));
+    }
+    
+    public function albumCreate()
+    {
+        return view('backend.form.albums');
+    }
+
+    public function albumStore(Request $request)
+    {
+        $this->validate($request, [
+                'name' => 'required',
+                'cover_image'=>'required|image|dimensions:min_width=848,min_length=429',
+                'description' => 'required'
+            ]);
+
+        $file = $request->file('cover_image');
+        $random_name = str_random(8);
+        $destinationPath = 'albums/';
+        $extension = $file->getClientOriginalExtension();
+        $filename=$random_name.'_cover.'.$extension;
+        $uploadSuccess = $request->file('cover_image')
+        ->move($destinationPath, $filename);
+        $album = Album::create(array(
+        'name' => $request->name,
+        'description' => $request->description,
+        'cover_image' => $filename,
+        ));
+        $data = 'Album '.($album->name).' berhasil disimpan';
+            \LogActivity::addToLog($data);
+            $notification = array (
+                'message' => 'Album '.($album->name).' berhasil disimpan',
+                'alert-type' => 'success'
+            );
+
+        return redirect()->route('beritafoto')->with($notification);
+    }
+
+    public function albumDelete($id)
+    {
+        $album = Album::find($id);
+        $file = $album->cover_image;
+        $album->delete();
+        \File::delete(public_path('albums/' . $file));
+        $data = 'Album '.($album->name).' berhasil dihapus';
+            \LogActivity::addToLog($data);
+            $notification = array (
+                'message' => 'Album '.($album->name).' berhasil dihapus',
+                'alert-type' => 'success'
+            );
+        return redirect()->route('beritafoto')
+                        ->with($notification);
+    }
+
+    public function imageCreate($id)
+    {
+        $album = Album::find($id);
+        return view('backend.form.addimage', compact('album'));
+    }
+
+    public function imageStore(Request $request)
+    {
+        $this->validate($request, [
+                'album_id' => 'required|numeric|exists:albums,id',
+                'image'=>'required|image|dimensions:min_width=848,min_length=429',
+                'description' => 'required'
+            ]);
+    
+        $file = $request->file('image');
+        $random_name = str_random(8);
+        $destinationPath = 'albums/';
+        $extension = $file->getClientOriginalExtension();
+        $filename=$random_name.'_album_image.'.$extension;
+        $uploadSuccess = $request->file('image')->move($destinationPath, $filename);
+        $images = Image::create(array(
+        'description' => $request->description,
+        'image' => $filename,
+        'album_id'=> $request->album_id
+        ));
+        $data = 'Gambar '.($images->image).' berhasil disimpan';
+        \LogActivity::addToLog($data);
+            $notification = array (
+                'message' => 'Gambar '.($images->image).' berhasil disimpan',
+                'alert-type' => 'success'
+            );
+        return redirect()->route('show_album',array('id'=>$request->album_id))
+                        ->with($notification);
+    }
+
+    public function imageDelete($id)
+    {
+        $image = Image::find($id);
+        $berkas = Image::where('id', $id)
+                ->get('image');
+        $file = File::delete($berkas);
+        $image->delete();
+        $data = 'Gambar '.($image->image).' berhasil dihapus';
+        \LogActivity::addToLog($data);
+            $notification = array (
+                'message' => 'Gambar '.($image->image).' berhasil dihapus',
+                'alert-type' => 'success'
+            );
+        return redirect()->route('show_album',array('id'=>$image->album_id))
+                        ->with($notification);
     }
 }

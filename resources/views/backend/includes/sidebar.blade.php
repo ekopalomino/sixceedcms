@@ -145,23 +145,23 @@
 					</li>
 				</ul>
 			</li>
-			<li class="nav-item has-treeview {{set_open(['video.index']) }}">
-				<a href="#" class="nav-link {{set_active(['video.index']) }}">
+			<li class="nav-item has-treeview {{set_open(['foto.index','video.index']) }}">
+				<a href="#" class="nav-link {{set_active(['foto.index','video.index']) }}">
 					<i class="nav-icon fas fa-newspaper"></i>
 					<p>
 						Konten
 						<i class="right fas fa-angle-left"></i>
 					</p>
 				</a>
-				<ul class="nav nav-treeview {{set_open(['video.index']) }}">
-					<li class="nav-item {{set_open(['video.index']) }}">
-						<a href="" class="nav-link {{set_active(['video.index']) }}">
+				<ul class="nav nav-treeview {{set_open(['foto.index','video.index']) }}">
+					<li class="nav-item {{set_open(['foto.index','video.index']) }}">
+						<a href="" class="nav-link {{set_active(['foto.index','video.index']) }}">
 							<i class="right fas fa-angle-left"></i>
 							<p>Media</p>
 						</a>
 						<ul class="nav nav-treeview">
 							<li class="nav-item">
-								<a href="" class="nav-link ">
+								<a href="{{ route('foto.index') }}" class="nav-link {{set_active(['foto.index']) }}">
 									<i class="far fa-circle nav-icon"></i>
 									<p>Berita Foto</p>
 								</a>
