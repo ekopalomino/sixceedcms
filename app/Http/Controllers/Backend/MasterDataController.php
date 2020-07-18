@@ -10,6 +10,7 @@ use Sixceed\Models\City;
 use Sixceed\Models\DutyCategory;
 use Sixceed\Models\DutyCategoryTranslation;
 use Sixceed\Models\ArticleCategory;
+use Sixceed\Models\FaqCategory;
 use Auth;
 
 class MasterDataController extends Controller
@@ -393,5 +394,75 @@ class MasterDataController extends Controller
         );
 
         return redirect()->route('articlecat.index')->with($notification);
+    }
+
+    public function faqCategoryIndex()
+    {
+        $source = FaqCategory::orderBy('id','ASC')->get();
+        return view('backend.pages.faqCategory',compact('source'));
+    }
+
+    public function faqCategoryStore(Request $request)
+    {
+        $request->validate([
+    		'category_name' => 'required'
+        ]); 
+        
+        $input = [
+            'category_name' => $request->input('category_name'),
+            'created_by' => auth()->user()->id,
+        ];
+
+        $data = FaqCategory::create($input);
+        
+        $log = 'Kategori FAQ '.($data->category_name).' Berhasil Disimpan';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Kategori FAQ '.($data->category_name).' Berhasil Disimpan',
+            'alert-type' => 'success'
+        );
+
+    	return redirect()->route('faqcat.index')->with($notification);
+    }
+
+    public function faqCategoryEdit($id)
+    {
+        $source = FaqCategory::find($id);
+        
+        return view('backend.edit.faqCategory',compact('source'))->renderSections()['content'];
+    }
+
+    public function faqCategoryUpdate(Request $request,$id)
+    {
+        $input = [
+            'category_name' => $request->input('category_name'),
+            'updated_by' => auth()->user()->id
+        ];
+        
+        $data = FaqCategory::find($id);
+        $data->update($input);
+        $log = 'Kategori FAQ '.($data->category_name).' Berhasil Diubah';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Kategori FAQ '.($data->category_name).' Berhasil Diubah',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('faqcat.index')->with($notification);
+    }
+
+    public function faqCategoryDelete($id)
+    {
+        $source = FaqCategory::find($id);
+        $log = 'Kategori FAQ '.($source->category_name).' Berhasil Dihapus';
+        $source->destroy($id);
+        
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Kategori FAQ '.($source->category_name).' Berhasil Dihapus',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('faqcat.index')->with($notification);
     }
 }

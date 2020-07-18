@@ -63,6 +63,11 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::get('/masterdata/kategori-artikel/edit/{id}','Backend\MasterDataController@articleCategoryEdit')->name('articlecat.edit');
     Route::post('/masterdata/kategori-artikel/update/{id}','Backend\MasterDataController@articleCategoryUpdate')->name('articlecat.update');
     Route::post('/masterdata/kategori-artikel/delete/{id}','Backend\MasterDataController@articleCategoryDelete')->name('articlecat.destroy');
+    Route::get('/masterdata/kategori-faq','Backend\MasterDataController@faqCategoryIndex')->name('faqcat.index');
+    Route::post('/masterdata/kategori-faq/store','Backend\MasterDataController@faqCategoryStore')->name('faqcat.store');
+    Route::get('/masterdata/kategori-faq/edit/{id}','Backend\MasterDataController@faqCategoryEdit')->name('faqcat.edit');
+    Route::post('/masterdata/kategori-faq/update/{id}','Backend\MasterDataController@faqCategoryUpdate')->name('faqcat.update');
+    Route::post('/masterdata/kategori-faq/delete/{id}','Backend\MasterDataController@faqCategoryDelete')->name('faqcat.destroy');
 
     Route::get('/konten/media/berita-video','Backend\ContentManagementController@videoIndex')->name('video.index');
     Route::post('/konten/media/berita-video/store','Backend\ContentManagementController@videoStore')->name('video.store');

@@ -82,8 +82,8 @@
 					</li>
 				</ul>
 			</li>
-			<li class="nav-item has-treeview {{set_open(['country.index','region.index','city.index','dutycat.index','articlecat.index']) }}">
-				<a href="#" class="nav-link {{set_active(['country.index','region.index','city.index','dutycat.index','articlecat.index']) }}">
+			<li class="nav-item has-treeview {{set_open(['country.index','region.index','city.index','dutycat.index','articlecat.index','faqcat.index']) }}">
+				<a href="#" class="nav-link {{set_active(['country.index','region.index','city.index','dutycat.index','articlecat.index','faqcat.index']) }}">
 					<i class="nav-icon fas fa-database"></i>
 					<p>
 						Master Data
@@ -117,8 +117,8 @@
 							</li>
 						</ul>
 					</li>
-					<li class="nav-item {{set_open(['dutycat.index','articlecat.index']) }}">
-						<a href="" class="nav-link {{set_active(['dutycat.index','articlecat.index']) }}">
+					<li class="nav-item {{set_open(['dutycat.index','articlecat.index','faqcat.index']) }}">
+						<a href="" class="nav-link {{set_active(['dutycat.index','articlecat.index','faqcat.index']) }}">
 							<i class="right fas fa-angle-left"></i>
 							<p>Kategori</p>
 						</a>
@@ -136,7 +136,7 @@
 								</a>
 							</li>
 							<li class="nav-item">
-								<a href="" class="nav-link ">
+								<a href="{{ route('faqcat.index') }}" class="nav-link {{set_active('faqcat.index') }}">
 									<i class="far fa-circle nav-icon"></i>
 									<p>FAQ</p>
 								</a>
