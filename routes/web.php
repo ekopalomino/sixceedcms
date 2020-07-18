@@ -58,6 +58,11 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::get('/masterdata/tugas-dan-fungsi/edit/{id}','Backend\MasterDataController@dutyCatEdit')->name('dutycat.edit');
     Route::post('/masterdata/tugas-dan-fungsi/update/{id}','Backend\MasterDataController@dutyCatUpdate')->name('dutycat.update');
     Route::post('/masterdata/tugas-dan-fungsi/delete/{id}','Backend\MasterDataController@dutyCatDestroy')->name('dutycat.destroy');
+    Route::get('/masterdata/kategori-artikel','Backend\MasterDataController@articleCategoryIndex')->name('articlecat.index');
+    Route::post('/masterdata/kategori-artikel/store','Backend\MasterDataController@articleCategoryStore')->name('articlecat.store');
+    Route::get('/masterdata/kategori-artikel/edit/{id}','Backend\MasterDataController@articleCategoryEdit')->name('articlecat.edit');
+    Route::post('/masterdata/kategori-artikel/update/{id}','Backend\MasterDataController@articleCategoryUpdate')->name('articlecat.update');
+    Route::post('/masterdata/kategori-artikel/delete/{id}','Backend\MasterDataController@articleCategoryDelete')->name('articlecat.destroy');
 
     Route::get('/konten/media/berita-video','Backend\ContentManagementController@videoIndex')->name('video.index');
     Route::post('/konten/media/berita-video/store','Backend\ContentManagementController@videoStore')->name('video.store');

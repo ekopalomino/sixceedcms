@@ -9,6 +9,7 @@ use Sixceed\Models\Region;
 use Sixceed\Models\City;
 use Sixceed\Models\DutyCategory;
 use Sixceed\Models\DutyCategoryTranslation;
+use Sixceed\Models\ArticleCategory;
 use Auth;
 
 class MasterDataController extends Controller
@@ -322,5 +323,75 @@ class MasterDataController extends Controller
         );
 
         return redirect()->route('dutycat.index')->with($notification);
+    }
+
+    public function articleCategoryIndex()
+    {
+        $source = ArticleCategory::orderBy('id','ASC')->get();
+        return view('backend.pages.articleCategory',compact('source'));
+    }
+
+    public function articleCategoryStore(Request $request)
+    {
+        $request->validate([
+    		'category_name' => 'required'
+        ]); 
+        
+        $input = [
+            'category_name' => $request->input('category_name'),
+            'created_by' => auth()->user()->id,
+        ];
+
+        $data = ArticleCategory::create($input);
+        
+        $log = 'Kategori Artikel '.($data->category_name).' Berhasil Disimpan';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Kategori Artikel '.($data->category_name).' Berhasil Disimpan',
+            'alert-type' => 'success'
+        );
+
+    	return redirect()->route('articlecat.index')->with($notification);
+    }
+
+    public function articleCategoryEdit($id)
+    {
+        $source = ArticleCategory::find($id);
+        
+        return view('backend.edit.articleCategory',compact('source'))->renderSections()['content'];
+    }
+
+    public function articleCategoryUpdate(Request $request,$id)
+    {
+        $input = [
+            'category_name' => $request->input('category_name'),
+            'updated_by' => auth()->user()->id
+        ];
+        
+        $data = ArticleCategory::find($id);
+        $data->update($input);
+        $log = 'Kategori Artikel '.($data->category_name).' Berhasil Diubah';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Kategori Artikel '.($data->category_name).' Berhasil Diubah',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('articlecat.index')->with($notification);
+    }
+
+    public function articleCategoryDelete($id)
+    {
+        $source = ArticleCategory::find($id);
+        $log = 'Kategori Artikel '.($source->category_name).' Berhasil Dihapus';
+        $source->destroy($id);
+        
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Kategori Artikel '.($source->category_name).' Berhasil Dihapus',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('articlecat.index')->with($notification);
     }
 }
