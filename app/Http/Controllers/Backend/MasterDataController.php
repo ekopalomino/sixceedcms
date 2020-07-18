@@ -7,6 +7,8 @@ use Sixceed\Http\Controllers\Controller;
 use Sixceed\Models\Country;
 use Sixceed\Models\Region;
 use Sixceed\Models\City;
+use Sixceed\Models\DutyCategory;
+use Sixceed\Models\DutyCategoryTranslation;
 use Auth;
 
 class MasterDataController extends Controller
@@ -236,5 +238,89 @@ class MasterDataController extends Controller
         );
 
         return redirect()->route('city.index')->with($notification);
+    }
+
+    public function dutyCatIndex()
+    {
+        $categories = DutyCategory::withTranslation()->get();
+        
+    	return view('backend.pages.dutyCategory',compact('categories'));
+    }
+
+    public function dutyCatStore(Request $request)
+    {
+        $request->validate([
+    		'en_category' => 'required',
+    		'id_category' => 'required',
+    	]);
+    	
+    	$data = [
+    		'en' => [
+    			'category_name' => $request->input('en_category')
+    		],
+    		'id' => [
+    			'category_name' => $request->input('id_category')
+    		],
+            'created_by' => auth()->user()->id,
+    	];
+
+        $categories = DutyCategory::create($data);
+        $data = 'Kategori berhasil disimpan';
+         \LogActivity::addToLog($data);
+        $notification = array (
+            'message' => 'Kategori berhasil disimpan',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('dutycat.index')->with($notification);
+    }
+
+    public function dutyCatEdit($id)
+    {
+        $categories = DutyCategory::withTranslation()->where('duty_categories.id',$id)->first();
+        
+        return view('backend.edit.dutyCategory',compact('categories'))->renderSections()['content'];
+    }
+
+    public function dutyCatUpdate(Request $request,$id)
+    {
+        $data = ([
+    		'en' => [
+    			'category_name' => $request->input('en_category')
+    		],
+    		'id' => [
+    			'category_name' => $request->input('id_category')
+    		],
+            'updated_by' => auth()->user()->id,
+        ]);
+        
+        $categories = DutyCategory::withTranslation()->where('duty_categories.id',$id)->first();
+        $categories->update($data);
+         
+        $log = 'Kategori berhasil diubah';
+         \LogActivity::addToLog($log);
+        
+        $notification = array (
+            'message' => 'Kategori Tugas dan Fungsi berhasil diubah',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('dutycat.index')
+                            ->with($notification);
+    }
+
+    public function dutyCatDestroy($id)
+    {
+        $categories = DutyCategory::withTranslation()->where('duty_categories.id',$id)->first();
+        $logs = 'Kategori Tugas dan Fungsi berhasil dihapus';
+        $categories->destroy($id);
+        
+         \LogActivity::addToLog($logs);
+        $notification = array (
+            'message' => 'Kategori Tugas dan Fungsi berhasil dihapus',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('dutycat.index')->with($notification);
     }
 }

@@ -4,7 +4,7 @@
 			<a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
 		</li>
 		<li class="nav-item d-none d-sm-inline-block">
-			<a href="{{ route('config.index') }}" class="nav-link {{set_active(['config.index','user.index','roles.index','roles.create','log.index','country.index','region.index','city.index']) }}">Konfig</a>
+			<a href="{{ route('config.index') }}" class="nav-link {{set_active(['config.index','user.index','roles.index','roles.create','log.index','country.index','region.index','city.index','dutycat.index']) }}">Konfig</a>
 		</li>
 		<li class="nav-item d-none d-sm-inline-block">
 			<a href="{{route('main.index') }}" class="nav-link {{set_active(['main.index']) }}">Situs Utama</a>
