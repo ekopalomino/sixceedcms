@@ -8,7 +8,8 @@ use Alaouy\Youtube\Facades\Youtube;
 use Sixceed\Models\Video;
 use Sixceed\Models\Album; 
 use Sixceed\Models\Image;
-use Sixceed\Models\FrontBanner; 
+use Sixceed\Models\FrontBanner;
+use Sixceed\Models\Publication; 
 use File;
 
 class ContentManagementController extends Controller
@@ -352,6 +353,106 @@ class ContentManagementController extends Controller
             'alert-type' => 'success'
         );
         $images = File::delete(public_path('public/banner/' . $file));
+        FrontBanner::find($id)->delete();
+        
+        return redirect()->route('fnban.index')->with($notification);
+    }
+
+    public function frontPubIndex()
+    {
+        $data = Publication::orderBy('updated_at','DESC')->get();
+
+        return view('backend.pages.publication',compact('data'));
+    }
+
+    public function frontPubStore(Request $request)
+    {
+        $request->validate([
+            'cover' => 'required|image|dimensions:width=125,length=160',
+            'link' => 'required',
+        ]);
+
+        $file = $request->file('cover'); 
+        $random_name = str_random(8);
+        $destinationPath = 'public/publikasi';
+        $extension = $file->getClientOriginalExtension();
+        $filename=$random_name.'.'.$extension;
+        $uploadSuccess = $request->file('cover')->move($destinationPath, $filename);
+
+        $input = [
+            'cover_image' => $filename,
+            'link' => $request->input('link'),
+        ];
+        $storage = PublikasiPerdagangan::create($input);
+        $log = 'Publikasi Berhasil Disimpan';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Publikasi Berhasil Disimpan',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('fnpub.index')->with($notification);
+    }
+
+    public function frontPubEdit($id)
+    {
+        $source = Publication::find($id);
+
+        return view('backend.edit.publication',compact('source'))->renderSections()['content'];
+    }
+
+    public function frontPubUpdate(Request $request,$id)
+    {
+        $request->validate([
+            'cover' => 'image|dimensions:max_width=125,max_length=180',
+            'link' => 'required',
+        ]);
+
+    	$input = [
+            'cover_image' => $request->input('cover'),
+            'link' => $request->input('link')
+        ];
+ 
+        if ($request->hasFile('cover')) {
+            $file = $request->file('cover'); 
+            $random_name = str_random(8);
+            $destinationPath = 'public/publikasi';
+            $extension = $file->getClientOriginalExtension();
+            $filename=$random_name.'.'.$extension;
+            $uploadSuccess = $request->file('cover')->move($destinationPath, $filename);
+
+            $input = [
+                'cover_image' => $filename,
+                'link' => $request->input('link')
+            ];
+        } else {
+            $input = [
+                'link' => $request->input('link')
+            ];
+        }
+
+		$pubs = Publication::find($id);
+        $pubs->update($input);
+        $log = 'Publikasi Berhasil Diubah';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Publikasi Berhasil Diubah',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('fnpub.index')->with($notification);
+    }
+
+    public function frontPubDestroy($id)
+    {
+        $data = Publication::find($id)->first();
+        $file = $data->cover_image;
+        $log = 'Publikasi Berhasil Dihapus';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Publikasi Berhasil Dihapus',
+            'alert-type' => 'success'
+        );
+        $images = File::delete(public_path('public/publikasi/' . $file));
         FrontBanner::find($id)->delete();
         
         return redirect()->route('fnban.index')->with($notification);

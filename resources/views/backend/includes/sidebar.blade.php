@@ -145,8 +145,8 @@
 					</li>
 				</ul>
 			</li>
-			<li class="nav-item has-treeview {{set_open(['foto.index','video.index','fnban.index']) }}">
-				<a href="#" class="nav-link {{set_active(['foto.index','video.index','fnban.index']) }}">
+			<li class="nav-item has-treeview {{set_open(['foto.index','video.index','fnban.index','fnpub.index']) }}">
+				<a href="#" class="nav-link {{set_active(['foto.index','video.index','fnban.index','fnpub.index']) }}">
 					<i class="nav-icon fas fa-newspaper"></i>
 					<p>
 						Konten
@@ -180,8 +180,8 @@
 							<p>Banner Depan</p>
 						</a>
 					</li>
-					<li class="nav-item">
-						<a href="" class="nav-link ">
+					<li class="nav-item {{set_open('fnpub.index') }}">
+						<a href="{{ route('fnpub.index') }}" class="nav-link {{set_active('fnpub.index') }}">
 							<i class="right fas fa-angle-right"></i>
 							<p>Publikasi Depan</p>
 						</a>

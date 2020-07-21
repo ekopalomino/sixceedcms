@@ -82,6 +82,12 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::get('/konten/banner-depan/edit/{id}','Backend\ContentManagementController@frontBannerEdit')->name('fnban.edit');
     Route::post('/konten/banner-depan/update/{id}','Backend\ContentManagementController@frontBannerUpdate')->name('fnban.update');
     Route::post('/konten/banner-depan/delete/{id}','Backend\ContentManagementController@frontBannerDestroy')->name('fnban.destroy');
+
+    Route::get('/konten/publikasi-depan','Backend\ContentManagementController@frontPubIndex')->name('fnpub.index');
+    Route::post('/konten/publikasi-depan/store','Backend\ContentManagementController@frontPubStore')->name('fnpub.store');
+    Route::get('/konten/publikasi-depan/edit/{id}','Backend\ContentManagementController@frontPubEdit')->name('fnpub.edit');
+    Route::post('/konten/publikasi-depan/update/{id}','Backend\ContentManagementController@frontPubUpdate')->name('fnpub.update');
+    Route::post('/konten/publikasi-depan/delete/{id}','Backend\ContentManagementController@frontPubDestroy')->name('fnpub.destroy');
 });
 /*Route::get('/home', 'HomeController@index')->name('home');*/
 
