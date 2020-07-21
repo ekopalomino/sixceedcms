@@ -145,8 +145,8 @@
 					</li>
 				</ul>
 			</li>
-			<li class="nav-item has-treeview {{set_open(['foto.index','video.index']) }}">
-				<a href="#" class="nav-link {{set_active(['foto.index','video.index']) }}">
+			<li class="nav-item has-treeview {{set_open(['foto.index','video.index','fnban.index']) }}">
+				<a href="#" class="nav-link {{set_active(['foto.index','video.index','fnban.index']) }}">
 					<i class="nav-icon fas fa-newspaper"></i>
 					<p>
 						Konten
@@ -174,8 +174,8 @@
 							</li>
 						</ul>
 					</li>
-					<li class="nav-item">
-						<a href="" class="nav-link ">
+					<li class="nav-item {{set_open('fnban.index') }}">
+						<a href="{{ route('fnban.index') }}" class="nav-link {{set_active('fnban.index') }}">
 							<i class="right fas fa-angle-right"></i>
 							<p>Banner Depan</p>
 						</a>

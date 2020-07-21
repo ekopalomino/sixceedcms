@@ -7,7 +7,8 @@ use Sixceed\Http\Controllers\Controller;
 use Alaouy\Youtube\Facades\Youtube;
 use Sixceed\Models\Video;
 use Sixceed\Models\Album; 
-use Sixceed\Models\Image; 
+use Sixceed\Models\Image;
+use Sixceed\Models\FrontBanner; 
 use File;
 
 class ContentManagementController extends Controller
@@ -227,5 +228,132 @@ class ContentManagementController extends Controller
             );
         return redirect()->route('show_album',array('id'=>$image->album_id))
                         ->with($notification);
+    }
+
+    public function frontBannerIndex()
+    {
+        $data = FrontBanner::orderBy('updated_at','DESC')->get();
+
+        return view('backend.pages.frontBanner',compact('data'));
+    }
+
+    public function frontBannerStore(Request $request)
+    {
+        $this->validate($request, [
+            'title' => 'required',
+            'type' => 'required',
+            'position' => 'required|numeric',
+            'image' => 'required|image|mimes:jpeg,png,jpg,JPG,gif,svg',
+            'link' => 'required',
+        ]);
+
+        $file = $request->file('image');
+	    $file_name = $file->getClientOriginalName();
+        $size = $file->getSize();
+        $ext = $file->getClientOriginalExtension();
+	    $destinationPath = 'public/banner';
+	    $extension = $file->getClientOriginalExtension();
+	    $filename=$file_name.'_banner.'.$extension;
+	    $uploadSuccess = $request->file('image')
+	    ->move($destinationPath, $filename);
+
+        $input = [
+            'title' => $request->input('title'),
+            'type' => $request->input('type'),
+            'position' => $request->input('position'),
+            'image' => $filename,
+            'link'	=> $request->input('link'),
+            'ukuran' => $size,
+            'ekstensi' => $ext,
+            'description' => $request->input('description'),
+            'created_by' => auth()->user()->id,
+            'updated_by' => auth()->user()->id,
+        ];
+
+        $saves = FrontBanner::create($input);
+
+        $log = 'Banner '.($saves->title).' berhasil disimpan';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Banner '.($saves->title).' berhasil disimpan',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('fnban.index')->with($notification);
+    }
+
+    public function frontBannerEdit($id)
+    {
+        $source = FrontBanner::find($id);
+
+        return view('backend.edit.frontBanner',compact('source'))->renderSections()['content'];
+    }
+
+    public function frontBannerUpdate(Request $request,$id)
+    {
+        $this->validate($request, [
+            'title' => 'required',
+            'type' => 'required',
+            'position' => 'required|numeric',
+            'link' => 'required'
+        ]);
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $file_name = $file->getClientOriginalName();
+            $size = $file->getSize();
+            $ext = $file->getClientOriginalExtension();
+            $destinationPath = 'public/banner';
+            $extension = $file->getClientOriginalExtension();
+            $filename=$file_name.'_banner.'.$extension;
+            $uploadSuccess = $request->file('image')
+            ->move($destinationPath, $filename);
+
+            $input = [
+            'title' => $request->input('title'),
+            'type' => $request->input('type'),
+            'position' => $request->input('position'),
+            'image' => $filename,
+            'link'  => $request->input('link'),
+            'description' => $request->input('description'),
+            'updated_by' => auth()->user()->id,
+        ];
+
+        } else {
+            $input = [
+            'title' => $request->input('title'),
+            'type' => $request->input('type'),
+            'position' => $request->input('position'),
+            'link'  => $request->input('link'),
+            'description' => $request->input('description'),
+            'updated_by' => auth()->user()->id
+        ];
+        }
+		
+        $blocks = FrontBanner::find($id);
+        $blocks->update($input);
+        
+        $log = 'Banner '.($blocks->title).' berhasil diubah';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Banner '.($blocks->title).' berhasil diubah',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('fnban.index')->with($notification);
+    }
+
+    public function frontBannerDestroy($id)
+    {
+        $data = FrontBanner::find($id)->first();
+        $file = $data->image;
+        $log = 'Banner '.($data->title).' berhasil dihapus';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Banner '.($data->title).' berhasil dihapus',
+            'alert-type' => 'success'
+        );
+        $images = File::delete(public_path('public/banner/' . $file));
+        FrontBanner::find($id)->delete();
+        
+        return redirect()->route('fnban.index')->with($notification);
     }
 }

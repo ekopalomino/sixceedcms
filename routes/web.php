@@ -76,6 +76,12 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::post('/konten/media/berita-video/update/{id}','Backend\ContentManagementController@videoUpdate')->name('video.update');
     Route::post('/konten/media/berita-video/delete/{id}','Backend\ContentManagementController@videoDestroy')->name('video.destroy');
     Route::get('/konten/media/berita-foto','Backend\ContentManagementController@albumIndex')->name('foto.index');
+
+    Route::get('/konten/banner-depan','Backend\ContentManagementController@frontBannerIndex')->name('fnban.index');
+    Route::post('/konten/banner-depan/store','Backend\ContentManagementController@frontBannerStore')->name('fnban.store');
+    Route::get('/konten/banner-depan/edit/{id}','Backend\ContentManagementController@frontBannerEdit')->name('fnban.edit');
+    Route::post('/konten/banner-depan/update/{id}','Backend\ContentManagementController@frontBannerUpdate')->name('fnban.update');
+    Route::post('/konten/banner-depan/delete/{id}','Backend\ContentManagementController@frontBannerDestroy')->name('fnban.destroy');
 });
 /*Route::get('/home', 'HomeController@index')->name('home');*/
 
