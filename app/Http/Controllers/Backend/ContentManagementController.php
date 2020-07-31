@@ -12,6 +12,8 @@ use Sixceed\Models\FrontBanner;
 use Sixceed\Models\Publication; 
 use Sixceed\Models\AboutUs;
 use Sixceed\Models\AboutUsTranslation;
+use Sixceed\Models\DutyCategoryTranslation;
+use Sixceed\Models\MainDuty;
 use File;
 
 class ContentManagementController extends Controller
@@ -637,22 +639,99 @@ class ContentManagementController extends Controller
 
     public function dutyIndex()
     {
+        $duties = MainDuty::withTranslation()->get();
 
+        return view('backend.pages.mainDuty',compact('duties'));
     }
 
     public function dutyCreate()
     {
-
+        $categories = DutyCategoryTranslation::where('locale','id')->pluck('category_name','duty_category_id')->toArray();
+        
+        return view('backend.input.mainDuty',compact('categories'));
     }
 
     public function dutyStore(Request $request)
     {
+        $request->validate([
+    		'category' => 'required',
+    		'id_position' => 'required',
+    		'en_position' => 'required',
+    		'id_duties' => 'required',
+    		'en_duties' => 'required',
+    		'id_function' => 'required',
+    		'en_function' => 'required'
+    	]);
+    	
+        $idfnc = $request->input('id_function');
+        $enfnc = $request->input('en_function');
 
+        $dom = new\DomDocument();
+        $dom->loadHtml($idfnc, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $images = $dom->getElementsByTagName('img');
+        foreach($images as $k => $img){
+            $isi = $img->getAttribute('src');
+            list($type, $data) = explode(';', $isi);
+            list(, $isi) = explode(',', $isi);
+            $isi = base64_decode($isi);
+            $image_name = "/public/mainduties" . time().$k.'.png';
+            $path = public_path() . $image_name;
+            file_put_contents($path, $isi);
+            $img->removeAttribute('src');
+            $img->setAttribute('src', $image_name);
+        }
+        $id_function = $dom->saveHtml();
+
+        $dom = new\DomDocument();
+        $dom->loadHtml($enfnc, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $images = $dom->getElementsByTagName('img');
+        foreach($images as $k => $img){
+            $isi = $img->getAttribute('src');
+            list($type, $data) = explode(';', $isi);
+            list(, $isi) = explode(',', $isi);
+            $isi = base64_decode($isi);
+            $image_name = "/public/mainduties" . time().$k.'.png';
+            $path = public_path() . $image_name;
+            file_put_contents($path, $isi);
+            $img->removeAttribute('src');
+            $img->setAttribute('src', $image_name);
+        }
+        $en_function = $dom->saveHtml();
+        $id_slug = DutyCategoryTranslation::where('duty_category_id',$request->input('category'))->where('locale','id')->first();
+        $en_slug = DutyCategoryTranslation::where('duty_category_id',$request->input('category'))->where('locale','en')->first();
+    	$data = [
+    		'id' => [
+                'slug'     => $request->input('id_slug'),
+    			'position' => $request->input('id_position'),
+    			'mainduty' => $request->input('id_duties'),
+    			'function' => $id_function
+    		],
+    		'en' => [
+                'slug'     => $request->input('en_slug'),
+    			'position' => $request->input('en_position'),
+    			'mainduty' => $request->input('en_duties'),
+    			'function' => $en_function
+    		],
+            'created_by' => auth()->user()->id
+    	];
+
+        $mainduties = Mainduty::create($data);
+        $data = 'Tugas dan Fungsi '.($data['id']['position']).' dan '.($data['en']['position']). 'berhasil disimpan';
+         \LogActivity::addToLog($data);
+        $notification = array (
+            'message' => 'Tugas dan Fungsi berhasil disimpan',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('duty.index')->with($notification);
     }
 
     public function dutyEdit($id)
     {
-
+        $duties = MainDuty::withTranslation()->where('main_duties.id',$id)->first();
+        $categories = DutyCategoryTranslation::where('locale','id')->pluck('category_name','duty_category_id')->toArray();
+        
+    	return view('backend.edit.mainDuty',compact('duties','categories'));
     }
 
     public function dutyUpdate(Request $request,$id)
@@ -662,6 +741,16 @@ class ContentManagementController extends Controller
 
     public function dutyDestroy($id)
     {
+        $duties = MainDuty::withTranslation()->where('main_duties.id',$id)->first();
+        $logs = 'Tugas dan Fungsi berhasil dihapus';
+        $categories->destroy($id);
+        
+         \LogActivity::addToLog($logs);
+        $notification = array (
+            'message' => 'Tugas dan Fungsi berhasil dihapus',
+            'alert-type' => 'success'
+        );
 
+        return redirect()->route('duty.index')->with($notification);
     }
 }
