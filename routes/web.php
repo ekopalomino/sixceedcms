@@ -88,6 +88,21 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::get('/konten/publikasi-depan/edit/{id}','Backend\ContentManagementController@frontPubEdit')->name('fnpub.edit');
     Route::post('/konten/publikasi-depan/update/{id}','Backend\ContentManagementController@frontPubUpdate')->name('fnpub.update');
     Route::post('/konten/publikasi-depan/delete/{id}','Backend\ContentManagementController@frontPubDestroy')->name('fnpub.destroy');
+
+    Route::get('/konten/tentang-kami/pesan','Backend\ContentManagementController@aboutIndex')->name('about.index');
+    Route::get('/konten/tentang-kami/pesan/create','Backend\ContentManagementController@aboutCreate')->name('about.create');
+    Route::post('/konten/tentang-kami/pesan/store','Backend\ContentManagementController@aboutStore')->name('about.store');
+    Route::post('/konten/tentang-kami/pesan/publish/{id}','Backend\ContentManagementController@aboutPublished')->name('about.publish');
+    Route::get('/konten/tentang-kami/pesan/edit/{id}','Backend\ContentManagementController@aboutEdit')->name('about.edit');
+    Route::post('/konten/tentang-kami/pesan/update/{id}','Backend\ContentManagementController@aboutUpdate')->name('about.update');
+    Route::post('/konten/tentang-kami/pesan/delete/{id}','Backend\ContentManagementController@aboutDestroy')->name('about.destroy');
+
+    Route::get('/konten/tentang-kami/tugas-dan-fungsi','Backend\ContentManagementController@dutyIndex')->name('duty.index');
+    Route::get('/konten/tentang-kami/tugas-dan-fungsi/create','Backend\ContentManagementController@dutyCreate')->name('duty.create');
+    Route::post('/konten/tentang-kami/tugas-dan-fungsi/store','Backend\ContentManagementController@dutyStore')->name('duty.store');
+    Route::get('/konten/tentang-kami/tugas-dan-fungsi/edit/{id}','Backend\ContentManagementController@dutyEdit')->name('duty.edit');
+    Route::post('/konten/tentang-kami/tugas-dan-fungsi/update/{id}','Backend\ContentManagementController@dutyUpdate')->name('duty.update');
+    Route::post('/konten/tentang-kami/tugas-dan-fungsi/delete/{id}','Backend\ContentManagementController@dutyDestroy')->name('duty.destroy');
 });
 /*Route::get('/home', 'HomeController@index')->name('home');*/
 

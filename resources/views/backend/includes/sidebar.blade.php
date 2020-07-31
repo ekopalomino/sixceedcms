@@ -145,8 +145,8 @@
 					</li>
 				</ul>
 			</li>
-			<li class="nav-item has-treeview {{set_open(['foto.index','video.index','fnban.index','fnpub.index']) }}">
-				<a href="#" class="nav-link {{set_active(['foto.index','video.index','fnban.index','fnpub.index']) }}">
+			<li class="nav-item has-treeview {{set_open(['foto.index','video.index','fnban.index','fnpub.index','about.index','about.create','about.edit','duty.index','duty.create','duty.edit']) }}">
+				<a href="#" class="nav-link {{set_active(['foto.index','video.index','fnban.index','fnpub.index','about.index','about.create','about.edit','duty.index','duty.create','duty.edit']) }}">
 					<i class="nav-icon fas fa-newspaper"></i>
 					<p>
 						Konten
@@ -182,6 +182,145 @@
 					</li>
 					<li class="nav-item {{set_open('fnpub.index') }}">
 						<a href="{{ route('fnpub.index') }}" class="nav-link {{set_active('fnpub.index') }}">
+							<i class="right fas fa-angle-right"></i>
+							<p>Publikasi</p>
+						</a>
+					</li>
+					<li class="nav-item {{set_open(['about.index','about.create','about.edit','duty.index','duty.create','duty.edit']) }}">
+						<a href="" class="nav-link {{set_active(['about.index','about.create','about.edit','duty.index','duty.create','duty.edit']) }}">
+							<i class="right fas fa-angle-left"></i>
+							<p>Tentang Kami</p>
+						</a>
+						<ul class="nav nav-treeview">
+							<li class="nav-item">
+								<a href="{{ route('about.index') }}" class="nav-link {{set_active(['about.index','about.create','about.edit']) }}">
+									<i class="far fa-circle nav-icon"></i>
+									<p>Pesan</p>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a href="{{ route('duty.index') }}" class="nav-link {{set_active(['duty.index','duty.create','duty.edit']) }}">
+									<i class="far fa-circle nav-icon"></i>
+									<p>Tugas & Fungsi</p>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a href="" class="nav-link ">
+									<i class="far fa-circle nav-icon"></i>
+									<p>Transparansi Kerja</p>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a href="" class="nav-link ">
+									<i class="far fa-circle nav-icon"></i>
+									<p>Laporan Tahunan</p>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a href="" class="nav-link ">
+									<i class="far fa-circle nav-icon"></i>
+									<p>Pejabat Kementerian</p>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a href="" class="nav-link ">
+									<i class="far fa-circle nav-icon"></i>
+									<p>Struktur Organisasi</p>
+								</a>
+							</li>
+						</ul>
+					</li>
+					<li class="nav-item">
+						<a href="" class="nav-link ">
+							<i class="right fas fa-angle-right"></i>
+							<p>FAQ</p>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="" class="nav-link ">
+							<i class="right fas fa-angle-right"></i>
+							<p>Kegiatan</p>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="" class="nav-link ">
+							<i class="right fas fa-angle-left"></i>
+							<p>Artikel</p>
+						</a>
+						<ul class="nav nav-treeview">
+							<li class="nav-item">
+								<a href="" class="nav-link ">
+									<i class="far fa-circle nav-icon"></i>
+									<p>Tulisan</p>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a href="" class="nav-link ">
+									<i class="far fa-circle nav-icon"></i>
+									<p>Upload</p>
+								</a>
+							</li>
+						</ul>
+					</li>
+					<li class="nav-item">
+						<a href="" class="nav-link ">
+							<i class="right fas fa-angle-left"></i>
+							<p>Perwakilan Dagang</p>
+						</a>
+						<ul class="nav nav-treeview">
+							<li class="nav-item">
+								<a href="" class="nav-link ">
+									<i class="far fa-circle nav-icon"></i>
+									<p>Pejabat</p>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a href="" class="nav-link ">
+									<i class="far fa-circle nav-icon"></i>
+									<p>Kantor</p>
+								</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+			<li class="nav-item has-treeview ">
+				<a href="#" class="nav-link ">
+					<i class="nav-icon fas fa-newspaper"></i>
+					<p>
+						Konten Statistik Ekonomi
+						<i class="right fas fa-angle-left"></i>
+					</p>
+				</a>
+				<ul class="nav nav-treeview ">
+					<li class="nav-item ">
+						<a href="" class="nav-link ">
+							<i class="right fas fa-angle-left"></i>
+							<p>Media</p>
+						</a>
+						<ul class="nav nav-treeview">
+							<li class="nav-item">
+								<a href="" class="nav-link ">
+									<i class="far fa-circle nav-icon"></i>
+									<p>Berita Foto</p>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a href="" class="nav-link ">
+									<i class="far fa-circle nav-icon"></i>
+									<p>Berita Video</p>
+								</a>
+							</li>
+						</ul>
+					</li>
+					<li class="nav-item ">
+						<a href="" class="nav-link ">
+							<i class="right fas fa-angle-right"></i>
+							<p>Banner Depan</p>
+						</a>
+					</li>
+					<li class="nav-item ">
+						<a href="" class="nav-link ">
 							<i class="right fas fa-angle-right"></i>
 							<p>Publikasi Depan</p>
 						</a>

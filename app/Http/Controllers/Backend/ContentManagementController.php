@@ -10,6 +10,8 @@ use Sixceed\Models\Album;
 use Sixceed\Models\Image;
 use Sixceed\Models\FrontBanner;
 use Sixceed\Models\Publication; 
+use Sixceed\Models\AboutUs;
+use Sixceed\Models\AboutUsTranslation;
 use File;
 
 class ContentManagementController extends Controller
@@ -456,5 +458,210 @@ class ContentManagementController extends Controller
         FrontBanner::find($id)->delete();
         
         return redirect()->route('fnban.index')->with($notification);
+    }
+
+    public function aboutIndex()
+    {
+        $about = AboutUs::withTranslation()->where('status_id','3bc97e4a-5e86-4d7c-86d5-7ee450a247ee')->get();
+        
+    	return view('backend.pages.aboutUs',compact('about'));
+    }
+
+    public function aboutCreate()
+    {
+        return view('backend.input.aboutUs');
+    }
+
+    public function aboutStore(Request $request)
+    {
+        $request->validate([
+    		'id_konten' => 'required',
+    		'en_konten' => 'required',
+    	]);
+    	
+        $idfnc = $request->input('id_konten');
+        $enfnc = $request->input('en_konten');
+
+        $dom = new\DomDocument();
+        $dom->loadHtml($idfnc, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $images = $dom->getElementsByTagName('img');
+        foreach($images as $k => $img){
+            $isi = $img->getAttribute('src');
+            list($type, $data) = explode(';', $isi);
+            list(, $isi) = explode(',', $isi);
+            $isi = base64_decode($isi);
+            $image_name = "/public/aboutus" . time().$k.'.png';
+            $path = public_path() . $image_name;
+            file_put_contents($path, $isi);
+            $img->removeAttribute('src');
+            $img->setAttribute('src', $image_name);
+        }
+        $id_welcome = $dom->saveHtml();
+
+        $dom = new\DomDocument();
+        $dom->loadHtml($enfnc, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $images = $dom->getElementsByTagName('img');
+        foreach($images as $k => $img){
+            $isi = $img->getAttribute('src');
+            list($type, $data) = explode(';', $isi);
+            list(, $isi) = explode(',', $isi);
+            $isi = base64_decode($isi);
+            $image_name = "/public/aboutus" . time().$k.'.png';
+            $path = public_path() . $image_name;
+            file_put_contents($path, $isi);
+            $img->removeAttribute('src');
+            $img->setAttribute('src', $image_name);
+        }
+        $en_welcome = $dom->saveHtml();
+
+    	$data = [
+    		'id' => [
+                'welcome_message'     => $id_welcome
+    		],
+    		'en' => [
+                'welcome_message'     => $en_welcome
+    		],
+            'created_by' => auth()->user()->id,
+            'status_id' => '3bc97e4a-5e86-4d7c-86d5-7ee450a247ee'
+        ];
+
+        $data = AboutUs::create($data);
+         \LogActivity::addToLog('Pesan Tentang Kami berhasil disimpan');
+        $notification = array (
+            'message' => 'Pesan Tentang Kami berhasil disimpan',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('about.index')->with($notification);
+    }
+
+    public function aboutEdit($id)
+    {
+        $about = AboutUs::withTranslation()->where('about_us.id',$id)->first();
+        
+    	return view('backend.edit.aboutUs',compact('about'));
+    }
+
+    public function aboutUpdate(Request $request,$id)
+    {
+        $idfnc = $request->input('id_konten');
+        $enfnc = $request->input('en_konten');
+
+        $dom = new\DomDocument();
+        $dom->loadHtml($idfnc, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $images = $dom->getElementsByTagName('img');
+        foreach($images as $k => $img){
+            $isi = $img->getAttribute('src');
+            list($type, $data) = explode(';', $isi);
+            list(, $isi) = explode(',', $isi);
+            $isi = base64_decode($isi);
+            $image_name = "/public/aboutus" . time().$k.'.png';
+            $path = public_path() . $image_name;
+            file_put_contents($path, $isi);
+            $img->removeAttribute('src');
+            $img->setAttribute('src', $image_name);
+        }
+        $id_welcome = $dom->saveHtml();
+
+        $dom = new\DomDocument();
+        $dom->loadHtml($enfnc, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $images = $dom->getElementsByTagName('img');
+        foreach($images as $k => $img){
+            $isi = $img->getAttribute('src');
+            list($type, $data) = explode(';', $isi);
+            list(, $isi) = explode(',', $isi);
+            $isi = base64_decode($isi);
+            $image_name = "/public/aboutus" . time().$k.'.png';
+            $path = public_path() . $image_name;
+            file_put_contents($path, $isi);
+            $img->removeAttribute('src');
+            $img->setAttribute('src', $image_name);
+        }
+        $en_welcome = $dom->saveHtml();
+
+    	$data = [
+    		'id' => [
+                'welcome_message'     => $id_welcome
+    		],
+    		'en' => [
+                'welcome_message'     => $en_welcome
+    		],
+            'updated_by' => auth()->user()->id,
+        ];
+
+        $about = AboutUs::withTranslation()->where('about_us.id',$id)->first();
+        $about->update($data);
+
+        $log = 'Tentang Kami berhasil diubah';
+         \LogActivity::addToLog($log);
+        
+        $notification = array (
+            'message' => 'Tentang Kami berhasil diubah',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('about.index')->with($notification);
+    }
+
+    public function aboutPublished(Request $request,$id)
+    {
+        $publish = ['status_id' => '2872ac69-2f76-438b-8b83-31c52787027d'];
+        $about = AboutUs::withTranslation()->where('about_us.id',$id)->first();
+        $about->update($publish);
+
+        $log = 'Tentang Kami berhasil dipublish';
+         \LogActivity::addToLog($log);
+        
+        $notification = array (
+            'message' => 'Tentang Kami berhasil dipublish',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('about.index')->with($notification);
+    }
+
+    public function aboutDestroy($id)
+    {
+        $about = AboutUs::withTranslation()->where('about_us.id',$id)->first();
+        $logs = 'Tentang Kami berhasil dihapus';
+        $categories->destroy($id);
+        
+         \LogActivity::addToLog($logs);
+        $notification = array (
+            'message' => 'Tentang Kami berhasil dihapus',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('about.index')->with($notification);
+    }
+
+    public function dutyIndex()
+    {
+
+    }
+
+    public function dutyCreate()
+    {
+
+    }
+
+    public function dutyStore(Request $request)
+    {
+
+    }
+
+    public function dutyEdit($id)
+    {
+
+    }
+
+    public function dutyUpdate(Request $request,$id)
+    {
+
+    }
+
+    public function dutyDestroy($id)
+    {
+
     }
 }

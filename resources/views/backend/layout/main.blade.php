@@ -10,8 +10,7 @@
   	<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
   	<link rel="stylesheet" href="{{ asset('bower_components/admin-lte/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
   	<link rel="stylesheet" href="{{ asset('bower_components/admin-lte/plugins/toastr/toastr.min.css') }}">
-	<link rel="stylesheet" href="{{ asset('css/preload.css') }}">
-  	@yield('header.plugins')
+	@yield('header.plugins')
   	@yield('header.styles')
 </head>
 <body class="hold-transition sidebar-mini">
@@ -72,8 +71,7 @@
 	<script src="{{ asset('bower_components/admin-lte/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 	<script src="{{ asset('bower_components/admin-lte/plugins/toastr/toastr.min.js') }}"></script>
 	<script src="{{ asset('js/admin.js') }}" type="text/javascript"></script>
-	<script src="{{ asset('js/preload.js') }}" type="text/javascript"></script>
-	@yield('footer.scripts')
+	@yield('footer.scripts') 
 	<script type="text/javascript">
 		@if(Session::has('message'))
 		var type = "{{ Session::get('alert-type', 'info') }}";

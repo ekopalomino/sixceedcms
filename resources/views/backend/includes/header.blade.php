@@ -25,7 +25,25 @@
 			<a href="#" class="nav-link ">Ditjen PDN</a>
 		</li>
 		<li class="nav-item d-none d-sm-inline-block">
+			<a href="#" class="nav-link ">Ditjen Daglu</a>
+		</li>
+		<li class="nav-item d-none d-sm-inline-block">
 			<a href="#" class="nav-link ">PPSDK</a>
+		</li>
+		<li class="nav-item d-none d-sm-inline-block">
+			<a href="#" class="nav-link ">BPPP</a>
+		</li>
+		<li class="nav-item d-none d-sm-inline-block">
+			<a href="#" class="nav-link ">Rovodag</a>
+		</li>
+		<li class="nav-item d-none d-sm-inline-block">
+			<a href="#" class="nav-link ">KPPI</a>
+		</li>
+		<li class="nav-item d-none d-sm-inline-block">
+			<a href="#" class="nav-link ">KADI</a>
+		</li>
+		<li class="nav-item d-none d-sm-inline-block">
+			<a href="#" class="nav-link ">Itjen</a>
 		</li>
 	</ul>
 	<ul class="navbar-nav ml-auto">
