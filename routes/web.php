@@ -103,6 +103,25 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::get('/konten/tentang-kami/tugas-dan-fungsi/edit/{id}','Backend\ContentManagementController@dutyEdit')->name('duty.edit');
     Route::post('/konten/tentang-kami/tugas-dan-fungsi/update/{id}','Backend\ContentManagementController@dutyUpdate')->name('duty.update');
     Route::post('/konten/tentang-kami/tugas-dan-fungsi/delete/{id}','Backend\ContentManagementController@dutyDestroy')->name('duty.destroy');
+
+    Route::get('/konten/tentang-kami/transparansi-kerja','Backend\ContentManagementController@stratIndex')->name('strat.index');
+    Route::post('/konten/tentang-kami/transparansi-kerja/store','Backend\ContentManagementController@stratStore')->name('strat.store');
+    Route::get('/konten/tentang-kami/transparansi-kerja/edit/{id}','Backend\ContentManagementController@stratEdit')->name('strat.edit');
+    Route::post('/konten/tentang-kami/transparansi-kerja/update/{id}','Backend\ContentManagementController@stratUpdate')->name('strat.update');
+    Route::post('/konten/tentang-kami/transparansi-kerja/delete/{id}','Backend\ContentManagementController@stratDestroy')->name('strat.destroy');
+
+
+
+
+    Route::get('/konten/artikel','Backend\ContentManagementController@postIndex')->name('post.index');
+    Route::get('/konten/artikel/tulisan/create','Backend\ContentManagementController@postCreate')->name('write.create');
+    Route::get('/konten/artikel/upload/create','Backend\ContentManagementController@uploadCreate')->name('upload.create');
+    Route::post('/konten/artikel/store','Backend\ContentManagementController@postStore')->name('post.store');
+    Route::get('/konten/artikel/edit/{id}','Backend\ContentManagementController@postEdit')->name('post.edit');
+    Route::post('/konten/artikel/update/{id}','Backend\ContentManagementController@postUpdate')->name('post.update');
+    Route::post('/konten/artikel/publish/{id}','Backend\ContentManagementController@postPublish')->name('post.update');
+    Route::post('/konten/artikel/archive/{id}','Backend\ContentManagementController@postArchive')->name('post.update');
+    Route::post('/konten/artikel/delete/{id}','Backend\ContentManagementController@postDestroy')->name('post.destroy');
 });
 /*Route::get('/home', 'HomeController@index')->name('home');*/
 

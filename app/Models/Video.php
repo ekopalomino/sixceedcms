@@ -12,6 +12,7 @@ class Video extends Model
 
     protected $fillable = [
         'video_id',
+        'site_id',
         'title',
         'slug',
         'description',
@@ -29,5 +30,10 @@ class Video extends Model
                 'source' => 'title',
             ],
         ];
+    }
+
+    public function Sites()
+    {
+        return $this->belongsTo(Site::class,'site_id');
     }
 }

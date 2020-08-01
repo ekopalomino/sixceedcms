@@ -1,6 +1,6 @@
 @extends('backend.layout.main')
 @section('header.title')
-Kementerian Perdagangan Republik Indonesia | Kategori Artikel
+Kementerian Perdagangan Republik Indonesia | Artikel
 @endsection
 @section('header.plugins')
 <link rel="stylesheet" href="{{ asset('bower_components/admin-lte/plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
@@ -10,7 +10,7 @@ Kementerian Perdagangan Republik Indonesia | Kategori Artikel
 	<div class="container-fluid">
       	<div class="row mb-2">
        		<div class="col-sm-6">
-          		<h1>Kategori Artikel</h1>
+          		<h1>Data Artikel</h1>
        		</div>
        	</div>
     </div>
@@ -20,36 +20,8 @@ Kementerian Perdagangan Republik Indonesia | Kategori Artikel
 		<div class="col-12">
 			<div class="card card-info card-outline">
 				<div class="card-header">
-					<button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modal-lg">
-						Tambah
-					</button>
-					<div class="modal fade" id="modal-lg">
-						<div class="modal-dialog modal-lg">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h4 class="modal-title">Tambah Data</h4>
-									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-										<span aria-hidden="true">&times;</span>
-									</button>
-								</div>
-								<div class="modal-body">
-									{!! Form::open(array('route' => 'articlecat.store','method'=>'POST', 'class' => 'form-horizontal')) !!}
-									@csrf
-									<div class="form-group row">
-										<label for="inputEmail" class="col-sm-2 col-form-label">Nama Kategori</label>
-										<div class="col-sm-10">
-											{!! Form::text('category_name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
-										</div>
-									</div>
-								</div>
-				            	<div class="modal-footer ">
-				              		<button type="close" class="btn btn-default" data-dismiss="modal">Close</button>
-				              		<button id="register" type="submit" class="btn btn-primary">Save changes</button>
-				            	</div>
-				          	</div>
-							{!! Form::close() !!}
-				        </div>
-				    </div>
+					<a class="btn btn-sm btn-danger" href="{{ route('write.create') }}">Tambah Tulisan</a>
+					<a class="btn btn-sm btn-danger" href="{{ route('upload.create') }}">Tambah Upload</a>
 				</div>
 				<div class="card-body">
 					@if (count($errors) > 0) 
@@ -67,28 +39,48 @@ Kementerian Perdagangan Republik Indonesia | Kategori Artikel
 						<thead>
 							<tr>
 								<th>No</th>
-								<th>Nama Kategori</th>
+								<th>Judul</th>
 								<th>Situs</th>
+								<th>Tipe</th>
+								<th>Kategori</th>
+								<th>Sumber</th>
+								<th>Status</th>
 								<th>Tgl Input</th>
 								<th>Tgl Ubah</th>
 								<th></th>
 							</tr>
 						</thead>
 						<tbody>
-							@foreach($source as $key=>$data) 
+							@foreach($data as $key=>$post) 
 							<tr>
 								<td>{{ $key+1 }}</td>
-								<td>{{ $data->category_name }}</td>
-								<td>{{ $data->Sites->site_name }}</td>
-								<td>{{date("d F Y H:i",strtotime($data->created_at)) }}</td>
+								<td>{{ $post->title }}</td>
+								<td>{{ $post->Sites->site_name }}</td>
+								<td>{{ $post->type }}</td>
+								<td>{{ $post->Categories->category_name }}</td>
 								<td>
-									@if(!empty($data->updated_at))
-									{{date("d F Y H:i",strtotime($data->updated_at)) }}
+									@if(!empty($post->source))
+									{{ $post->source }}
+									@else
+									Tidak Ada Sumber
 									@endif
 								</td>
 								<td>
-									<a class="btn btn-xs btn-info modalLg" href="#" value="{{ action('Backend\MasterDataController@articleCategoryEdit',['id'=>$data->id]) }}" data-toggle="modal" data-target="#modalLg" title="Ubah Data"><i class="far fa-edit"></i></a>
-									{!! Form::open(['method' => 'POST','route' => ['articlecat.destroy', $data->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
+									@if(($post->status_id) == '3bc97e4a-5e86-4d7c-86d5-7ee450a247ee')
+									<span class="badge badge-warning">{{ $post->Statuses->status_name }}</span>
+									@elseif(($post->status_id) == '2872ac69-2f76-438b-8b83-31c52787027d')
+									<span class="badge badge-success">{{ $post->Statuses->status_name }}</span>
+									@else
+									<span class="badge badge-danger">{{ $post->Statuses->status_name }}</span>
+									@endif
+								</td>
+								<td>{{date("d F Y H:i",strtotime($data->created_at)) }}</td>
+								<td>{{date("d F Y H:i",strtotime($data->updated_at)) }}</td>
+								<td>
+									<a button id="search" type="submit" class="btn btn-xs btn-info" href="{{ route('post.edit',$post->id) }}">
+										<i class="fa fa-edit"></i>
+									</a>
+									{!! Form::open(['method' => 'POST','route' => ['post.destroy', $post->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
 									{!! Form::button('<i class="fas fa-trash-alt"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger']) !!}
 									{!! Form::close() !!}
 								</td>
@@ -120,7 +112,7 @@ Kementerian Perdagangan Republik Indonesia | Kategori Artikel
 <script>
     function ConfirmDelete()
     {
-    var x = confirm("Data Akan Dihapus?");
+    var x = confirm("Artikel Akan Dihapus?");
     if (x)
         return true;
     else

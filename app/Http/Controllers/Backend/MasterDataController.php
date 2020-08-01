@@ -328,7 +328,12 @@ class MasterDataController extends Controller
 
     public function articleCategoryIndex()
     {
-        $source = ArticleCategory::orderBy('id','ASC')->get();
+        if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f') {
+            $source = ArticleCategory::orderBy('id','ASC')->get();
+        } else {
+            $source = ArticleCategory::where('site_id',auth()->user()->site_id)->orderBy('id','ASC')->get();
+        }
+        
         return view('backend.pages.articleCategory',compact('source'));
     }
 
@@ -340,6 +345,7 @@ class MasterDataController extends Controller
         
         $input = [
             'category_name' => $request->input('category_name'),
+            'site_id' => auth()->user()->site_id,
             'created_by' => auth()->user()->id,
         ];
 

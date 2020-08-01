@@ -9,6 +9,14 @@
                 <div class="col-sm-12">
                     {!! Form::text('title', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
                 </div>
+            @if($user == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f')
+            <label for="text" class="col-sm-12 col-form-label">Situs</label>
+                <div class="col-sm-12">
+                    {!! Form::select('site_id', $sites,old('site_id'), array('class' => 'form-control')) !!}
+                </div>
+            @else
+                {!! Form::hidden('site_id', $user, array('class' => 'form-control','readonly')) !!}
+            @endif
             <label for="text" class="col-sm-12 col-form-label">Tipe</label>
                 <div class="col-sm-12">
                     {!! Form::select('type', array('1'=>'Kolom 1','2'=>'Kolom 2','3'=>'Kolom 3', '4'=>'Kolom 4', '5'=>'Pop Up'),old('type'), array('class' => 'form-control')) !!}

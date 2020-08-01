@@ -5,6 +5,8 @@ namespace Sixceed\Http\Controllers\Backend;
 use Illuminate\Http\Request;
 use Sixceed\Http\Controllers\Controller;
 use Alaouy\Youtube\Facades\Youtube;
+use Sixceed\Models\User;
+use Sixceed\Models\Site;
 use Sixceed\Models\Video;
 use Sixceed\Models\Album; 
 use Sixceed\Models\Image;
@@ -14,22 +16,33 @@ use Sixceed\Models\AboutUs;
 use Sixceed\Models\AboutUsTranslation;
 use Sixceed\Models\DutyCategoryTranslation;
 use Sixceed\Models\MainDuty;
+use Sixceed\Models\StrategicPlanning;
+use Sixceed\Models\Post;
+use Sixceed\Models\ArticleCategory;
 use File;
 
 class ContentManagementController extends Controller
 {
     public function videoIndex(Request $request)
     {
-    	$data = Video::orderBy('title', 'ASC')
-                            ->get();
-      
-    	return view('backend.pages.videos',compact('data'));
+        if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f') {
+            $data = Video::orderBy('title', 'ASC')->get();
+            $sites = Site::pluck('site_name','id')->toArray();
+            $user = auth()->user()->site_id;
+        } else {
+            $data = Video::where('site_id',auth()->user()->site_id)->orderBy('title', 'ASC')->get();
+            $sites = Site::pluck('site_name','id')->toArray();
+            $user = auth()->user()->site_id;
+        }
+    	
+    	return view('backend.pages.videos',compact('data','sites','user'));
     }
 
     public function videoStore(Request $request)
     {
         $this->validate($request, [
             'video_id' => 'required',
+            'site_id' => 'required',
             'description' => 'required'
         ]);
     	
@@ -39,6 +52,7 @@ class ContentManagementController extends Controller
         
         $input = [
             'video_id' => $data->id,
+            'site_id' => $request->input('site_id'),
             'title' => $data->snippet->title,
             'description' => $request->input('description'),
             'thumbnail' => $data->snippet->thumbnails->standard->url,
@@ -69,13 +83,17 @@ class ContentManagementController extends Controller
     public function videoEdit($id)
     {
         $data = Video::find($id);
-        return view('backend.edit.video',compact('data'))->renderSections()['content'];
+        $sites = Site::pluck('site_name','id')->toArray();
+        $user = auth()->user()->site_id;
+
+        return view('backend.edit.video',compact('data','sites','user'))->renderSections()['content'];
     }
 
     public function videoUpdate(Request $request, $id)
     {
         $this->validate($request, [
             'video_id' => 'required',
+            'site_id' => 'required',
             'description' => 'required'
         ]);
 
@@ -84,6 +102,7 @@ class ContentManagementController extends Controller
         $data = Youtube::getVideoInfo($video_id);
         $input = [
             'video_id' => $data->id,
+            'site_id' => $request->input('site_id'),
             'title' => $data->snippet->title,
             'description' => $request->input('description'),
             'thumbnail' => $data->snippet->thumbnails->standard->url,
@@ -237,9 +256,11 @@ class ContentManagementController extends Controller
 
     public function frontBannerIndex()
     {
-        $data = FrontBanner::orderBy('updated_at','DESC')->get();
-
-        return view('backend.pages.frontBanner',compact('data'));
+        $data = FrontBanner::where('site_id',auth()->user()->site_id)->orderBy('updated_at','DESC')->get();
+        $sites = Site::pluck('site_name','id')->toArray();
+        $user = auth()->user()->site_id;
+        
+        return view('backend.pages.frontBanner',compact('data','sites','user'));
     }
 
     public function frontBannerStore(Request $request)
@@ -264,6 +285,7 @@ class ContentManagementController extends Controller
 
         $input = [
             'title' => $request->input('title'),
+            'site_id' => $request->input('site_id'),
             'type' => $request->input('type'),
             'position' => $request->input('position'),
             'image' => $filename,
@@ -272,7 +294,6 @@ class ContentManagementController extends Controller
             'ekstensi' => $ext,
             'description' => $request->input('description'),
             'created_by' => auth()->user()->id,
-            'updated_by' => auth()->user()->id,
         ];
 
         $saves = FrontBanner::create($input);
@@ -289,8 +310,10 @@ class ContentManagementController extends Controller
     public function frontBannerEdit($id)
     {
         $source = FrontBanner::find($id);
+        $sites = Site::pluck('site_name','id')->toArray();
+        $user = auth()->user()->site_id;
 
-        return view('backend.edit.frontBanner',compact('source'))->renderSections()['content'];
+        return view('backend.edit.frontBanner',compact('source','sites','user'))->renderSections()['content'];
     }
 
     public function frontBannerUpdate(Request $request,$id)
@@ -315,6 +338,7 @@ class ContentManagementController extends Controller
 
             $input = [
             'title' => $request->input('title'),
+            'site_id' => $request->input('site_id'),
             'type' => $request->input('type'),
             'position' => $request->input('position'),
             'image' => $filename,
@@ -326,6 +350,7 @@ class ContentManagementController extends Controller
         } else {
             $input = [
             'title' => $request->input('title'),
+            'site_id' => $request->input('site_id'),
             'type' => $request->input('type'),
             'position' => $request->input('position'),
             'link'  => $request->input('link'),
@@ -364,7 +389,7 @@ class ContentManagementController extends Controller
 
     public function frontPubIndex()
     {
-        $data = Publication::orderBy('updated_at','DESC')->get();
+        $data = Publication::where('site_id',auth()->user()->site_id)->orderBy('updated_at','DESC')->get();
 
         return view('backend.pages.publication',compact('data'));
     }
@@ -464,7 +489,7 @@ class ContentManagementController extends Controller
 
     public function aboutIndex()
     {
-        $about = AboutUs::withTranslation()->where('status_id','3bc97e4a-5e86-4d7c-86d5-7ee450a247ee')->get();
+        $about = AboutUs::withTranslation()->where('site_id',auth()->user()->site_id)->where('status_id','3bc97e4a-5e86-4d7c-86d5-7ee450a247ee')->get();
         
     	return view('backend.pages.aboutUs',compact('about'));
     }
@@ -524,7 +549,8 @@ class ContentManagementController extends Controller
                 'welcome_message'     => $en_welcome
     		],
             'created_by' => auth()->user()->id,
-            'status_id' => '3bc97e4a-5e86-4d7c-86d5-7ee450a247ee'
+            'status_id' => '3bc97e4a-5e86-4d7c-86d5-7ee450a247ee',
+            'site_id' => auth()->user()->site_id
         ];
 
         $data = AboutUs::create($data);
@@ -626,7 +652,7 @@ class ContentManagementController extends Controller
     {
         $about = AboutUs::withTranslation()->where('about_us.id',$id)->first();
         $logs = 'Tentang Kami berhasil dihapus';
-        $categories->destroy($id);
+        $about->destroy($id);
         
          \LogActivity::addToLog($logs);
         $notification = array (
@@ -752,5 +778,228 @@ class ContentManagementController extends Controller
         );
 
         return redirect()->route('duty.index')->with($notification);
+    }
+
+    public function stratIndex()
+    {
+        $data = StrategicPlanning::withTranslation()->get();
+
+        return view('backend.pages.transparansiKerja',compact('data'));
+    }
+
+    public function stratStore(Request $request)
+    {
+        $request->validate([
+    		'en_title' => 'required',
+    		'id_title' => 'required',
+    		'file' => 'required|file'
+    	]);
+    	$uploadedFile = $request->file('file');
+        $size = $uploadedFile->getSize();
+        $ext = $uploadedFile->getClientOriginalExtension();
+        $name = $uploadedFile->getClientOriginalName();
+        $path = $uploadedFile->storeAs('public/files/transparansikerja',$name);
+        
+    	$data = [
+    		'en' => [
+    			'title' => $request->input('en_title')
+    		],
+    		'id' => [
+    			'title' => $request->input('id_title')
+    		],
+    		'file' => $path,
+            'created_by' => auth()->user()->id,
+    	];
+
+        $saves = StrategicPlanning::create($data);
+
+        $log = 'File Transparansi Kerja '.($saves['id']['title']).' dengan translasi '.($saves['en']['title']).' berhasil disimpan';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'File Transparansi Kerja '.($saves['id']['title']).' dengan translasi '.($saves['en']['title']).' berhasil disimpan',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('strat.index')->with($notification);
+    }
+
+    public function stratEdit($id)
+    {
+        $source = StrategicPlanning::withTranslation()->where('strategic_plannings.id',$id)->first();
+
+        return view('backend.edit.transparansiKerja',compact('source'))->renderSections()['content'];
+    }
+
+    public function stratUpdate(Request $request,$id)
+    {
+
+    }
+
+    public function stratDestroy($id)
+    {
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public function postIndex()
+    {
+        if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f') {
+            $data = Post::withTranslation()->orderBy('id','ASC')->get();
+        } else {
+            $data = Post::withTranslation()->where('site_id',auth()->user()->site_id)->orderBy('id','ASC')->get();
+        }
+
+        return view('backend.pages.post',compact('data'));
+    }
+
+    public function postCreate()
+    {
+        if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f') {
+            $sites = Site::pluck('site_name','id')->toArray();
+            $categories = ArticleCategory::pluck('category_name','id')->toArray();
+            $user = auth()->user()->site_id;
+            $reporter = User::where('site_id',auth()->user()->site_id)->pluck('name','id')->toArray();
+        } else {
+            $sites = Site::pluck('site_name','id')->toArray();
+            $categories = ArticleCategory::where('site_id',auth()->user()->site_id)->pluck('category_name','id')->toArray();
+            $user = auth()->user()->site_id;
+            $reporter = User::where('site_id',auth()->user()->site_id)->pluck('name','id')->toArray();
+        }
+        
+        return view('backend.input.write',compact('sites','categories','user','reporter'));
+    }
+
+    public function uploadCreate()
+    {
+        if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f') {
+            $sites = Site::pluck('site_name','id')->toArray();
+            $categories = ArticleCategory::pluck('category_name','id')->toArray();
+            $user = auth()->user()->site_id;
+            $reporter = User::where('site_id',auth()->user()->site_id)->pluck('name','id')->toArray();
+        } else {
+            $sites = Site::pluck('site_name','id')->toArray();
+            $categories = ArticleCategory::where('site_id',auth()->user()->site_id)->pluck('category_name','id')->toArray();
+            $user = auth()->user()->site_id;
+            $reporter = User::where('site_id',auth()->user()->site_id)->pluck('name','id')->toArray();
+        }
+        
+        return view('backend.input.upload',compact('sites','categories','user','reporter'));
+    }
+
+    public function postStore(Request $request)
+    {
+        if($request->input('type') == 'write') {
+            $this->validate($request, [
+                'id_title' => 'required',
+                'en_title' => 'required',
+                'id_content' => 'required',
+                'en_content' => 'required',
+                'category_id' => 'required',
+            ]);
+    
+            $idcontent = $request->input('id_content');
+            $encontent = $request->input('en_content');
+    
+            $dom = new\DomDocument();
+            $dom->loadHtml($idcontent, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+            $images = $dom->getElementsByTagName('img');
+            foreach($images as $k => $img){
+                $isi = $img->getAttribute('src');
+                list($type, $data) = explode(';', $isi);
+                list(, $isi) = explode(',', $isi);
+                $isi = base64_decode($isi);
+                $image_name = "/upload" . time().$k.'.png';
+                $path = public_path() . $image_name;
+                file_put_contents($path, $isi);
+                $img->removeAttribute('src');
+                $img->setAttribute('src', $image_name);
+            }
+            $idcontent = $dom->saveHtml();
+    
+            $dom = new\DomDocument();
+            $dom->loadHtml($encontent, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+            $images = $dom->getElementsByTagName('img');
+            foreach($images as $k => $img){
+                $isi = $img->getAttribute('src');
+                list($type, $data) = explode(';', $isi);
+                list(, $isi) = explode(',', $isi);
+                $isi = base64_decode($isi);
+                $image_name = "/upload" . time().$k.'.png';
+                $path = public_path() . $image_name;
+                file_put_contents($path, $isi);
+                $img->removeAttribute('src');
+                $img->setAttribute('src', $image_name);
+            }
+            $encontent = $dom->saveHtml();
+    
+            $data = [
+                'id' => [
+                    'title'     => $request->input('id_title'),
+                    'content' => $idcontent
+                ],
+                'en' => [
+                    'title'     => $request->input('en_title'),
+                    'content' => $encontent
+                ],
+                'type' => $request->input('type'),
+                'category_id' => $request->input('category_id'),
+                'reporter_id' => $request->input('reporter_id'),
+                'source' => $request->input('source'),
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id
+            ];
+    
+            $posts = Post::create($data);
+            $log = 'Artikel '.($posts->title).' Berhasil Disimpan';
+            \LogActivity::addToLog($log);
+            $notification = array (
+                'message' => 'Artikel '.($posts->title).' Berhasil Disimpan',
+                'alert-type' => 'success'
+            );
+
+            return redirect()->route('post.index')->with($notification);
+            
+        } else {
+
+        }
+        
+    }
+
+    public function postEdit($id)
+    {
+
+    }
+
+    public function postUpdate(Request $request,$id)
+    {
+
+    }
+
+    public function postPublish(Request $request,$id)
+    {
+
+    }
+
+    public function postArchive(Request $request,$id)
+    {
+
+    }
+
+    public function postDestroy($id)
+    {
+
     }
 }

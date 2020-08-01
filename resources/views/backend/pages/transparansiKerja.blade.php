@@ -1,6 +1,6 @@
 @extends('backend.layout.main')
 @section('header.title')
-Kementerian Perdagangan Republik Indonesia | Berita Video
+Kementerian Perdagangan Republik Indonesia | Transparansi Kerja
 @endsection
 @section('header.plugins')
 <link rel="stylesheet" href="{{ asset('bower_components/admin-lte/plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
@@ -10,7 +10,7 @@ Kementerian Perdagangan Republik Indonesia | Berita Video
 	<div class="container-fluid">
       	<div class="row mb-2">
        		<div class="col-sm-6">
-          		<h1>Data Berita Video</h1>
+          		<h1>Data Transparansi Kerja</h1>
        		</div>
        	</div>
     </div>
@@ -27,34 +27,30 @@ Kementerian Perdagangan Republik Indonesia | Berita Video
 						<div class="modal-dialog modal-lg">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h4 class="modal-title">Berita Video Baru</h4>
+									<h4 class="modal-title">Tambah Data</h4>
 									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 										<span aria-hidden="true">&times;</span>
 									</button>
 								</div>
 								<div class="modal-body">
-									{!! Form::open(array('route' => 'video.store','method'=>'POST', 'class' => 'form-horizontal')) !!}
+									{!! Form::open(array('route' => 'strat.store','method'=>'POST', 'class' => 'form-horizontal', 'files'=>'true')) !!}
 									@csrf
 									<div class="form-group row">
-										<label for="inputEmail" class="col-sm-2 col-form-label">ID Video</label>
+										<label for="inputIndo" class="col-sm-2 col-form-label">Judul</label>
 										<div class="col-sm-10">
-											{!! Form::text('video_id', null, array('placeholder' => 'ID Video','class' => 'form-control')) !!}
+											{!! Form::text('id_title', null, array('placeholder' => 'Judul','class' => 'form-control')) !!}
 										</div>
 									</div>
-									@if($user == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f')
 									<div class="form-group row">
-										<label for="inputEmail" class="col-sm-2 col-form-label">Situs Penayangan</label>
+										<label for="inputEnglish" class="col-sm-2 col-form-label">Title</label>
 										<div class="col-sm-10">
-											{!! Form::select('site_id', [null=>'Please Select'] + $sites,[], array('class' => 'form-control')) !!}
+											{!! Form::text('en_title', null, array('placeholder' => 'Title','class' => 'form-control')) !!}
 										</div>
 									</div>
-									@else
-									{!! Form::hidden('site_id', $user, array('class' => 'form-control','readonly')) !!}
-									@endif
 									<div class="form-group row">
-										<label for="inputEmail" class="col-sm-2 col-form-label">Deskripsi Video</label>
+										<label for="inputFile" class="col-sm-2 col-form-label">Lampiran</label>
 										<div class="col-sm-10">
-											{!! Form::textarea('description', null, array('placeholder' => 'Deskripsi Video','class' => 'form-control')) !!}
+											{!! Form::file('file', null, array('placeholder' => 'Lampiran','class' => 'form-control')) !!}
 										</div>
 									</div>
 								</div>
@@ -83,27 +79,25 @@ Kementerian Perdagangan Republik Indonesia | Berita Video
 						<thead>
 							<tr>
 								<th>No</th>
-								<th>Judul Berita</th>
-								<th>Situs</th>
-								<th>Deskripsi</th>
-								<th>Thumbnail</th>
+								<th>Judul</th>
+								<th>Lampiran</th>
 								<th>Tgl Input</th>
+								<th>Tgl Ubah</th>
 								<th></th>
 							</tr>
 						</thead>
 						<tbody>
-							@foreach($data as $key=>$video)
+							@foreach($data as $key=>$strat) 
 							<tr>
 								<td>{{ $key+1 }}</td>
-								<td>{{ $video->title }}</td>
-								<td>{{ $video->Sites->site_name }}</td>
-								<td>{{ $video->description }}</td>
-								<td><img src="{{ $video->thumbnail_small }}" width="100" height="100" /></td>
-            					<td>{{date("d F Y H:i",strtotime($video->created_at)) }}</td>
+								<td>{{ $strat->title }}</td>
+								<td>{{ $strat->file }}</td>
+								<td>{{date("d F Y H:i",strtotime($strat->created_at)) }}</td>
+								<td>{{date("d F Y H:i",strtotime($strat->updated_at)) }}</td>
 								<td>
-									<a class="btn btn-xs btn-info modalLg" href="#" value="{{ action('Backend\ContentManagementController@videoEdit',['id'=>$video->id]) }}" data-toggle="modal" data-target="#modalLg" title="Ubah Data"><i class="far fa-edit"></i></a>
-									{!! Form::open(['method' => 'POST','route' => ['video.destroy', $video->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
-									{!! Form::button('<i class="fas fa-trash-alt"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Hapus Data']) !!}
+									<a class="btn btn-xs btn-info modalLg" href="#" value="{{ action('Backend\ContentManagementController@stratEdit',['id'=>$strat->id]) }}" data-toggle="modal" data-target="#modalLg" title="Ubah Data"><i class="far fa-edit"></i></a>
+									{!! Form::open(['method' => 'POST','route' => ['strat.destroy', $strat->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
+									{!! Form::button('<i class="fas fa-trash-alt"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger']) !!}
 									{!! Form::close() !!}
 								</td>
             				</tr>
@@ -132,9 +126,9 @@ Kementerian Perdagangan Republik Indonesia | Berita Video
   });
 </script>
 <script>
-    function ConfirmDelete()
+    function ConfirmSuspend()
     {
-    var x = confirm("Data Akan Dihapus?");
+    var x = confirm("Data Akan Dihapus ?");
     if (x)
         return true;
     else

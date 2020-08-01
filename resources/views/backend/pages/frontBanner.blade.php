@@ -41,10 +41,20 @@ Kementerian Perdagangan Republik Indonesia | Banner Depan
 											{!! Form::text('title', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
 										</div>
 									</div>
+									@if($user == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f')
+									<div class="form-group row">
+										<label for="inputEmail" class="col-sm-2 col-form-label">Situs</label>
+										<div class="col-sm-10">
+											{!! Form::select('site_id', [null=>'Please Select'] + $sites,[], array('class' => 'form-control')) !!}
+										</div>
+									</div>
+									@else
+									{!! Form::hidden('site_id', $user, array('class' => 'form-control','readonly')) !!}
+									@endif
 									<div class="form-group row">
 										<label for="inputEmail" class="col-sm-2 col-form-label">Tipe</label>
 										<div class="col-sm-10">
-											{!! Form::select('type', array('1'=>'Kolom 1','2'=>'Kolom 2','3'=>'Kolom 3', '4'=>'Kolom 4', '5'=>'Pop Up'),[], array('class' => 'form-control')) !!}
+											{!! Form::select('type', array('0'=>'Please Select','1'=>'Kolom 1','2'=>'Kolom 2','3'=>'Kolom 3', '4'=>'Kolom 4', '5'=>'Pop Up'),[], array('class' => 'form-control')) !!}
 										</div>
 									</div>
 									<div class="form-group row">
@@ -97,6 +107,7 @@ Kementerian Perdagangan Republik Indonesia | Banner Depan
 						<thead>
 							<tr>
 								<th>No</th>
+								<th>Situs</th>
 								<th>Gambar Banner</th>
 								<th>Judul</th>
 								<th>Tipe</th>
@@ -111,6 +122,7 @@ Kementerian Perdagangan Republik Indonesia | Banner Depan
 							@foreach($data as $key=>$banner) 
 							<tr>
 								<td>{{ $key+1 }}</td>
+								<td>{{ $banner->Sites->site_name }}</td>
 								<td><img src="/public/banner/{{$banner->image}}" width="150" height="150"></td>
 								<td>{{ $banner->title }}</td>
 								<td>

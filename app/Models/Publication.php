@@ -9,6 +9,8 @@ class Publication extends Model
     protected $fillable = [
         'cover_image',
         'link',
+        'site_id',
+        'file',
         'created_by',
         'updated_by',
     ];

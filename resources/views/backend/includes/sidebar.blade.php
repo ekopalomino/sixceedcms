@@ -145,8 +145,8 @@
 					</li>
 				</ul>
 			</li>
-			<li class="nav-item has-treeview {{set_open(['foto.index','video.index','fnban.index','fnpub.index','about.index','about.create','about.edit','duty.index','duty.create','duty.edit']) }}">
-				<a href="#" class="nav-link {{set_active(['foto.index','video.index','fnban.index','fnpub.index','about.index','about.create','about.edit','duty.index','duty.create','duty.edit']) }}">
+			<li class="nav-item has-treeview {{set_open(['foto.index','video.index','fnban.index','fnpub.index','about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index','post.index','write.create','upload.create','post.edit']) }}">
+				<a href="#" class="nav-link {{set_active(['foto.index','video.index','fnban.index','fnpub.index','about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index','post.index','write.create','upload.create','post.edit']) }}">
 					<i class="nav-icon fas fa-newspaper"></i>
 					<p>
 						Konten
@@ -186,8 +186,8 @@
 							<p>Publikasi</p>
 						</a>
 					</li>
-					<li class="nav-item {{set_open(['about.index','about.create','about.edit','duty.index','duty.create','duty.edit']) }}">
-						<a href="" class="nav-link {{set_active(['about.index','about.create','about.edit','duty.index','duty.create','duty.edit']) }}">
+					<li class="nav-item {{set_open(['about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index']) }}">
+						<a href="" class="nav-link {{set_active(['about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index']) }}">
 							<i class="right fas fa-angle-left"></i>
 							<p>Tentang Kami</p>
 						</a>
@@ -205,7 +205,7 @@
 								</a>
 							</li>
 							<li class="nav-item">
-								<a href="" class="nav-link ">
+								<a href="{{ route('strat.index') }}" class="nav-link {{set_active(['strat.index']) }}">
 									<i class="far fa-circle nav-icon"></i>
 									<p>Transparansi Kerja</p>
 								</a>
@@ -242,25 +242,11 @@
 							<p>Kegiatan</p>
 						</a>
 					</li>
-					<li class="nav-item">
-						<a href="" class="nav-link ">
-							<i class="right fas fa-angle-left"></i>
+					<li class="nav-item {{set_open(['post.index','write.create','upload.create','post.edit']) }}">
+						<a href="{{ route('post.index') }}" class="nav-link {{set_active(['post.index','write.create','upload.create','post.edit']) }}">
+							<i class="right fas fa-angle-right"></i>
 							<p>Artikel</p>
 						</a>
-						<ul class="nav nav-treeview">
-							<li class="nav-item">
-								<a href="" class="nav-link ">
-									<i class="far fa-circle nav-icon"></i>
-									<p>Tulisan</p>
-								</a>
-							</li>
-							<li class="nav-item">
-								<a href="" class="nav-link ">
-									<i class="far fa-circle nav-icon"></i>
-									<p>Upload</p>
-								</a>
-							</li>
-						</ul>
 					</li>
 					<li class="nav-item">
 						<a href="" class="nav-link ">

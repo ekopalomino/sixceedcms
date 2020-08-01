@@ -36,18 +36,18 @@ Kementerian Perdagangan Republik Indonesia | Create Main Duty
 					<div class="row">
             <div class="col-3">
               <label><strong>Kategori</strong></label>
-              {!! Form::select('category', $categories,old('slug'), array('class' => 'form-control')) !!}
+              {!! Form::select('category', $categories,old('category'), array('class' => 'form-control')) !!}
             </div>
           </div>
           <br>
           <div class="row">
             <div class="col-6">
               <label><strong>Posisi</strong></label>
-              {!! Form::text('position', null, array('placeholder' => 'Nama Posisi Bahasa Indonesia','class' => 'form-control')) !!}
+              {!! Form::text('id_position', null, array('placeholder' => 'Nama Posisi Bahasa Indonesia','class' => 'form-control')) !!}
             </div>
             <div class="col-6">
               <label><strong>Position</strong></label>
-              {!! Form::text('position[0]', null, array('placeholder' => 'Nama Posisi Bahasa Inggris','class' => 'form-control')) !!}
+              {!! Form::text('en_position', old('position'), array('placeholder' => 'Nama Posisi Bahasa Inggris','class' => 'form-control')) !!}
             </div>
           </div>
           <br>

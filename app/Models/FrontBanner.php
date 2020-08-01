@@ -14,6 +14,7 @@ class FrontBanner extends Model
         'description',
         'position',
         'link',
+        'site_id',
         'created_by',
         'updated_by',
     ];
@@ -26,5 +27,10 @@ class FrontBanner extends Model
     public function Updater()
     {
         return $this->belongsTo(User::class,'updated_by');
+    }
+
+    public function Sites()
+    {
+        return $this->belongsTo(Site::class,'site_id');
     }
 }

@@ -71,6 +71,7 @@ Kementerian Perdagangan Republik Indonesia | User Database
 											{!! Form::select('site_id', [null=>'Please Select'] + $sites,[], array('class' => 'form-control')) !!}
 										</div>
 									</div>
+									{!! Form::hidden('status_id', 'f13c7f2e-4723-47a7-b75c-fbec0aaca411', array('class' => 'form-control','readonly')) !!}
 								</div>
 				            	<div class="modal-footer ">
 				              		<button type="close" class="btn btn-default" data-dismiss="modal">Close</button>
