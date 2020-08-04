@@ -12,4 +12,9 @@ class AboutUs extends Model implements TranslatableContract
 
     public $translatedAttributes = ['welcome_message'];
     protected $fillable = ['welcome_message','status_id','site_id'];
+
+    public function Sites()
+    {
+        return $this->belongsTo(Site::class,'site_id');
+    }
 }

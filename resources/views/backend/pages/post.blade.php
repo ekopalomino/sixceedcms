@@ -74,8 +74,8 @@ Kementerian Perdagangan Republik Indonesia | Artikel
 									<span class="badge badge-danger">{{ $post->Statuses->status_name }}</span>
 									@endif
 								</td>
-								<td>{{date("d F Y H:i",strtotime($data->created_at)) }}</td>
-								<td>{{date("d F Y H:i",strtotime($data->updated_at)) }}</td>
+								<td>{{date("d F Y H:i",strtotime($post->created_at)) }}</td>
+								<td>{{date("d F Y H:i",strtotime($post->updated_at)) }}</td>
 								<td>
 									<a button id="search" type="submit" class="btn btn-xs btn-info" href="{{ route('post.edit',$post->id) }}">
 										<i class="fa fa-edit"></i>

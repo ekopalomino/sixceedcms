@@ -1,6 +1,6 @@
 @extends('backend.layout.main')
 @section('header.title')
-Kementerian Perdagangan Republik Indonesia | Buat Artikel Tulisan
+Kementerian Perdagangan Republik Indonesia | Buat Artikel Upload
 @endsection
 @section('header.styles')
 <link rel="stylesheet" href="{{ asset('bower_components/admin-lte/plugins/summernote/summernote-bs4.css') }}">
@@ -10,7 +10,7 @@ Kementerian Perdagangan Republik Indonesia | Buat Artikel Tulisan
 	<div class="container-fluid">
       	<div class="row mb-2">
        		<div class="col-sm-6">
-          		<h1>Buat Artikel Tulisan</h1>
+          		<h1>Buat Artikel Upload</h1>
        		</div>
        	</div>
     </div>
@@ -30,7 +30,7 @@ Kementerian Perdagangan Republik Indonesia | Buat Artikel Tulisan
         @endif
 		<div class="col-12">
 			<div class="card card-outline card-danger">
-				{!! Form::open(array('route' => 'post.store','method'=>'POST', 'class' => 'form-horizontal')) !!}
+				{!! Form::open(array('route' => 'post.store','method'=>'POST', 'class' => 'form-horizontal','files'=>'true')) !!}
 				@csrf
 				<div class="card-body">
           <div class="row">
@@ -64,6 +64,10 @@ Kementerian Perdagangan Republik Indonesia | Buat Artikel Tulisan
               <label><strong>Kategori Artikel</strong></label>
               {!! Form::select('category_id', $categories,[], array('class' => 'form-control')) !!}
             </div>
+            <div class="col-6">
+              <label><strong>File Artikel</strong></label>
+              {!! Form::file('file', null, array('placeholder' => 'Image','class' => 'form-control')) !!}
+            </div>
           </div>
           <br>
           <div class="row">
@@ -76,7 +80,7 @@ Kementerian Perdagangan Republik Indonesia | Buat Artikel Tulisan
               {!! Form::text('source', null, array('placeholder' => 'Sumber Berita','class' => 'form-control')) !!}
             </div>
           </div>
-          {!! Form::hidden('type', 'write', array('class' => 'form-control','readonly')) !!}
+          {!! Form::hidden('type', 'upload', array('class' => 'form-control','readonly')) !!}
           <br>
 	        <button type="submit" class="btn btn-sm btn-info">Submit</button>
 	        <a button type="button" class="btn btn-sm btn-danger" href="{{ route('post.index') }}">Cancel</a>

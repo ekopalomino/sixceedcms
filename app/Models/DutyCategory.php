@@ -11,7 +11,7 @@ class DutyCategory extends Model implements TranslatableContract
     use Translatable;
 
     public $translatedAttributes = ['category_name','slug'];
-    protected $fillable = ['category_name','slug','created_by','updated_by'];
+    protected $fillable = ['category_name','slug','created_by','updated_by','site_id'];
     
     
     public function author()
@@ -22,5 +22,10 @@ class DutyCategory extends Model implements TranslatableContract
     public function editor()
     {
         return $this->belongsTo(User::class, 'updated_by');
+    }
+
+    public function Sites()
+    {
+        return $this->belongsTo(Site::class, 'site_id');
     }
 }

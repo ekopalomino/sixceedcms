@@ -19,6 +19,8 @@ class Video extends Model
         'thumbnail',
         'thumbnail_small',
         'player',
+        'created_by',
+        'updated_by'
     ];
 
     public $incrementing = false;

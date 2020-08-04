@@ -41,16 +41,6 @@ Kementerian Perdagangan Republik Indonesia | Banner Depan
 											{!! Form::text('title', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
 										</div>
 									</div>
-									@if($user == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f')
-									<div class="form-group row">
-										<label for="inputEmail" class="col-sm-2 col-form-label">Situs</label>
-										<div class="col-sm-10">
-											{!! Form::select('site_id', [null=>'Please Select'] + $sites,[], array('class' => 'form-control')) !!}
-										</div>
-									</div>
-									@else
-									{!! Form::hidden('site_id', $user, array('class' => 'form-control','readonly')) !!}
-									@endif
 									<div class="form-group row">
 										<label for="inputEmail" class="col-sm-2 col-form-label">Tipe</label>
 										<div class="col-sm-10">
@@ -107,14 +97,15 @@ Kementerian Perdagangan Republik Indonesia | Banner Depan
 						<thead>
 							<tr>
 								<th>No</th>
+								@if(auth()->user()->site_id == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f')
 								<th>Situs</th>
+								@endif
 								<th>Gambar Banner</th>
 								<th>Judul</th>
 								<th>Tipe</th>
 								<th>Urutan</th>
 								<th>Tautan</th>
-								<th>Tgl Input</th>
-								<th>Tgl Ubah</th>
+								<th>Tgl Data</th>
 								<th></th>
 							</tr>
 						</thead>
@@ -122,7 +113,9 @@ Kementerian Perdagangan Republik Indonesia | Banner Depan
 							@foreach($data as $key=>$banner) 
 							<tr>
 								<td>{{ $key+1 }}</td>
+								@if(auth()->user()->site_id == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f')
 								<td>{{ $banner->Sites->site_name }}</td>
+								@endif
 								<td><img src="/public/banner/{{$banner->image}}" width="150" height="150"></td>
 								<td>{{ $banner->title }}</td>
 								<td>
@@ -138,7 +131,6 @@ Kementerian Perdagangan Republik Indonesia | Banner Depan
 								</td>
 								<td>{{ $banner->position }}</td>
 								<td>{{ $banner->link }}</td>
-								<td>{{date("d F Y H:i",strtotime($banner->created_at)) }}</td>
 								<td>{{date("d F Y H:i",strtotime($banner->updated_at)) }}</td>
 								<td>
 									<a class="btn btn-xs btn-info modalLg" href="#" value="{{ action('Backend\ContentManagementController@frontBannerEdit',['id'=>$banner->id]) }}" data-toggle="modal" data-target="#modalLg" title="Ubah Data"><i class="far fa-edit"></i></a>

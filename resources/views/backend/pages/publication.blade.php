@@ -38,13 +38,13 @@ Kementerian Perdagangan Republik Indonesia | Publikasi
 									<div class="form-group row">
 										<label for="inputEmail" class="col-sm-2 col-form-label">Cover</label>
 										<div class="col-sm-10">
-											{!! Form::file('cover', null, array('placeholder' => 'Image','class' => 'form-control')) !!}
+											{!! Form::file('cover', null, array('placeholder' => 'Cover Publikasi','class' => 'form-control')) !!}
 										</div>
 									</div>
 									<div class="form-group row">
 										<label for="inputEmail" class="col-sm-2 col-form-label">Link</label>
 										<div class="col-sm-10">
-											{!! Form::text('link', null, array('placeholder' => 'Link Banner','class' => 'form-control')) !!}
+											{!! Form::text('link', null, array('placeholder' => 'Link Publikasi','class' => 'form-control')) !!}
 										</div>
 									</div>
 								</div>
@@ -73,6 +73,9 @@ Kementerian Perdagangan Republik Indonesia | Publikasi
 						<thead>
 							<tr>
 								<th>No</th>
+								@if(auth()->user()->site_id == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f')
+								<th>Situs</th>
+								@endif
 								<th>Cover</th>
 								<th>Tautan</th>
 								<th>Tgl Input</th>
@@ -84,13 +87,16 @@ Kementerian Perdagangan Republik Indonesia | Publikasi
 							@foreach($data as $key=>$pub) 
 							<tr>
 								<td>{{ $key+1 }}</td>
+								@if(auth()->user()->site_id == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f')
+								<td>{{ $pub->Sites->site_name }}</td>
+								@endif
 								<td><img src="/public/publication/{{$pub->image}}" width="150" height="150"></td>
 								<td>{{ $pub->link }}</td>
 								<td>{{date("d F Y H:i",strtotime($pub->created_at)) }}</td>
 								<td>{{date("d F Y H:i",strtotime($pub->updated_at)) }}</td>
 								<td>
 									<a class="btn btn-xs btn-info modalLg" href="#" value="{{ action('Backend\ContentManagementController@frontPubEdit',['id'=>$pub->id]) }}" data-toggle="modal" data-target="#modalLg" title="Ubah Data"><i class="far fa-edit"></i></a>
-									{!! Form::open(['method' => 'POST','route' => ['fnpub.destroy', $pub->id],'style'=>'display:inline','onsubmit' => 'return ConfirmSuspend()']) !!}
+									{!! Form::open(['method' => 'POST','route' => ['fnpub.destroy', $pub->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
 									{!! Form::button('<i class="fas fa-trash-alt"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger']) !!}
 									{!! Form::close() !!}
 								</td>
@@ -120,9 +126,9 @@ Kementerian Perdagangan Republik Indonesia | Publikasi
   });
 </script>
 <script>
-    function ConfirmSuspend()
+    function ConfirmDelete()
     {
-    var x = confirm("User Suspended?");
+    var x = confirm("Publikasi Akan Dihapus?");
     if (x)
         return true;
     else

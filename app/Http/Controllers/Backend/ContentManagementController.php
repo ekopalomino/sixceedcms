@@ -5,8 +5,6 @@ namespace Sixceed\Http\Controllers\Backend;
 use Illuminate\Http\Request;
 use Sixceed\Http\Controllers\Controller;
 use Alaouy\Youtube\Facades\Youtube;
-use Sixceed\Models\User;
-use Sixceed\Models\Site;
 use Sixceed\Models\Video;
 use Sixceed\Models\Album; 
 use Sixceed\Models\Image;
@@ -26,23 +24,18 @@ class ContentManagementController extends Controller
     public function videoIndex(Request $request)
     {
         if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f') {
-            $data = Video::orderBy('title', 'ASC')->get();
-            $sites = Site::pluck('site_name','id')->toArray();
-            $user = auth()->user()->site_id;
+            $data = Video::orderBy('updated_at','ASC')->get();
         } else {
-            $data = Video::where('site_id',auth()->user()->site_id)->orderBy('title', 'ASC')->get();
-            $sites = Site::pluck('site_name','id')->toArray();
-            $user = auth()->user()->site_id;
+            $data = Video::where('site_id',auth()->user()->site_id)->orderBy('updated_at','ASC')->get();
         }
-    	
-    	return view('backend.pages.videos',compact('data','sites','user'));
+        
+    	return view('backend.pages.videos',compact('data'));
     }
 
     public function videoStore(Request $request)
     {
         $this->validate($request, [
             'video_id' => 'required',
-            'site_id' => 'required',
             'description' => 'required'
         ]);
     	
@@ -52,14 +45,13 @@ class ContentManagementController extends Controller
         
         $input = [
             'video_id' => $data->id,
-            'site_id' => $request->input('site_id'),
+            'site_id' => auth()->user()->site_id,
             'title' => $data->snippet->title,
             'description' => $request->input('description'),
             'thumbnail' => $data->snippet->thumbnails->standard->url,
             'thumbnail_small' => $data->snippet->thumbnails->high->url,
             'player' => $data->player->embedHtml,
-            'created_by' => auth()->user()->id,
-            'updated_by' => auth()->user()->id
+            'created_by' => auth()->user()->id
         ];
 
 
@@ -83,17 +75,14 @@ class ContentManagementController extends Controller
     public function videoEdit($id)
     {
         $data = Video::find($id);
-        $sites = Site::pluck('site_name','id')->toArray();
-        $user = auth()->user()->site_id;
 
-        return view('backend.edit.video',compact('data','sites','user'))->renderSections()['content'];
+        return view('backend.edit.video',compact('data'))->renderSections()['content'];
     }
 
     public function videoUpdate(Request $request, $id)
     {
         $this->validate($request, [
             'video_id' => 'required',
-            'site_id' => 'required',
             'description' => 'required'
         ]);
 
@@ -102,13 +91,11 @@ class ContentManagementController extends Controller
         $data = Youtube::getVideoInfo($video_id);
         $input = [
             'video_id' => $data->id,
-            'site_id' => $request->input('site_id'),
             'title' => $data->snippet->title,
             'description' => $request->input('description'),
             'thumbnail' => $data->snippet->thumbnails->standard->url,
             'thumbnail_small' => $data->snippet->thumbnails->high->url,
             'player' => $data->player->embedHtml,
-            'created_by' => auth()->user()->id,
             'updated_by' => auth()->user()->id
         ];
         
@@ -256,11 +243,13 @@ class ContentManagementController extends Controller
 
     public function frontBannerIndex()
     {
-        $data = FrontBanner::where('site_id',auth()->user()->site_id)->orderBy('updated_at','DESC')->get();
-        $sites = Site::pluck('site_name','id')->toArray();
-        $user = auth()->user()->site_id;
+        if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f') {
+            $data = FrontBanner::orderBy('updated_at','DESC')->get();
+        } else {
+            $data = FrontBanner::where('site_id',auth()->user()->site_id)->orderBy('updated_at','DESC')->get();
+        }
         
-        return view('backend.pages.frontBanner',compact('data','sites','user'));
+        return view('backend.pages.frontBanner',compact('data'));
     }
 
     public function frontBannerStore(Request $request)
@@ -285,7 +274,7 @@ class ContentManagementController extends Controller
 
         $input = [
             'title' => $request->input('title'),
-            'site_id' => $request->input('site_id'),
+            'site_id' => auth()->user()->site_id,
             'type' => $request->input('type'),
             'position' => $request->input('position'),
             'image' => $filename,
@@ -310,10 +299,8 @@ class ContentManagementController extends Controller
     public function frontBannerEdit($id)
     {
         $source = FrontBanner::find($id);
-        $sites = Site::pluck('site_name','id')->toArray();
-        $user = auth()->user()->site_id;
-
-        return view('backend.edit.frontBanner',compact('source','sites','user'))->renderSections()['content'];
+        
+        return view('backend.edit.frontBanner',compact('source'))->renderSections()['content'];
     }
 
     public function frontBannerUpdate(Request $request,$id)
@@ -338,7 +325,6 @@ class ContentManagementController extends Controller
 
             $input = [
             'title' => $request->input('title'),
-            'site_id' => $request->input('site_id'),
             'type' => $request->input('type'),
             'position' => $request->input('position'),
             'image' => $filename,
@@ -350,7 +336,6 @@ class ContentManagementController extends Controller
         } else {
             $input = [
             'title' => $request->input('title'),
-            'site_id' => $request->input('site_id'),
             'type' => $request->input('type'),
             'position' => $request->input('position'),
             'link'  => $request->input('link'),
@@ -389,7 +374,11 @@ class ContentManagementController extends Controller
 
     public function frontPubIndex()
     {
-        $data = Publication::where('site_id',auth()->user()->site_id)->orderBy('updated_at','DESC')->get();
+        if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f') {
+            $data = Publication::orderBy('updated_at','DESC')->get();
+        } else {
+            $data = Publication::where('site_id',auth()->user()->site_id)->orderBy('updated_at','DESC')->get();
+        }
 
         return view('backend.pages.publication',compact('data'));
     }
@@ -411,6 +400,8 @@ class ContentManagementController extends Controller
         $input = [
             'cover_image' => $filename,
             'link' => $request->input('link'),
+            'site_id' => auth()->user()->site_id,
+            'created_by' => auth()->user()->id
         ];
         $storage = PublikasiPerdagangan::create($input);
         $log = 'Publikasi Berhasil Disimpan';
@@ -436,12 +427,7 @@ class ContentManagementController extends Controller
             'link' => 'required',
         ]);
 
-    	$input = [
-            'cover_image' => $request->input('cover'),
-            'link' => $request->input('link')
-        ];
- 
-        if ($request->hasFile('cover')) {
+    	if ($request->hasFile('cover')) {
             $file = $request->file('cover'); 
             $random_name = str_random(8);
             $destinationPath = 'public/publikasi';
@@ -451,11 +437,13 @@ class ContentManagementController extends Controller
 
             $input = [
                 'cover_image' => $filename,
-                'link' => $request->input('link')
+                'link' => $request->input('link'),
+                'updated_by' => auth()->user()->id
             ];
         } else {
             $input = [
-                'link' => $request->input('link')
+                'link' => $request->input('link'),
+                'updated_by' => auth()->user()->id
             ];
         }
 
@@ -769,7 +757,7 @@ class ContentManagementController extends Controller
     {
         $duties = MainDuty::withTranslation()->where('main_duties.id',$id)->first();
         $logs = 'Tugas dan Fungsi berhasil dihapus';
-        $categories->destroy($id);
+        $duties->destroy($id);
         
          \LogActivity::addToLog($logs);
         $notification = array (
@@ -856,12 +844,8 @@ class ContentManagementController extends Controller
 
     public function postIndex()
     {
-        if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f') {
-            $data = Post::withTranslation()->orderBy('id','ASC')->get();
-        } else {
-            $data = Post::withTranslation()->where('site_id',auth()->user()->site_id)->orderBy('id','ASC')->get();
-        }
-
+        $data = Post::withTranslation()->where('site_id',auth()->user()->site_id)->orderBy('id','ASC')->get();  
+        
         return view('backend.pages.post',compact('data'));
     }
 
@@ -959,7 +943,8 @@ class ContentManagementController extends Controller
                 'reporter_id' => $request->input('reporter_id'),
                 'source' => $request->input('source'),
                 'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id
+                'site_id' => auth()->user()->site_id,
+                'status_id' => '3bc97e4a-5e86-4d7c-86d5-7ee450a247ee'
             ];
     
             $posts = Post::create($data);
@@ -973,7 +958,45 @@ class ContentManagementController extends Controller
             return redirect()->route('post.index')->with($notification);
             
         } else {
+            $this->validate($request, [
+                'id_title' => 'required',
+                'en_title' => 'required',
+                'id_content' => 'required',
+                'en_content' => 'required',
+                'file' => 'required|file|mimes:pdf,PDF',
+                'category_id' => 'required',
+                'reporter_id' => 'required'
+            ]);
+    
+            $uploadedFile = $request->file('file');
+            $path = $uploadedFile->store('public/files');
+            $data = [
+                'en' => [
+                    'title' => $request->input('en_title'),
+                    'content' => $request->input('en_content')
+                ],
+                'id' => [
+                    'title' => $request->input('id_title'),
+                    'content' => $request->input('id_content')
+                ],
+                'category_id' => $request->input('category_id'),
+                'reporter_id' => $request->input('reporter_id'),
+                'file' => $path,
+                'created_by' => auth()->user()->id,
+                'type' => $request->input('type'),
+                'site_id' => auth()->user()->site_id,
+                'status_id' => '3bc97e4a-5e86-4d7c-86d5-7ee450a247ee'
+            ];
+    
+            $articleupload = Post::create($data);
+            $log = 'Artikel '.($data->title).' berhasil disimpan';
+             \LogActivity::addToLog($log);
+            $notification = array (
+                'message' => 'Artikel '.($data->title).' berhasil disimpan',
+                'alert-type' => 'success'
+            );
 
+            return redirect()->route('post.index')->with($notification);
         }
         
     }

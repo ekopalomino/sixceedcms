@@ -27,4 +27,14 @@ class Post extends Model implements TranslatableContract
     {
         return $this->belongsTo(Site::class,'site_id');
     }
+
+    public function Categories()
+    {
+        return $this->belongsTo(ArticleCategory::class,'category_id');
+    }
+
+    public function Statuses()
+    {
+        return $this->belongsTo(Status::class,'status_id');
+    }
 }

@@ -36,23 +36,13 @@ Kementerian Perdagangan Republik Indonesia | Berita Video
 									{!! Form::open(array('route' => 'video.store','method'=>'POST', 'class' => 'form-horizontal')) !!}
 									@csrf
 									<div class="form-group row">
-										<label for="inputEmail" class="col-sm-2 col-form-label">ID Video</label>
+										<label for="inputVideo" class="col-sm-2 col-form-label">ID Video</label>
 										<div class="col-sm-10">
 											{!! Form::text('video_id', null, array('placeholder' => 'ID Video','class' => 'form-control')) !!}
 										</div>
 									</div>
-									@if($user == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f')
 									<div class="form-group row">
-										<label for="inputEmail" class="col-sm-2 col-form-label">Situs Penayangan</label>
-										<div class="col-sm-10">
-											{!! Form::select('site_id', [null=>'Please Select'] + $sites,[], array('class' => 'form-control')) !!}
-										</div>
-									</div>
-									@else
-									{!! Form::hidden('site_id', $user, array('class' => 'form-control','readonly')) !!}
-									@endif
-									<div class="form-group row">
-										<label for="inputEmail" class="col-sm-2 col-form-label">Deskripsi Video</label>
+										<label for="inputDescription" class="col-sm-2 col-form-label">Deskripsi Video</label>
 										<div class="col-sm-10">
 											{!! Form::textarea('description', null, array('placeholder' => 'Deskripsi Video','class' => 'form-control')) !!}
 										</div>
@@ -84,7 +74,9 @@ Kementerian Perdagangan Republik Indonesia | Berita Video
 							<tr>
 								<th>No</th>
 								<th>Judul Berita</th>
+								@if(auth()->user()->site_id == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f')
 								<th>Situs</th>
+								@endif
 								<th>Deskripsi</th>
 								<th>Thumbnail</th>
 								<th>Tgl Input</th>
@@ -96,7 +88,9 @@ Kementerian Perdagangan Republik Indonesia | Berita Video
 							<tr>
 								<td>{{ $key+1 }}</td>
 								<td>{{ $video->title }}</td>
+								@if(auth()->user()->site_id == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f')
 								<td>{{ $video->Sites->site_name }}</td>
+								@endif
 								<td>{{ $video->description }}</td>
 								<td><img src="{{ $video->thumbnail_small }}" width="100" height="100" /></td>
             					<td>{{date("d F Y H:i",strtotime($video->created_at)) }}</td>
@@ -134,7 +128,7 @@ Kementerian Perdagangan Republik Indonesia | Berita Video
 <script>
     function ConfirmDelete()
     {
-    var x = confirm("Data Akan Dihapus?");
+    var x = confirm("Video Akan Dihapus?");
     if (x)
         return true;
     else

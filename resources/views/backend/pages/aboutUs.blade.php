@@ -38,6 +38,9 @@ Kementerian Perdagangan Republik Indonesia | Tentang Kami
 						<thead>
 							<tr>
 								<th>No</th>
+								@if(auth()->user()->site_id == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f')
+								<th>Situs</th>
+								@endif
 								<th>Deskripsi</th>
 								<th>Tgl Input</th>
 								<th>Tgl Ubah</th>
@@ -48,6 +51,9 @@ Kementerian Perdagangan Republik Indonesia | Tentang Kami
 							@foreach($about as $key=>$data) 
 							<tr>
 								<td>{{ $key+1 }}</td>
+								@if(auth()->user()->site_id == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f')
+								<td>{{ $data->Sites->site_name }}</td>
+								@endif
 								<td>{{ str_limit(strip_tags($data->welcome_message), 100) }}</td>
 								<td>{{date("d F Y H:i",strtotime($data->created_at)) }}</td>
 								<td>{{date("d F Y H:i",strtotime($data->updated_at)) }}</td>

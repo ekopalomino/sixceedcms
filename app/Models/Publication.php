@@ -24,4 +24,9 @@ class Publication extends Model
     {
         return $this->belongsTo(User::class,'updated_by');
     }
+
+    public function Sites()
+    {
+        return $this->belongsTo(Site::class,'site_id');
+    }
 }

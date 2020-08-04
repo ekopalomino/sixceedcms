@@ -244,7 +244,7 @@ class MasterDataController extends Controller
 
     public function dutyCatIndex()
     {
-        $categories = DutyCategory::withTranslation()->get();
+        $categories = DutyCategory::withTranslation()->where('site_id',auth()->user()->site_id)->get();
         
     	return view('backend.pages.dutyCategory',compact('categories'));
     }
@@ -264,6 +264,7 @@ class MasterDataController extends Controller
     			'category_name' => $request->input('id_category')
     		],
             'created_by' => auth()->user()->id,
+            'site_id' => auth()->user()->site_id
     	];
 
         $categories = DutyCategory::create($data);
