@@ -60,7 +60,13 @@ Kementerian Perdagangan Republik Indonesia | Buat Artikel
 								@if(auth()->user()->site_id == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f')
 								<td>{{ $post->Sites->site_name }}</td>
 								@endif
-								<td>{{ $post->type }}</td>
+								<td>
+									@if(($post->type) == 'write')
+									Artikel Tulisan
+									@else
+									Artikel Unggahan
+									@endif
+								</td>
 								<td>{{ $post->Categories->category_name }}</td>
 								<td>
 									@if(!empty($post->source))
@@ -84,6 +90,16 @@ Kementerian Perdagangan Republik Indonesia | Buat Artikel
 									<a button id="search" type="submit" class="btn btn-xs btn-info" href="{{ route('post.edit',$post->id) }}">
 										<i class="fa fa-edit"></i>
 									</a>
+									@if(($post->status_id) == '3bc97e4a-5e86-4d7c-86d5-7ee450a247ee')
+									{!! Form::open(['method' => 'POST','route' => ['post.publish', $post->id],'style'=>'display:inline','onsubmit' => 'return ConfirmPublish()']) !!}
+									{!! Form::button('<i class="fas fa-check-square"></i>',['type'=>'submit','class' => 'btn btn-xs btn-success']) !!}
+									{!! Form::close() !!}
+									@endif
+									@if(($post->status_id) == '2872ac69-2f76-438b-8b83-31c52787027d')
+									{!! Form::open(['method' => 'POST','route' => ['post.archive', $post->id],'style'=>'display:inline','onsubmit' => 'return ConfirmArchive()']) !!}
+									{!! Form::button('<i class="fas fa-check-square"></i>',['type'=>'submit','class' => 'btn btn-xs btn-success']) !!}
+									{!! Form::close() !!}
+									@endif
 									{!! Form::open(['method' => 'POST','route' => ['post.destroy', $post->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
 									{!! Form::button('<i class="fas fa-trash-alt"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger']) !!}
 									{!! Form::close() !!}
@@ -112,6 +128,26 @@ Kementerian Perdagangan Republik Indonesia | Buat Artikel
       "autoWidth": false,
     });
   });
+</script>
+<script>
+    function ConfirmPublish()
+    {
+    var x = confirm("Artikel Akan DiPublish?");
+    if (x)
+        return true;
+    else
+        return false;
+    }
+</script>
+<script>
+    function ConfirmArchive()
+    {
+    var x = confirm("Artikel Akan Di Arsip?");
+    if (x)
+        return true;
+    else
+        return false;
+    }
 </script>
 <script>
     function ConfirmDelete()

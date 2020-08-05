@@ -253,7 +253,7 @@
 							<li class="nav-item">
 								<a href="{{ route('post.index') }}" class="nav-link {{set_active(['post.index','write.create','upload.create','post.edit']) }}">
 									<i class="far fa-circle nav-icon"></i>
-									<p>Buat Artikel</p>
+									<p>Artikel Baru</p>
 								</a>
 							</li>
 							<li class="nav-item">

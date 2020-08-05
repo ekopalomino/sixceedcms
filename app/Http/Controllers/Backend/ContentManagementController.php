@@ -1013,27 +1013,171 @@ class ContentManagementController extends Controller
 
     public function postEdit($id)
     {
+        $data = Post::withTranslation()->where('posts.id',$id)->first();
+        $categories = ArticleCategory::where('site_id',auth()->user()->site_id)->pluck('category_name','id')->toArray();
+        $reporter = User::where('site_id',auth()->user()->site_id)->pluck('name','id')->toArray();
 
+        return view('backend.edit.post',compact('data','categories','reporter'));
     }
 
     public function postUpdate(Request $request,$id)
     {
+        if($request->input('type') == 'write') {
+            $this->validate($request, [
+                'id_title' => 'required',
+                'en_title' => 'required',
+                'id_content' => 'required',
+                'en_content' => 'required',
+            ]);
+    
+            $idcontent = $request->input('id_content');
+            $encontent = $request->input('en_content');
+    
+            $dom = new\DomDocument();
+            $dom->loadHtml($idcontent, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+            $images = $dom->getElementsByTagName('img');
+            foreach($images as $k => $img){
+                $isi = $img->getAttribute('src');
+                list($type, $data) = explode(';', $isi);
+                list(, $isi) = explode(',', $isi);
+                $isi = base64_decode($isi);
+                $image_name = "/upload" . time().$k.'.png';
+                $path = public_path() . $image_name;
+                file_put_contents($path, $isi);
+                $img->removeAttribute('src');
+                $img->setAttribute('src', $image_name);
+            }
+            $idcontent = $dom->saveHtml();
+    
+            $dom = new\DomDocument();
+            $dom->loadHtml($encontent, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+            $images = $dom->getElementsByTagName('img');
+            foreach($images as $k => $img){
+                $isi = $img->getAttribute('src');
+                list($type, $data) = explode(';', $isi);
+                list(, $isi) = explode(',', $isi);
+                $isi = base64_decode($isi);
+                $image_name = "/upload" . time().$k.'.png';
+                $path = public_path() . $image_name;
+                file_put_contents($path, $isi);
+                $img->removeAttribute('src');
+                $img->setAttribute('src', $image_name);
+            }
+            $encontent = $dom->saveHtml();
+    
+            $data = [
+                'id' => [
+                    'title'     => $request->input('id_title'),
+                    'content' => $idcontent
+                ],
+                'en' => [
+                    'title'     => $request->input('en_title'),
+                    'content' => $encontent
+                ],
+                'type' => $request->input('type'),
+                'category_id' => $request->input('category_id'),
+                'reporter_id' => $request->input('reporter_id'),
+                'source' => $request->input('source'),
+                'updated_by' => auth()->user()->id,
+            ];
+            
+            $changes = Post::withTranslation()->where('posts.id',$id)->first();
+            $changes->update($data);
+            $log = 'Artikel '.($changes->title).' Berhasil diubah';
+            \LogActivity::addToLog($log);
+            $notification = array (
+                'message' => 'Artikel '.($changes->title).' Berhasil diubah',
+                'alert-type' => 'success'
+            );
 
+            return redirect()->route('post.index')->with($notification);
+            
+        } else {
+            $this->validate($request, [
+                'id_title' => 'required',
+                'en_title' => 'required',
+            ]);
+    
+            $uploadedFile = $request->file('file');
+            $path = $uploadedFile->store('public/files');
+            $data = [
+                'en' => [
+                    'title' => $request->input('en_title'),
+                    'content' => $request->input('en_content')
+                ],
+                'id' => [
+                    'title' => $request->input('id_title'),
+                    'content' => $request->input('id_content')
+                ],
+                'category_id' => $request->input('category_id'),
+                'reporter_id' => $request->input('reporter_id'),
+                'file' => $path,
+                'created_by' => auth()->user()->id,
+                'type' => $request->input('type'),
+                'site_id' => auth()->user()->site_id,
+                'status_id' => '3bc97e4a-5e86-4d7c-86d5-7ee450a247ee'
+            ];
+            
+            $changes = Post::withTranslation()->where('posts.id',$id)->first();
+            $changes->update($data);
+            $log = 'Artikel '.($changes->title).' berhasil diubah';
+             \LogActivity::addToLog($log);
+            $notification = array (
+                'message' => 'Artikel '.($changes->title).' berhasil diubah',
+                'alert-type' => 'success'
+            );
+
+            return redirect()->route('post.index')->with($notification);
+        }
     }
 
     public function postPublish(Request $request,$id)
     {
+        $data = Post::withTranslation()->where('posts.id',$id)->first();
+        $data->update([
+            'status_id'=> '2872ac69-2f76-438b-8b83-31c52787027d'
+        ]);
 
+        $log = 'Artikel '.($data->title).' berhasil dipublish';
+        \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Artikel '.($data->title).' berhasil dipublish',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('post.index')->with($notification);
     }
 
     public function postArchive(Request $request,$id)
     {
+        $data = Post::withTranslation()->where('posts.id',$id)->first();
+        $data->update([
+            'status_id'=> '2872ac69-2f76-438b-8b83-31c52787027d'
+        ]);
 
+        $log = 'Artikel '.($data->title).' berhasil dipublish';
+        \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Artikel '.($data->title).' berhasil dipublish',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('post.index')->with($notification);
     }
 
     public function postDestroy($id)
     {
+        $data = Post::withTranslation()->where('posts.id',$id)->first();
+        $log = 'Artikel '.($data->title).' berhasil dihapus';
+        $data->delete();
 
+        \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Artikel '.($data->title).' berhasil dipublish',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('post.index')->with($notification);
     }
 
     public function postSearchForm()

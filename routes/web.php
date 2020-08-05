@@ -121,8 +121,8 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::post('/konten/artikel/store','Backend\ContentManagementController@postStore')->name('post.store');
     Route::get('/konten/artikel/edit/{id}','Backend\ContentManagementController@postEdit')->name('post.edit');
     Route::post('/konten/artikel/update/{id}','Backend\ContentManagementController@postUpdate')->name('post.update');
-    Route::post('/konten/artikel/publish/{id}','Backend\ContentManagementController@postPublish')->name('post.update');
-    Route::post('/konten/artikel/archive/{id}','Backend\ContentManagementController@postArchive')->name('post.update');
+    Route::post('/konten/artikel/publish/{id}','Backend\ContentManagementController@postPublish')->name('post.publish');
+    Route::post('/konten/artikel/archive/{id}','Backend\ContentManagementController@postArchive')->name('post.archive');
     Route::post('/konten/artikel/delete/{id}','Backend\ContentManagementController@postDestroy')->name('post.destroy');
 });
 /*Route::get('/home', 'HomeController@index')->name('home');*/
