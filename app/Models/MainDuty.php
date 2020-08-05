@@ -11,7 +11,7 @@ class MainDuty extends Model implements TranslatableContract
     use Translatable;
 
     public $translatedAttributes = ['slug', 'position','mainduty','function'];
-    protected $fillable = ['slug', 'position','mainduty','function','created_by','updated_by'];
+    protected $fillable = ['slug', 'position','mainduty','function','created_by','updated_by','site_id'];
     
     public function author()
     {
@@ -21,5 +21,10 @@ class MainDuty extends Model implements TranslatableContract
     public function editor()
     {
         return $this->belongsTo(User::class, 'updated_by');
+    }
+
+    public function Sites()
+    {
+        return $this->belongsTo(Site::class, 'site_id');
     }
 }

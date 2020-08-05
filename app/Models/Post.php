@@ -11,7 +11,7 @@ class Post extends Model implements TranslatableContract
     use Translatable;
 
     public $translatedAttributes = ['slug', 'title','content'];
-    protected $fillable = ['slug', 'title','content','site_id','type','category_id','source','file','reporter_id','status_id','created_by','updated_by'];
+    protected $fillable = ['slug', 'title','content','site_id','type','category_id','source','file','reporter_id','status_id','created_by','updated_by','published_at'];
     
     public function author()
     {

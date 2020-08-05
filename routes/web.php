@@ -114,6 +114,8 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
 
 
     Route::get('/konten/artikel','Backend\ContentManagementController@postIndex')->name('post.index');
+    Route::get('/konten/artikel/cari','Backend\ContentManagementController@postSearchForm')->name('postSearch.index');
+    Route::post('/konten/artikel/cari/proses','Backend\ContentManagementController@postQuery')->name('postQuery.index');
     Route::get('/konten/artikel/tulisan/create','Backend\ContentManagementController@postCreate')->name('write.create');
     Route::get('/konten/artikel/upload/create','Backend\ContentManagementController@uploadCreate')->name('upload.create');
     Route::post('/konten/artikel/store','Backend\ContentManagementController@postStore')->name('post.store');

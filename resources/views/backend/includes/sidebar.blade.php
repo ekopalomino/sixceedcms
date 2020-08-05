@@ -145,8 +145,10 @@
 					</li>
 				</ul>
 			</li>
-			<li class="nav-item has-treeview {{set_open(['foto.index','video.index','fnban.index','fnpub.index','about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index','post.index','write.create','upload.create','post.edit']) }}">
-				<a href="#" class="nav-link {{set_active(['foto.index','video.index','fnban.index','fnpub.index','about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index','post.index','write.create','upload.create','post.edit']) }}">
+			<li class="nav-item has-treeview {{set_open(['foto.index','video.index','fnban.index','fnpub.index','about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index','post.index','write.create','upload.create','post.edit',
+				'postSearch.index','postQuery.index']) }}">
+				<a href="#" class="nav-link {{set_active(['foto.index','video.index','fnban.index','fnpub.index','about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index','post.index','write.create','upload.create','post.edit',
+					'postSearch.index','postQuery.index']) }}">
 					<i class="nav-icon fas fa-newspaper"></i>
 					<p>
 						Konten
@@ -177,7 +179,7 @@
 					<li class="nav-item {{set_open('fnban.index') }}">
 						<a href="{{ route('fnban.index') }}" class="nav-link {{set_active('fnban.index') }}">
 							<i class="right fas fa-angle-right"></i>
-							<p>Banner Depan</p>
+							<p>Banner</p>
 						</a>
 					</li>
 					<li class="nav-item {{set_open('fnpub.index') }}">
@@ -189,31 +191,19 @@
 					<li class="nav-item {{set_open(['about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index']) }}">
 						<a href="" class="nav-link {{set_active(['about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index']) }}">
 							<i class="right fas fa-angle-left"></i>
-							<p>Tentang Kami</p>
+							<p>Konten Khusus</p>
 						</a>
 						<ul class="nav nav-treeview">
 							<li class="nav-item">
 								<a href="{{ route('about.index') }}" class="nav-link {{set_active(['about.index','about.create','about.edit']) }}">
 									<i class="far fa-circle nav-icon"></i>
-									<p>Pesan</p>
+									<p>Tentang Kami</p>
 								</a>
 							</li>
 							<li class="nav-item">
 								<a href="{{ route('duty.index') }}" class="nav-link {{set_active(['duty.index','duty.create','duty.edit']) }}">
 									<i class="far fa-circle nav-icon"></i>
 									<p>Tugas & Fungsi</p>
-								</a>
-							</li>
-							<li class="nav-item">
-								<a href="{{ route('strat.index') }}" class="nav-link {{set_active(['strat.index']) }}">
-									<i class="far fa-circle nav-icon"></i>
-									<p>Transparansi Kerja</p>
-								</a>
-							</li>
-							<li class="nav-item">
-								<a href="" class="nav-link ">
-									<i class="far fa-circle nav-icon"></i>
-									<p>Laporan Tahunan</p>
 								</a>
 							</li>
 							<li class="nav-item">
@@ -226,6 +216,18 @@
 								<a href="" class="nav-link ">
 									<i class="far fa-circle nav-icon"></i>
 									<p>Struktur Organisasi</p>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a href="" class="nav-link ">
+									<i class="far fa-circle nav-icon"></i>
+									<p>FTA/PTA/CEPA</p>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a href="" class="nav-link ">
+									<i class="far fa-circle nav-icon"></i>
+									<p>Daftar Penyelidikan</p>
 								</a>
 							</li>
 						</ul>
@@ -242,11 +244,25 @@
 							<p>Kegiatan</p>
 						</a>
 					</li>
-					<li class="nav-item {{set_open(['post.index','write.create','upload.create','post.edit']) }}">
-						<a href="{{ route('post.index') }}" class="nav-link {{set_active(['post.index','write.create','upload.create','post.edit']) }}">
-							<i class="right fas fa-angle-right"></i>
+					<li class="nav-item {{set_open(['post.index','write.create','upload.create','post.edit','postSearch.index','postQuery.index']) }}">
+						<a href="" class="nav-link {{set_active(['post.index','write.create','upload.create','post.edit','postSearch.index','postQuery.index']) }}">
+							<i class="right fas fa-angle-left"></i>
 							<p>Artikel</p>
 						</a>
+						<ul class="nav nav-treeview">
+							<li class="nav-item">
+								<a href="{{ route('post.index') }}" class="nav-link {{set_active(['post.index','write.create','upload.create','post.edit']) }}">
+									<i class="far fa-circle nav-icon"></i>
+									<p>Buat Artikel</p>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a href="{{ route('postSearch.index') }}" class="nav-link {{set_active(['postSearch.index','postQuery.index']) }}">
+									<i class="far fa-circle nav-icon"></i>
+									<p>Cari Artikel</p>
+								</a>
+							</li>
+						</ul>
 					</li>
 					<li class="nav-item">
 						<a href="" class="nav-link ">

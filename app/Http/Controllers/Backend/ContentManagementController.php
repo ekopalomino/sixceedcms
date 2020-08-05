@@ -5,6 +5,7 @@ namespace Sixceed\Http\Controllers\Backend;
 use Illuminate\Http\Request;
 use Sixceed\Http\Controllers\Controller;
 use Alaouy\Youtube\Facades\Youtube;
+use Sixceed\Models\User;
 use Sixceed\Models\Video;
 use Sixceed\Models\Album; 
 use Sixceed\Models\Image;
@@ -14,10 +15,10 @@ use Sixceed\Models\AboutUs;
 use Sixceed\Models\AboutUsTranslation;
 use Sixceed\Models\DutyCategoryTranslation;
 use Sixceed\Models\MainDuty;
-use Sixceed\Models\StrategicPlanning;
 use Sixceed\Models\Post;
 use Sixceed\Models\ArticleCategory;
 use File;
+use Carbon\Carbon;
 
 class ContentManagementController extends Controller
 {
@@ -470,14 +471,18 @@ class ContentManagementController extends Controller
             'alert-type' => 'success'
         );
         $images = File::delete(public_path('public/publikasi/' . $file));
-        FrontBanner::find($id)->delete();
+        Publication::find($id)->delete();
         
-        return redirect()->route('fnban.index')->with($notification);
+        return redirect()->route('fnpub.index')->with($notification);
     }
 
     public function aboutIndex()
     {
-        $about = AboutUs::withTranslation()->where('site_id',auth()->user()->site_id)->where('status_id','3bc97e4a-5e86-4d7c-86d5-7ee450a247ee')->get();
+        if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f') {
+            $about = AboutUs::withTranslation()->get();
+        } else {
+            $about = AboutUs::withTranslation()->where('site_id',auth()->user()->site_id)->get();
+        }
         
     	return view('backend.pages.aboutUs',compact('about'));
     }
@@ -653,8 +658,12 @@ class ContentManagementController extends Controller
 
     public function dutyIndex()
     {
-        $duties = MainDuty::withTranslation()->get();
-
+        if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f') {
+            $duties = MainDuty::withTranslation()->get();
+        } else {
+            $duties = MainDuty::withTranslation()->where('site_id',auth()->user()->site_id)->get();
+        }
+        
         return view('backend.pages.mainDuty',compact('duties'));
     }
 
@@ -726,7 +735,8 @@ class ContentManagementController extends Controller
     			'mainduty' => $request->input('en_duties'),
     			'function' => $en_function
     		],
-            'created_by' => auth()->user()->id
+            'created_by' => auth()->user()->id,
+            'site_id' => auth()->user()->site_id
     	];
 
         $mainduties = Mainduty::create($data);
@@ -750,7 +760,78 @@ class ContentManagementController extends Controller
 
     public function dutyUpdate(Request $request,$id)
     {
+        $request->validate([
+    		'category' => 'required',
+    		'id_position' => 'required',
+    		'en_position' => 'required',
+    		'id_duties' => 'required',
+    		'en_duties' => 'required',
+    		'id_function' => 'required',
+    		'en_function' => 'required'
+    	]);
+    	
+        $idfnc = $request->input('id_function');
+        $enfnc = $request->input('en_function');
 
+        $dom = new\DomDocument();
+        $dom->loadHtml($idfnc, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $images = $dom->getElementsByTagName('img');
+        foreach($images as $k => $img){
+            $isi = $img->getAttribute('src');
+            list($type, $data) = explode(';', $isi);
+            list(, $isi) = explode(',', $isi);
+            $isi = base64_decode($isi);
+            $image_name = "/public/mainduties" . time().$k.'.png';
+            $path = public_path() . $image_name;
+            file_put_contents($path, $isi);
+            $img->removeAttribute('src');
+            $img->setAttribute('src', $image_name);
+        }
+        $id_function = $dom->saveHtml();
+
+        $dom = new\DomDocument();
+        $dom->loadHtml($enfnc, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $images = $dom->getElementsByTagName('img');
+        foreach($images as $k => $img){
+            $isi = $img->getAttribute('src');
+            list($type, $data) = explode(';', $isi);
+            list(, $isi) = explode(',', $isi);
+            $isi = base64_decode($isi);
+            $image_name = "/public/mainduties" . time().$k.'.png';
+            $path = public_path() . $image_name;
+            file_put_contents($path, $isi);
+            $img->removeAttribute('src');
+            $img->setAttribute('src', $image_name);
+        }
+        $en_function = $dom->saveHtml();
+        $id_slug = DutyCategoryTranslation::where('duty_category_id',$request->input('category'))->where('locale','id')->first();
+        $en_slug = DutyCategoryTranslation::where('duty_category_id',$request->input('category'))->where('locale','en')->first();
+    	$data = [
+    		'id' => [
+                'slug'     => $request->input('id_slug'),
+    			'position' => $request->input('id_position'),
+    			'mainduty' => $request->input('id_duties'),
+    			'function' => $id_function
+    		],
+    		'en' => [
+                'slug'     => $request->input('en_slug'),
+    			'position' => $request->input('en_position'),
+    			'mainduty' => $request->input('en_duties'),
+    			'function' => $en_function
+    		],
+            'updated_by' => auth()->user()->id
+    	];
+
+        $mainduties = Mainduty::withTranslation()->where('main_duties.id',$id)->first();
+        $mainduties->update($data);
+        $log = 'Tugas dan Fungsi Berhasil Diubah';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Tugas dan Fungsi Berhasil Diubah',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('duty.index')->with($notification);
     }
 
     public function dutyDestroy($id)
@@ -768,65 +849,9 @@ class ContentManagementController extends Controller
         return redirect()->route('duty.index')->with($notification);
     }
 
-    public function stratIndex()
-    {
-        $data = StrategicPlanning::withTranslation()->get();
 
-        return view('backend.pages.transparansiKerja',compact('data'));
-    }
 
-    public function stratStore(Request $request)
-    {
-        $request->validate([
-    		'en_title' => 'required',
-    		'id_title' => 'required',
-    		'file' => 'required|file'
-    	]);
-    	$uploadedFile = $request->file('file');
-        $size = $uploadedFile->getSize();
-        $ext = $uploadedFile->getClientOriginalExtension();
-        $name = $uploadedFile->getClientOriginalName();
-        $path = $uploadedFile->storeAs('public/files/transparansikerja',$name);
-        
-    	$data = [
-    		'en' => [
-    			'title' => $request->input('en_title')
-    		],
-    		'id' => [
-    			'title' => $request->input('id_title')
-    		],
-    		'file' => $path,
-            'created_by' => auth()->user()->id,
-    	];
-
-        $saves = StrategicPlanning::create($data);
-
-        $log = 'File Transparansi Kerja '.($saves['id']['title']).' dengan translasi '.($saves['en']['title']).' berhasil disimpan';
-         \LogActivity::addToLog($log);
-        $notification = array (
-            'message' => 'File Transparansi Kerja '.($saves['id']['title']).' dengan translasi '.($saves['en']['title']).' berhasil disimpan',
-            'alert-type' => 'success'
-        );
-
-        return redirect()->route('strat.index')->with($notification);
-    }
-
-    public function stratEdit($id)
-    {
-        $source = StrategicPlanning::withTranslation()->where('strategic_plannings.id',$id)->first();
-
-        return view('backend.edit.transparansiKerja',compact('source'))->renderSections()['content'];
-    }
-
-    public function stratUpdate(Request $request,$id)
-    {
-
-    }
-
-    public function stratDestroy($id)
-    {
-
-    }
+    
 
 
 
@@ -844,43 +869,28 @@ class ContentManagementController extends Controller
 
     public function postIndex()
     {
-        $data = Post::withTranslation()->where('site_id',auth()->user()->site_id)->orderBy('id','ASC')->get();  
-        
+        if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f') {
+            $data = Post::withTranslation()->orderBy('updated_at','DESC')->get();  
+        } else {
+            $data = Post::withTranslation()->where('site_id',auth()->user()->site_id)->orderBy('updated_at','DESC')->get();
+        }
         return view('backend.pages.post',compact('data'));
     }
 
     public function postCreate()
     {
-        if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f') {
-            $sites = Site::pluck('site_name','id')->toArray();
-            $categories = ArticleCategory::pluck('category_name','id')->toArray();
-            $user = auth()->user()->site_id;
-            $reporter = User::where('site_id',auth()->user()->site_id)->pluck('name','id')->toArray();
-        } else {
-            $sites = Site::pluck('site_name','id')->toArray();
-            $categories = ArticleCategory::where('site_id',auth()->user()->site_id)->pluck('category_name','id')->toArray();
-            $user = auth()->user()->site_id;
-            $reporter = User::where('site_id',auth()->user()->site_id)->pluck('name','id')->toArray();
-        }
+        $categories = ArticleCategory::where('site_id',auth()->user()->site_id)->pluck('category_name','id')->toArray();
+        $reporter = User::where('site_id',auth()->user()->site_id)->pluck('name','id')->toArray();
         
-        return view('backend.input.write',compact('sites','categories','user','reporter'));
+        return view('backend.input.write',compact('categories','reporter'));
     }
 
     public function uploadCreate()
     {
-        if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f') {
-            $sites = Site::pluck('site_name','id')->toArray();
-            $categories = ArticleCategory::pluck('category_name','id')->toArray();
-            $user = auth()->user()->site_id;
-            $reporter = User::where('site_id',auth()->user()->site_id)->pluck('name','id')->toArray();
-        } else {
-            $sites = Site::pluck('site_name','id')->toArray();
-            $categories = ArticleCategory::where('site_id',auth()->user()->site_id)->pluck('category_name','id')->toArray();
-            $user = auth()->user()->site_id;
-            $reporter = User::where('site_id',auth()->user()->site_id)->pluck('name','id')->toArray();
-        }
+        $categories = ArticleCategory::where('site_id',auth()->user()->site_id)->pluck('category_name','id')->toArray();
+        $reporter = User::where('site_id',auth()->user()->site_id)->pluck('name','id')->toArray();
         
-        return view('backend.input.upload',compact('sites','categories','user','reporter'));
+        return view('backend.input.upload',compact('categories','reporter'));
     }
 
     public function postStore(Request $request)
@@ -1024,5 +1034,31 @@ class ContentManagementController extends Controller
     public function postDestroy($id)
     {
 
+    }
+
+    public function postSearchForm()
+    {
+        $categories = ArticleCategory::where('site_id',auth()->user()->site_id)->pluck('category_name','id')->toArray();
+        $user = User::where('site_id',auth()->user()->site_id)->pluck('name','id')->toArray();
+
+        return view('backend.input.postSearch',compact('categories','user'));
+    }
+
+    public function postQuery(Request $request)
+    {
+        $dates = $request->input('date_range');
+        $dateRange = explode('-',$dates);
+        $startDate = Carbon::parse($dateRange[0]);
+        $endDate = Carbon::parse($dateRange[1]);
+        $difference = $endDate->diff($startDate);
+        $date_diff = $difference->format('%a');
+
+        $data = Post::withTranslation()->where('category_id',$request->input('category_id'))
+                                        ->orWhere('published_at','>=',$startDate)
+                                        ->orWhere('published_at','<=',$endDate)
+                                        ->orWhere('reporter_id',$request->input('reporter_id'))
+                                        ->get();
+        
+        return view('backend.pages.postResult',compact('data'));
     }
 }

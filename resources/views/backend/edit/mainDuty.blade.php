@@ -1,6 +1,6 @@
 @extends('backend.layout.main')
 @section('header.title')
-Kementerian Perdagangan Republik Indonesia | Create Main Duty
+Kementerian Perdagangan Republik Indonesia | Edit Main Duty
 @endsection
 @section('header.styles')
 <link rel="stylesheet" href="{{ asset('bower_components/admin-lte/plugins/summernote/summernote-bs4.css') }}">
@@ -10,7 +10,7 @@ Kementerian Perdagangan Republik Indonesia | Create Main Duty
 	<div class="container-fluid">
       	<div class="row mb-2">
        		<div class="col-sm-6">
-          		<h1>Buat Tugas dan Fungsi</h1>
+          		<h1>Ubah Tugas dan Fungsi</h1>
        		</div>
        	</div>
     </div>
@@ -43,11 +43,11 @@ Kementerian Perdagangan Republik Indonesia | Create Main Duty
           <div class="row">
             <div class="col-6">
               <label><strong>Posisi</strong></label>
-              {!! Form::text('id_position', null, array('placeholder' => 'Nama Posisi Bahasa Indonesia','class' => 'form-control')) !!}
+              {!! Form::text('id_position', old('position',$duties->position), array('placeholder' => 'Nama Posisi Bahasa Indonesia','class' => 'form-control')) !!}
             </div>
             <div class="col-6">
               <label><strong>Position</strong></label>
-              {!! Form::text('en_position', old('position'), array('placeholder' => 'Nama Posisi Bahasa Inggris','class' => 'form-control')) !!}
+              {!! Form::text('en_position', old('position',$duties->translations[0]->position), array('placeholder' => 'Nama Posisi Bahasa Inggris','class' => 'form-control')) !!}
             </div>
           </div>
           <br>
@@ -58,7 +58,7 @@ Kementerian Perdagangan Republik Indonesia | Create Main Duty
             </div>
             <div class="col-6">
               <label><strong>Main Duties</strong></label>
-              {!! Form::textarea('id_duties', old('mainduty', $duties->translations[0]->mainduty), array('placeholder' => 'Konten','class' => 'form-control textarea summernote')) !!}
+              {!! Form::textarea('en_duties', old('mainduty', $duties->translations[0]->mainduty), array('placeholder' => 'Konten','class' => 'form-control textarea summernote')) !!}
             </div>
           </div>
           <br>

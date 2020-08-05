@@ -1,6 +1,6 @@
 @extends('backend.layout.main')
 @section('header.title')
-Kementerian Perdagangan Republik Indonesia | Artikel
+Kementerian Perdagangan Republik Indonesia | Buat Artikel
 @endsection
 @section('header.plugins')
 <link rel="stylesheet" href="{{ asset('bower_components/admin-lte/plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
@@ -10,7 +10,7 @@ Kementerian Perdagangan Republik Indonesia | Artikel
 	<div class="container-fluid">
       	<div class="row mb-2">
        		<div class="col-sm-6">
-          		<h1>Data Artikel</h1>
+          		<h1>Data Artikel Terbaru</h1>
        		</div>
        	</div>
     </div>
@@ -40,7 +40,9 @@ Kementerian Perdagangan Republik Indonesia | Artikel
 							<tr>
 								<th>No</th>
 								<th>Judul</th>
+								@if(auth()->user()->site_id == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f')
 								<th>Situs</th>
+								@endif
 								<th>Tipe</th>
 								<th>Kategori</th>
 								<th>Sumber</th>
@@ -55,7 +57,9 @@ Kementerian Perdagangan Republik Indonesia | Artikel
 							<tr>
 								<td>{{ $key+1 }}</td>
 								<td>{{ $post->title }}</td>
+								@if(auth()->user()->site_id == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f')
 								<td>{{ $post->Sites->site_name }}</td>
+								@endif
 								<td>{{ $post->type }}</td>
 								<td>{{ $post->Categories->category_name }}</td>
 								<td>
