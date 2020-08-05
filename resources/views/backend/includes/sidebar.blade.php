@@ -146,9 +146,9 @@
 				</ul>
 			</li>
 			<li class="nav-item has-treeview {{set_open(['foto.index','video.index','fnban.index','fnpub.index','about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index','post.index','write.create','upload.create','post.edit',
-				'postSearch.index','postQuery.index']) }}">
+				'postSearch.index','postQuery.index','faq.index','faq.create','faq.edit']) }}">
 				<a href="#" class="nav-link {{set_active(['foto.index','video.index','fnban.index','fnpub.index','about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index','post.index','write.create','upload.create','post.edit',
-					'postSearch.index','postQuery.index']) }}">
+					'postSearch.index','postQuery.index','faq.index','faq.create','faq.edit']) }}">
 					<i class="nav-icon fas fa-newspaper"></i>
 					<p>
 						Konten
@@ -232,8 +232,8 @@
 							</li>
 						</ul>
 					</li>
-					<li class="nav-item">
-						<a href="" class="nav-link ">
+					<li class="nav-item {{set_open(['faq.index','faq.create','faq.edit']) }}">
+						<a href="{{ route('faq.index') }}" class="nav-link {{set_active(['faq.index','faq.create','faq.edit']) }}">
 							<i class="right fas fa-angle-right"></i>
 							<p>FAQ</p>
 						</a>

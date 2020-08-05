@@ -67,6 +67,9 @@ Kementerian Perdagangan Republik Indonesia | Kategori FAQ
 						<thead>
 							<tr>
 								<th>No</th>
+								@if(auth()->user()->site_id == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f')
+								<th>Situs</th>
+								@endif
 								<th>Nama Kategori</th>
 								<th>Dibuat</th>
 								<th>Diubah</th>
@@ -79,6 +82,9 @@ Kementerian Perdagangan Republik Indonesia | Kategori FAQ
 							@foreach($source as $key=>$data) 
 							<tr>
 								<td>{{ $key+1 }}</td>
+								@if(auth()->user()->site_id == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f')
+								<td>{{ $data->Sites->site_name }}</td>
+								@endif
 								<td>{{ $data->category_name }}</td>
 								<td>{{ $data->Creator->name }}</td>
 								<td>

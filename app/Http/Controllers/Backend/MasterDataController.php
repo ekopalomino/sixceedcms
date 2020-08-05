@@ -405,7 +405,8 @@ class MasterDataController extends Controller
 
     public function faqCategoryIndex()
     {
-        $source = FaqCategory::orderBy('id','ASC')->get();
+        $source = FaqCategory::where('site_id',auth()->user()->site_id)->orderBy('id','ASC')->get();
+
         return view('backend.pages.faqCategory',compact('source'));
     }
 
@@ -417,6 +418,7 @@ class MasterDataController extends Controller
         
         $input = [
             'category_name' => $request->input('category_name'),
+            'site_id' => auth()->user()->site_id,
             'created_by' => auth()->user()->id,
         ];
 

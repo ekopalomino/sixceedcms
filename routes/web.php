@@ -104,11 +104,12 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::post('/konten/tentang-kami/tugas-dan-fungsi/update/{id}','Backend\ContentManagementController@dutyUpdate')->name('duty.update');
     Route::post('/konten/tentang-kami/tugas-dan-fungsi/delete/{id}','Backend\ContentManagementController@dutyDestroy')->name('duty.destroy');
 
-    Route::get('/konten/tentang-kami/transparansi-kerja','Backend\ContentManagementController@stratIndex')->name('strat.index');
-    Route::post('/konten/tentang-kami/transparansi-kerja/store','Backend\ContentManagementController@stratStore')->name('strat.store');
-    Route::get('/konten/tentang-kami/transparansi-kerja/edit/{id}','Backend\ContentManagementController@stratEdit')->name('strat.edit');
-    Route::post('/konten/tentang-kami/transparansi-kerja/update/{id}','Backend\ContentManagementController@stratUpdate')->name('strat.update');
-    Route::post('/konten/tentang-kami/transparansi-kerja/delete/{id}','Backend\ContentManagementController@stratDestroy')->name('strat.destroy');
+    Route::get('/konten/faq','Backend\ContentManagementController@faqIndex')->name('faq.index');
+    Route::get('/konten/faq/create','Backend\ContentManagementController@faqCreate')->name('faq.create');
+    Route::post('/konten/faq/store','Backend\ContentManagementController@faqStore')->name('faq.store');
+    Route::get('/konten/faq/edit/{id}','Backend\ContentManagementController@faqEdit')->name('faq.edit');
+    Route::post('/konten/faq/update/{id}','Backend\ContentManagementController@faqUpdate')->name('faq.update');
+    Route::post('/konten/faq/delete/{id}','Backend\ContentManagementController@faqDestroy')->name('faq.destroy');
 
 
 

@@ -17,6 +17,8 @@ use Sixceed\Models\DutyCategoryTranslation;
 use Sixceed\Models\MainDuty;
 use Sixceed\Models\Post;
 use Sixceed\Models\ArticleCategory;
+use Sixceed\Models\Faq;
+use Sixceed\Models\FaqCategory;
 use File;
 use Carbon\Carbon;
 
@@ -847,6 +849,173 @@ class ContentManagementController extends Controller
         );
 
         return redirect()->route('duty.index')->with($notification);
+    }
+
+    public function faqIndex()
+    {
+        if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f') {
+            $data = Faq::orderBy('id','ASC')->get();
+        } else {
+            $data = Faq::where('site_id',auth()->user()->site_id)->orderBy('id','ASC')->get();
+        }
+        
+        return view('backend.pages.faq',compact('data'));
+    }
+
+    public function faqCreate()
+    {
+        $categories = FaqCategory::where('site_id',auth()->user()->site_id)->pluck('category_name','id')->toArray();
+
+        return view('backend.input.faq',compact('categories'));
+    }
+
+    public function faqStore(Request $request)
+    {
+        $request->validate([
+    		'faq_category_id' => 'required',
+    		'pertanyaan' => 'required',
+    		'jawaban' => 'required',
+    	]);
+    	
+        $pertanyaan = $request->input('pertanyaan');
+        $jawaban = $request->input('jawaban');
+
+        $dom = new\DomDocument();
+        $dom->loadHtml($idfnc, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $images = $dom->getElementsByTagName('img');
+        foreach($images as $k => $img){
+            $isi = $img->getAttribute('src');
+            list($type, $data) = explode(';', $isi);
+            list(, $isi) = explode(',', $isi);
+            $isi = base64_decode($isi);
+            $image_name = "/public/faq" . time().$k.'.png';
+            $path = public_path() . $image_name;
+            file_put_contents($path, $isi);
+            $img->removeAttribute('src');
+            $img->setAttribute('src', $image_name);
+        }
+        $question = $dom->saveHtml();
+
+        $dom = new\DomDocument();
+        $dom->loadHtml($enfnc, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $images = $dom->getElementsByTagName('img');
+        foreach($images as $k => $img){
+            $isi = $img->getAttribute('src');
+            list($type, $data) = explode(';', $isi);
+            list(, $isi) = explode(',', $isi);
+            $isi = base64_decode($isi);
+            $image_name = "/public/faq" . time().$k.'.png';
+            $path = public_path() . $image_name;
+            file_put_contents($path, $isi);
+            $img->removeAttribute('src');
+            $img->setAttribute('src', $image_name);
+        }
+        $answer = $dom->saveHtml();
+        
+        $data = [
+            'faq_category_id' => $request->input('faq_category_id'),
+            'pertanyaan' => $question,
+            'jawaban' => $answer,
+            'site_id' => auth()->user()->site_id,
+            'created_by' => auth()->user()->id
+    	];
+
+        $faqs = Faq::create($data);
+        
+        $log = 'FAQ '.($faqs->pertanyaan).' Berhasil DIsimpan';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'FAQ '.($faqs->pertanyaan).' Berhasil DIsimpan',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('faq.index')->with($notification);
+    }
+
+    public function faqEdit($id)
+    {
+        $data = Faq::find($id);
+
+        return view('backend.edit.faq',compact('data'));
+    }
+
+    public function faqUpdate(Request $request,$id)
+    {
+        $request->validate([
+    		'pertanyaan' => 'required',
+    		'jawaban' => 'required',
+    	]);
+    	
+        $pertanyaan = $request->input('pertanyaan');
+        $jawaban = $request->input('jawaban');
+
+        $dom = new\DomDocument();
+        $dom->loadHtml($idfnc, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $images = $dom->getElementsByTagName('img');
+        foreach($images as $k => $img){
+            $isi = $img->getAttribute('src');
+            list($type, $data) = explode(';', $isi);
+            list(, $isi) = explode(',', $isi);
+            $isi = base64_decode($isi);
+            $image_name = "/public/faq" . time().$k.'.png';
+            $path = public_path() . $image_name;
+            file_put_contents($path, $isi);
+            $img->removeAttribute('src');
+            $img->setAttribute('src', $image_name);
+        }
+        $question = $dom->saveHtml();
+
+        $dom = new\DomDocument();
+        $dom->loadHtml($enfnc, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $images = $dom->getElementsByTagName('img');
+        foreach($images as $k => $img){
+            $isi = $img->getAttribute('src');
+            list($type, $data) = explode(';', $isi);
+            list(, $isi) = explode(',', $isi);
+            $isi = base64_decode($isi);
+            $image_name = "/public/faq" . time().$k.'.png';
+            $path = public_path() . $image_name;
+            file_put_contents($path, $isi);
+            $img->removeAttribute('src');
+            $img->setAttribute('src', $image_name);
+        }
+        $answer = $dom->saveHtml();
+        
+        $data = [
+            'faq_category_id' => $request->input('faq_category_id'),
+            'pertanyaan' => $question,
+            'jawaban' => $answer,
+            'updated_by' => auth()->user()->id
+    	];
+
+        $faqs = Faq::find($id);
+        $faqs->update($data);
+        
+        $log = 'FAQ '.($faqs->pertanyaan).' Berhasil Diubah';
+        \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'FAQ '.($faqs->pertanyaan).' Berhasil Diubah',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('faq.index')->with($notification);
+    }
+
+    public function faqDestroy($id)
+    {
+        $data = Faq::dinf($id);
+        $log = 'FAQ '.($data->pertanyaan).' Berhasil Dihapus';
+        $data->delete();
+
+        \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'FAQ '.($faqs->pertanyaan).' Berhasil Dihapus',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('faq.index')->with($notification);
+
+
     }
 
 
