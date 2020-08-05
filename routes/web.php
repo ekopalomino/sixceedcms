@@ -111,7 +111,12 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::post('/konten/faq/update/{id}','Backend\ContentManagementController@faqUpdate')->name('faq.update');
     Route::post('/konten/faq/delete/{id}','Backend\ContentManagementController@faqDestroy')->name('faq.destroy');
 
-
+    Route::get('/konten/kegiatan','Backend\ContentManagementController@eventIndex')->name('event.index');
+    Route::get('/konten/kegiatan/create','Backend\ContentManagementController@eventCreate')->name('event.create');
+    Route::post('/konten/kegiatan/store','Backend\ContentManagementController@eventStore')->name('event.store');
+    Route::get('/konten/kegiatan/edit/{id}','Backend\ContentManagementController@eventEdit')->name('event.edit');
+    Route::post('/konten/kegiatan/update/{id}','Backend\ContentManagementController@eventUpdate')->name('event.update');
+    Route::post('/konten/kegiatan/delete/{id}','Backend\ContentManagementController@eventDestroy')->name('event.destroy');
 
 
     Route::get('/konten/artikel','Backend\ContentManagementController@postIndex')->name('post.index');

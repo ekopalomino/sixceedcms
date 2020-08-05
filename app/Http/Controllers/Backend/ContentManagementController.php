@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Sixceed\Http\Controllers\Controller;
 use Alaouy\Youtube\Facades\Youtube;
 use Sixceed\Models\User;
+use Sixceed\Models\Country;
+use Sixceed\Models\Status;
 use Sixceed\Models\Video;
 use Sixceed\Models\Album; 
 use Sixceed\Models\Image;
@@ -19,6 +21,7 @@ use Sixceed\Models\Post;
 use Sixceed\Models\ArticleCategory;
 use Sixceed\Models\Faq;
 use Sixceed\Models\FaqCategory;
+use Sixceed\Models\Event;
 use File;
 use Carbon\Carbon;
 
@@ -1003,7 +1006,7 @@ class ContentManagementController extends Controller
 
     public function faqDestroy($id)
     {
-        $data = Faq::dinf($id);
+        $data = Faq::find($id);
         $log = 'FAQ '.($data->pertanyaan).' Berhasil Dihapus';
         $data->delete();
 
@@ -1014,8 +1017,379 @@ class ContentManagementController extends Controller
         );
 
         return redirect()->route('faq.index')->with($notification);
+    }
 
+    public function eventIndex()
+    {
+        if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f') {
+            $data = Event::withTranslation()->orderBy('date_from','ASC')->get();
+        } else {
+            $data = Event::withTranslation()->where('site_id',auth()->user()->site_id)->orderBy('date_from','ASC')->get();
+        }
+        
+        return view('backend.pages.event',compact('data'));
+    }
 
+    public function eventCreate()
+    {
+        $countries = Country::pluck('country_name','id')->toArray();
+
+        return view('backend.input.event',compact('countries'));
+    }
+
+    public function eventStore(Request $request)
+    {
+        $request->validate([
+    		'id_title' => 'required',
+            'en_title' => 'required',
+            'id_content' => 'required',
+            'en_content' => 'required',
+            'event_type' => 'required',
+            'country_id' => 'required',
+            'location' => 'required',
+            'event_date' => 'required'
+        ]);
+        
+        if($request->hasFile('lampiran')) {
+            $dates = explode('-',$request->input('event_date'));
+            $amount = date_diff(date_create($dates[0]),date_create($dates[1]));
+            $diff = $amount->format('%d.%h');
+
+            $file = $request->file('lampiran');
+            $file_name = $file->getClientOriginalName();
+            $size = $file->getSize();
+            $ext = $file->getClientOriginalExtension();
+            $destinationPath = 'public/event';
+            $extension = $file->getClientOriginalExtension();
+            $filename=$file_name.'_event.'.$extension;
+            $uploadSuccess = $request->file('lampiran')
+            ->move($destinationPath, $filename);
+
+            $id_content = $request->input('id_content');
+            $en_content = $request->input('en_content');
+
+            $dom = new\DomDocument();
+            $dom->loadHtml($id_content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+            $images = $dom->getElementsByTagName('img');
+            foreach($images as $k => $img){
+                $isi = $img->getAttribute('src');
+                list($type, $data) = explode(';', $isi);
+                list(, $isi) = explode(',', $isi);
+                $isi = base64_decode($isi);
+                $image_name = "/public/faq" . time().$k.'.png';
+                $path = public_path() . $image_name;
+                file_put_contents($path, $isi);
+                $img->removeAttribute('src');
+                $img->setAttribute('src', $image_name);
+            }
+            $id_content = $dom->saveHtml();
+
+            $dom = new\DomDocument();
+            $dom->loadHtml($en_content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+            $images = $dom->getElementsByTagName('img');
+            foreach($images as $k => $img){
+                $isi = $img->getAttribute('src');
+                list($type, $data) = explode(';', $isi);
+                list(, $isi) = explode(',', $isi);
+                $isi = base64_decode($isi);
+                $image_name = "/public/faq" . time().$k.'.png';
+                $path = public_path() . $image_name;
+                file_put_contents($path, $isi);
+                $img->removeAttribute('src');
+                $img->setAttribute('src', $image_name);
+            }
+            $en_content = $dom->saveHtml();
+
+            $input = [
+                'en' => [
+                    'title' => $request->input('en_title'),
+                    'description' => $en_content
+                ],
+                'id' => [
+                    'title' => $request->input('id_title'),
+                    'description' => $id_content
+                ],
+                'site_id' => auth()->user()->site_id,
+                'event_type' => $request->input('event_type'),
+                'date_from' => Carbon::parse($dates[0]),
+                'date_to' => Carbon::parse($dates[1]),
+                'country_id' => $request->input('country_id'),
+                'location' => $request->input('location'),
+                'brocure' => $filename,
+                'link' => $request->input('link'),
+                'status_id' => '2872ac69-2f76-438b-8b83-31c52787027d',
+                'created_by' => auth()->user()->id,
+            ];
+
+            $data = Event::create($input);
+            $log = 'Kegiatan '.($data->title).' Berhasil Disimpan';
+            \LogActivity::addToLog($log);
+            $notification = array (
+                'message' => 'Kegiatan '.($data->title).' Berhasil Disimpan',
+                'alert-type' => 'success'
+            );
+
+            return redirect()->route('event.index')->with($notification);
+        } else {
+            $dates = explode('-',$request->input('event_date'));
+            $amount = date_diff(date_create($dates[0]),date_create($dates[1]));
+            $diff = $amount->format('%d.%h');
+            
+            $id_content = $request->input('id_content');
+            $en_content = $request->input('en_content');
+
+            $dom = new\DomDocument();
+            $dom->loadHtml($id_content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+            $images = $dom->getElementsByTagName('img');
+            foreach($images as $k => $img){
+                $isi = $img->getAttribute('src');
+                list($type, $data) = explode(';', $isi);
+                list(, $isi) = explode(',', $isi);
+                $isi = base64_decode($isi);
+                $image_name = "/public/faq" . time().$k.'.png';
+                $path = public_path() . $image_name;
+                file_put_contents($path, $isi);
+                $img->removeAttribute('src');
+                $img->setAttribute('src', $image_name);
+            }
+            $id_content = $dom->saveHtml();
+
+            $dom = new\DomDocument();
+            $dom->loadHtml($en_content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+            $images = $dom->getElementsByTagName('img');
+            foreach($images as $k => $img){
+                $isi = $img->getAttribute('src');
+                list($type, $data) = explode(';', $isi);
+                list(, $isi) = explode(',', $isi);
+                $isi = base64_decode($isi);
+                $image_name = "/public/faq" . time().$k.'.png';
+                $path = public_path() . $image_name;
+                file_put_contents($path, $isi);
+                $img->removeAttribute('src');
+                $img->setAttribute('src', $image_name);
+            }
+            $en_content = $dom->saveHtml();
+
+            $input = [
+                'en' => [
+                    'title' => $request->input('en_title'),
+                    'description' => $en_content
+                ],
+                'id' => [
+                    'title' => $request->input('id_title'),
+                    'description' => $id_content
+                ],
+                'site_id' => auth()->user()->site_id,
+                'event_type' => $request->input('event_type'),
+                'date_from' => Carbon::parse($dates[0]),
+                'date_to' => Carbon::parse($dates[1]),
+                'country_id' => $request->input('country_id'),
+                'location' => $request->input('location'),
+                'link' => $request->input('link'),
+                'status_id' => '2872ac69-2f76-438b-8b83-31c52787027d',
+                'created_by' => auth()->user()->id,
+            ];
+
+            $data = Event::create($input);
+            $log = 'Kegiatan '.($data->title).' Berhasil Disimpan';
+            \LogActivity::addToLog($log);
+            $notification = array (
+                'message' => 'Kegiatan '.($data->title).' Berhasil Disimpan',
+                'alert-type' => 'success'
+            );
+
+            return redirect()->route('event.index')->with($notification);
+        }
+    }
+
+    public function eventEdit($id)
+    {
+        $countries = Country::pluck('country_name','id')->toArray();
+        $data = Event::withTranslation()->where('events.id',$id)->first();
+        $status = Status::pluck('status_name','id')->toArray();
+        
+        return view('backend.edit.event',compact('countries','data','status'));
+    }
+
+    public function eventUpdate(Request $request,$id)
+    {
+        $request->validate([
+    		'id_title' => 'required',
+            'en_title' => 'required',
+            'id_content' => 'required',
+            'en_content' => 'required',
+            'event_type' => 'required',
+            'country_id' => 'required',
+            'location' => 'required',
+            'event_date' => 'required'
+        ]);
+        
+        if($request->hasFile('lampiran')) {
+            $dates = explode('-',$request->input('event_date'));
+            $amount = date_diff(date_create($dates[0]),date_create($dates[1]));
+            $diff = $amount->format('%d.%h');
+
+            $file = $request->file('lampiran');
+            $file_name = $file->getClientOriginalName();
+            $size = $file->getSize();
+            $ext = $file->getClientOriginalExtension();
+            $destinationPath = 'public/event';
+            $extension = $file->getClientOriginalExtension();
+            $filename=$file_name.'_event.'.$extension;
+            $uploadSuccess = $request->file('lampiran')
+            ->move($destinationPath, $filename);
+
+            $id_content = $request->input('id_content');
+            $en_content = $request->input('en_content');
+
+            $dom = new\DomDocument();
+            $dom->loadHtml($id_content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+            $images = $dom->getElementsByTagName('img');
+            foreach($images as $k => $img){
+                $isi = $img->getAttribute('src');
+                list($type, $data) = explode(';', $isi);
+                list(, $isi) = explode(',', $isi);
+                $isi = base64_decode($isi);
+                $image_name = "/public/faq" . time().$k.'.png';
+                $path = public_path() . $image_name;
+                file_put_contents($path, $isi);
+                $img->removeAttribute('src');
+                $img->setAttribute('src', $image_name);
+            }
+            $id_content = $dom->saveHtml();
+
+            $dom = new\DomDocument();
+            $dom->loadHtml($en_content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+            $images = $dom->getElementsByTagName('img');
+            foreach($images as $k => $img){
+                $isi = $img->getAttribute('src');
+                list($type, $data) = explode(';', $isi);
+                list(, $isi) = explode(',', $isi);
+                $isi = base64_decode($isi);
+                $image_name = "/public/faq" . time().$k.'.png';
+                $path = public_path() . $image_name;
+                file_put_contents($path, $isi);
+                $img->removeAttribute('src');
+                $img->setAttribute('src', $image_name);
+            }
+            $en_content = $dom->saveHtml();
+
+            $input = [
+                'en' => [
+                    'title' => $request->input('en_title'),
+                    'description' => $en_content
+                ],
+                'id' => [
+                    'title' => $request->input('id_title'),
+                    'description' => $id_content
+                ],
+                'site_id' => auth()->user()->site_id,
+                'event_type' => $request->input('event_type'),
+                'date_from' => Carbon::parse($dates[0]),
+                'date_to' => Carbon::parse($dates[1]),
+                'country_id' => $request->input('country_id'),
+                'location' => $request->input('location'),
+                'brocure' => $filename,
+                'link' => $request->input('link'),
+                'status_id' => $request->input('status_id'),
+                'updated_by' => auth()->user()->id,
+            ];
+
+            $data = Event::withTranslation()->where('events.id',$id)->first();
+            $data->update($input);
+            $log = 'Kegiatan '.($data->title).' Berhasil Diubah';
+            \LogActivity::addToLog($log);
+            $notification = array (
+                'message' => 'Kegiatan '.($data->title).' Berhasil Diubah',
+                'alert-type' => 'success'
+            );
+
+            return redirect()->route('event.index')->with($notification);
+        } else {
+            $dates = explode('-',$request->input('event_date'));
+            $amount = date_diff(date_create($dates[0]),date_create($dates[1]));
+            $diff = $amount->format('%d.%h');
+            
+            $id_content = $request->input('id_content');
+            $en_content = $request->input('en_content');
+
+            $dom = new\DomDocument();
+            $dom->loadHtml($id_content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+            $images = $dom->getElementsByTagName('img');
+            foreach($images as $k => $img){
+                $isi = $img->getAttribute('src');
+                list($type, $data) = explode(';', $isi);
+                list(, $isi) = explode(',', $isi);
+                $isi = base64_decode($isi);
+                $image_name = "/public/faq" . time().$k.'.png';
+                $path = public_path() . $image_name;
+                file_put_contents($path, $isi);
+                $img->removeAttribute('src');
+                $img->setAttribute('src', $image_name);
+            }
+            $id_content = $dom->saveHtml();
+
+            $dom = new\DomDocument();
+            $dom->loadHtml($en_content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+            $images = $dom->getElementsByTagName('img');
+            foreach($images as $k => $img){
+                $isi = $img->getAttribute('src');
+                list($type, $data) = explode(';', $isi);
+                list(, $isi) = explode(',', $isi);
+                $isi = base64_decode($isi);
+                $image_name = "/public/faq" . time().$k.'.png';
+                $path = public_path() . $image_name;
+                file_put_contents($path, $isi);
+                $img->removeAttribute('src');
+                $img->setAttribute('src', $image_name);
+            }
+            $en_content = $dom->saveHtml();
+
+            $input = [
+                'en' => [
+                    'title' => $request->input('en_title'),
+                    'description' => $en_content
+                ],
+                'id' => [
+                    'title' => $request->input('id_title'),
+                    'description' => $id_content
+                ],
+                'site_id' => auth()->user()->site_id,
+                'event_type' => $request->input('event_type'),
+                'date_from' => Carbon::parse($dates[0]),
+                'date_to' => Carbon::parse($dates[1]),
+                'country_id' => $request->input('country_id'),
+                'location' => $request->input('location'),
+                'link' => $request->input('link'),
+                'status_id' => $request->input('status_id'),
+                'updated_by' => auth()->user()->id,
+            ];
+
+            $data = Event::withTranslation()->where('events.id',$id)->first();
+            $data->update($input);
+            $log = 'Kegiatan '.($data->title).' Berhasil Diubah';
+            \LogActivity::addToLog($log);
+            $notification = array (
+                'message' => 'Kegiatan '.($data->title).' Berhasil Diubah',
+                'alert-type' => 'success'
+            );
+
+            return redirect()->route('event.index')->with($notification);
+        }
+    }
+
+    public function eventDestroy($id)
+    {
+        $data = Event::withTranslation()->where('events.id',$id)->first();
+        $log = 'Kegiatan '.($data->title).' Berhasil Dihapus';
+        \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Kegiatan '.($data->title).' Berhasil Diubah',
+            'alert-type' => 'success'
+        );
+        $data->delete();
+
+        return redirect()->route('event.index')->with($notification);
     }
 
 
