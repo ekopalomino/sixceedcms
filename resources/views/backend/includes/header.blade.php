@@ -10,32 +10,32 @@
 		@endif
 		@if((auth()->user()->site_id) == '8689caab-d1d0-4b99-a814-d6e2d0b56361')
 		<li class="nav-item d-none d-sm-inline-block">
-			<a href="{{route('main.index') }}" class="nav-link {{set_active(['main.index']) }}">Situs Utama</a>
+			<a href="{{route('main.index') }}" class="nav-link {{set_active(['main.index']) }}">Website Kementerian Perdagangan Republik Indonesia</a>
 		</li>
 		@endif
 		@if((auth()->user()->site_id) == 'bc5397fc-f875-4326-846f-315e6e6fd0ba')
 		<li class="nav-item d-none d-sm-inline-block">
-			<a href="#" class="nav-link ">Ditjen PEN</a>
+			<a href="#" class="nav-link ">Direktorat Jenderal Pengembangan Ekspor Nasional</a>
 		</li>
 		@endif
 		@if((auth()->user()->site_id) == '4c565b80-f7e9-4421-81be-a831ae48edf2')
 		<li class="nav-item d-none d-sm-inline-block">
-			<a href="#" class="nav-link ">Ditjen PPI</a>
+			<a href="#" class="nav-link ">Direktorat Jenderal Perundingan Perdagangan Internasional</a>
 		</li>
 		@endif
 		@if((auth()->user()->site_id) == '745572a6-c3a9-491a-b069-966d9cfa7054')
 		<li class="nav-item d-none d-sm-inline-block">
-			<a href="#" class="nav-link ">Ditjen PLN</a>
+			<a href="#" class="nav-link ">Direktorat Jenderal Perdagangan Luar Negeri</a>
 		</li>
 		@endif
 		@if((auth()->user()->site_id) == 'e2fa0b3f-84e2-4046-ae68-fe5f987cbe7b')
 		<li class="nav-item d-none d-sm-inline-block">
-			<a href="#" class="nav-link ">Ditjen PKTN</a>
+			<a href="#" class="nav-link ">Direktorat Jenderal Perlindungan Konsumen dan Tertib Niaga</a>
 		</li>
 		@endif
 		@if((auth()->user()->site_id) == '85cd37d3-e818-4e04-b294-3491feb60285')
 		<li class="nav-item d-none d-sm-inline-block">
-			<a href="#" class="nav-link ">Ditjen PDN</a>
+			<a href="#" class="nav-link ">Direktorat Jenderal Perdagangan Dalam Negeri</a>
 		</li>
 		@endif
 		@if((auth()->user()->site_id) == '745572a6-c3a9-491a-b069-966d9cfa7054')
@@ -51,27 +51,27 @@
 		@endif
 		@if((auth()->user()->site_id) == '2da488d4-a8e7-499a-b6e7-360ff17f9585')
 		<li class="nav-item d-none d-sm-inline-block">
-			<a href="#" class="nav-link ">BPPP</a>
+			<a href="#" class="nav-link ">Badan Pengembangan Pengkajian Perdagangan</a>
 		</li>
 		@endif
 		@if((auth()->user()->site_id) == '5a7826cf-e620-460f-9bfb-ef2adacf6471')
 		<li class="nav-item d-none d-sm-inline-block">
-			<a href="#" class="nav-link ">Rovodag</a>
+			<a href="#" class="nav-link ">Biro Advokasi Perdagangan</a>
 		</li>
 		@endif
 		@if((auth()->user()->site_id) == 'd59ba15e-5abf-4572-9992-64950d4f65ea')
 		<li class="nav-item d-none d-sm-inline-block">
-			<a href="#" class="nav-link ">KPPI</a>
+			<a href="#" class="nav-link ">Komite Pengamanan Perdagangan</a>
 		</li>
 		@endif
 		@if((auth()->user()->site_id) == 'ee5c63f5-58b4-4ca5-9acb-09de683f6549')
 		<li class="nav-item d-none d-sm-inline-block">
-			<a href="#" class="nav-link ">KADI</a>
+			<a href="#" class="nav-link ">Komite Anti Dumping Indonesia</a>
 		</li>
 		@endif
 		@if((auth()->user()->site_id) == 'a0fe8237-c432-4d27-8edd-669cb9719278')
 		<li class="nav-item d-none d-sm-inline-block">
-			<a href="#" class="nav-link ">Itjen</a>
+			<a href="#" class="nav-link ">Inspektorat Jenderal</a>
 		</li>
 		@endif
 	</ul>
