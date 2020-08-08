@@ -22,6 +22,7 @@
 				</a>
 			</li>
 			@endif
+			@can('disable')
 			<li class="nav-item">
 				<a href="" class="nav-link ">
 					<i class="nav-icon fas fa-cog"></i>
@@ -30,6 +31,7 @@
 					</p>
 				</a>
 			</li>
+			@endcan
 			<li class="nav-item has-treeview {{set_open(['user.index','roles.index','roles.create','log.index']) }}">
 				<a href="#" class="nav-link {{set_active(['user.index','roles.index','roles.create','log.index']) }}">
 					<i class="nav-icon fas fa-users"></i>
@@ -82,8 +84,8 @@
 					</li>
 				</ul>
 			</li>
-			<li class="nav-item has-treeview {{set_open(['country.index','region.index','city.index','dutycat.index','articlecat.index','faqcat.index']) }}">
-				<a href="#" class="nav-link {{set_active(['country.index','region.index','city.index','dutycat.index','articlecat.index','faqcat.index']) }}">
+			<li class="nav-item has-treeview {{set_open(['country.index','region.index','city.index','dutycat.index','articlecat.index','faqcat.index','unit.index']) }}">
+				<a href="#" class="nav-link {{set_active(['country.index','region.index','city.index','dutycat.index','articlecat.index','faqcat.index','unit.index']) }}">
 					<i class="nav-icon fas fa-database"></i>
 					<p>
 						Master Data
@@ -143,12 +145,18 @@
 							</li>
 						</ul>
 					</li>
+					<li class="nav-item">
+						<a href="{{ route('unit.index') }}" class="nav-link {{set_active('unit.index') }}">
+							<i class="right fas fa-angle-right"></i>
+							<p>Unit Kerja</p>
+						</a>
+					</li>
 				</ul>
 			</li>
 			<li class="nav-item has-treeview {{set_open(['foto.index','video.index','fnban.index','fnpub.index','about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index','post.index','write.create','upload.create','post.edit',
-				'postSearch.index','postQuery.index','faq.index','faq.create','faq.edit','event.index','event.create','event.edit']) }}">
+				'postSearch.index','postQuery.index','faq.index','faq.create','faq.edit','event.index','event.create','event.edit','official.index','official.create','official.edit']) }}">
 				<a href="#" class="nav-link {{set_active(['foto.index','video.index','fnban.index','fnpub.index','about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index','post.index','write.create','upload.create','post.edit',
-					'postSearch.index','postQuery.index','faq.index','faq.create','faq.edit','event.index','event.create','event.edit']) }}">
+					'postSearch.index','postQuery.index','faq.index','faq.create','faq.edit','event.index','event.create','event.edit','official.index','official.create','official.edit']) }}">
 					<i class="nav-icon fas fa-newspaper"></i>
 					<p>
 						Konten
@@ -188,8 +196,8 @@
 							<p>Publikasi</p>
 						</a>
 					</li>
-					<li class="nav-item {{set_open(['about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index']) }}">
-						<a href="" class="nav-link {{set_active(['about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index']) }}">
+					<li class="nav-item {{set_open(['about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index','official.index','official.create','official.edit']) }}">
+						<a href="" class="nav-link {{set_active(['about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index','official.index','official.create','official.edit']) }}">
 							<i class="right fas fa-angle-left"></i>
 							<p>Konten Khusus</p>
 						</a>
@@ -207,7 +215,7 @@
 								</a>
 							</li>
 							<li class="nav-item">
-								<a href="" class="nav-link ">
+								<a href="{{ route('official.index') }}" class="nav-link {{set_active(['official.index','official.create','official.edit']) }}">
 									<i class="far fa-circle nav-icon"></i>
 									<p>Pejabat Kementerian</p>
 								</a>

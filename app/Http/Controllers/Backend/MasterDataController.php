@@ -11,6 +11,7 @@ use Sixceed\Models\DutyCategory;
 use Sixceed\Models\DutyCategoryTranslation;
 use Sixceed\Models\ArticleCategory;
 use Sixceed\Models\FaqCategory;
+use Sixceed\Models\Unit;
 use Auth;
 
 class MasterDataController extends Controller
@@ -473,5 +474,87 @@ class MasterDataController extends Controller
         );
 
         return redirect()->route('faqcat.index')->with($notification);
+    }
+
+    public function unitIndex()
+    {
+        if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f') {
+            $data = Unit::orderBy('id','ASC')->get();
+
+            return view('backend.pages.unit',compact('data'));
+        } else {
+            $data = Unit::where('site_id',auth()->user()->site_id)->orderBy('id','ASC')->get();
+
+            return view('backend.pages.unit',compact('data'));
+        }
+    }
+
+    public function unitStore(Request $request)
+    {
+        $request->validate([
+    		'unit_name' => 'required'
+        ]);
+
+        $input = [
+            'site_id' => auth()->user()->site_id,
+            'unit_name' => $request->input('unit_name'),
+            'created_by' => auth()->user()->id,
+        ];
+
+        $data = Unit::create($input);
+
+        $log = 'Unit Kerja '.($data->unit_name).' Berhasil Disimpan';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Unit Kerja '.($data->unit_name).' Berhasil Disimpan',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('unit.index')->with($notification);
+    }
+
+    public function unitEdit($id)
+    {
+        $data = Unit::find($id);
+
+        return view('backend.edit.unit',compact('data'))->renderSections()['content'];
+    }
+
+    public function unitUpdate(Request $request,$id)
+    {
+        $request->validate([
+    		'unit_name' => 'required'
+        ]);
+
+        $input = [
+            'unit_name' => $request->input('unit_name'),
+            'updated_by' => auth()->user()->id,
+        ];
+
+        $data = Unit::find($id);
+        $data->update($input);
+
+        $log = 'Unit Kerja '.($data->unit_name).' Berhasil Diubah';
+        \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Unit Kerja '.($data->unit_name).' Berhasil Diubah',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('unit.index')->with($notification);
+    }
+
+    public function unitDestroy($id)
+    {
+        $data = Unit::find($id);
+        $log = 'Unit Kerja '.($data->unit_name).' Berhasil Dihapus';
+        \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Unit Kerja '.($data->unit_name).' Berhasil Dihapus',
+            'alert-type' => 'success'
+        );
+        $data->destroy($id);
+
+        return redirect()->route('unit.index')->with($notification);
     }
 }

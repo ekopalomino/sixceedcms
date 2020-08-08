@@ -7,6 +7,7 @@ use Sixceed\Http\Controllers\Controller;
 use Alaouy\Youtube\Facades\Youtube;
 use Sixceed\Models\User;
 use Sixceed\Models\Country;
+use Sixceed\Models\Unit;
 use Sixceed\Models\Status;
 use Sixceed\Models\Video;
 use Sixceed\Models\Album; 
@@ -22,6 +23,7 @@ use Sixceed\Models\ArticleCategory;
 use Sixceed\Models\Faq;
 use Sixceed\Models\FaqCategory;
 use Sixceed\Models\Event;
+use Sixceed\Models\Official;
 use File;
 use Carbon\Carbon;
 
@@ -1392,24 +1394,6 @@ class ContentManagementController extends Controller
         return redirect()->route('event.index')->with($notification);
     }
 
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public function postIndex()
     {
         if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f') {
@@ -1747,5 +1731,164 @@ class ContentManagementController extends Controller
                                         ->get();
         
         return view('backend.pages.postResult',compact('data'));
+    }
+
+    public function officialIndex()
+    {
+        if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f') {
+            $data = Official::withTranslation()->orderBy('name','ASC')->get();
+
+            return view('backend.pages.official',compact('data'));
+        } else {
+            $data = Official::withTranslation()->where('site_id',auth()->user()->site_id)->orderBy('name','ASC')->get();
+
+            return view('backend.pages.official',compact('data'));
+        }
+    }
+
+    public function officialCreate()
+    {
+        $unit = Unit::where('site_id',auth()->user()->site_id)->pluck('unit_name','id')->toArray();
+
+        return view('backend.input.official',compact('unit'));
+    }
+
+    public function officialStore(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required',
+            'id_title' => 'required',
+            'en_title' => 'required',
+            'unit_id' => 'required',
+            'address' => 'required',
+            'userpic' => 'required|image|mimes:jpg,JPEG,png,PNG',
+        ]);
+
+        $file = $request->file('userpic');
+	    $random_name = str_random(8);
+	    $destinationPath = 'pejabat/';
+	    $extension = $file->getClientOriginalExtension();
+	    $filename=$random_name.'.'.$extension;
+	    $uploadSuccess = $request->file('userpic')->move($destinationPath, $filename);
+
+        $input = [
+            'en' => [
+    			'title' => $request->input('en_title')
+    		],
+    		'id' => [
+    			'title' => $request->input('id_title')
+    		],
+    		'name' => $request->input('name'),
+            'unit_id' => $request->input('unit_id'),
+            'site_id' => auth()->user()->site_id,
+            'address' => $request->input('address'),
+            'userpic' => $filename,
+            'created_by' => auth()->user()->id,
+        ];
+
+        $data = Official::create($input);
+
+        $log = 'Pejabat '.($data->name).' Berhasil Disimpan';
+        \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Pejabat '.($data->name).' Berhasil Disimpan',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('official.index')->with($notification);
+    }
+
+    public function officialEdit($id)
+    {
+        $data = Official::withTranslation()->where('officials.id',$id)->first();
+        $unit = Unit::where('site_id',auth()->user()->site_id)->pluck('unit_name','id')->toArray();
+
+        return view('backend.edit.official',compact('data','unit'));
+    }
+
+    public function officialUpdate(Request $request,$id)
+    {
+        $this->validate($request, [
+            'name' => 'required',
+            'id_title' => 'required',
+            'en_title' => 'required',
+            'unit_id' => 'required',
+            'address' => 'required',
+        ]);
+
+        if($request->hasFile('userpic')) {
+            $file = $request->file('userpic');
+            $random_name = str_random(8);
+            $destinationPath = 'pejabat/';
+            $extension = $file->getClientOriginalExtension();
+            $filename=$random_name.'.'.$extension;
+            $uploadSuccess = $request->file('userpic')->move($destinationPath, $filename);
+
+            $input = [
+                'en' => [
+                    'title' => $request->input('en_title')
+                ],
+                'id' => [
+                    'title' => $request->input('id_title')
+                ],
+                'name' => $request->input('name'),
+                'unit_id' => $request->input('unit_id'),
+                'site_id' => auth()->user()->site_id,
+                'address' => $request->input('address'),
+                'userpic' => $filename,
+                'updated_by' => auth()->user()->id,
+            ];
+
+            $data = Official::withTranslation()->where('officials.id',$id)->first();
+            $data->update($input);
+            $log = 'Pejabat '.($data->name).' Berhasil Diubah';
+            \LogActivity::addToLog($log);
+            $notification = array (
+                'message' => 'Pejabat '.($data->name).' Berhasil Diubah',
+                'alert-type' => 'success'
+            );
+
+            return redirect()->route('official.index')->with($notification); 
+        } else {
+            $input = [
+                'en' => [
+                    'title' => $request->input('en_title')
+                ],
+                'id' => [
+                    'title' => $request->input('id_title')
+                ],
+                'name' => $request->input('name'),
+                'unit_id' => $request->input('unit_id'),
+                'site_id' => auth()->user()->site_id,
+                'address' => $request->input('address'),
+                'updated_by' => auth()->user()->id,
+            ];
+
+            $data = Official::withTranslation()->where('officials.id',$id)->first();
+            $data->update($input);
+            $log = 'Pejabat '.($data->name).' Berhasil Diubah';
+            \LogActivity::addToLog($log);
+            $notification = array (
+                'message' => 'Pejabat '.($data->name).' Berhasil Diubah',
+                'alert-type' => 'success'
+            );
+
+            return redirect()->route('official.index')->with($notification);
+        }
+    }
+
+    public function officialDestroy($id)
+    {
+        $data = Official::withTranslation()->where('officials.id',$id)->first();
+        $log = 'Pejabat '.($data->name).' Berhasil Dihapus';
+        \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Pejabat '.($data->name).' Berhasil Dihapus',
+            'alert-type' => 'success'
+        );
+        $file = File::delete($data->userpic);
+        $data->delete();
+
+        return redirect()->route('official.index')->with($notification);
     }
 }

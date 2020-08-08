@@ -44,31 +44,42 @@ Route::group(['prefix' => 'cms', 'middleware' => ['auth']], function() {
     Route::get('/masterdata/countries/edit/{id}','Backend\MasterDataController@countryEdit')->name('user.edit');
     Route::post('/masterdata/countries/update/{id}','Backend\MasterDataController@countryUpdate')->name('country.update');
     Route::post('/masterdata/countries/delete/{id}','Backend\MasterDataController@countryDestroy')->name('country.destroy');
+
     Route::get('/masterdata/region','Backend\MasterDataController@regionIndex')->name('region.index');
     Route::post('/masterdata/region/store','Backend\MasterDataController@regionStore')->name('region.store');
     Route::get('/masterdata/region/edit/{id}','Backend\MasterDataController@regionEdit')->name('region.edit');
     Route::post('/masterdata/region/update/{id}','Backend\MasterDataController@regionUpdate')->name('region.update');
     Route::post('/masterdata/region/delete/{id}','Backend\MasterDataController@regionDestroy')->name('region.destroy');
+
     Route::get('/masterdata/cities','Backend\MasterDataController@cityIndex')->name('city.index');
     Route::post('/masterdata/cities/store','Backend\MasterDataController@cityStore')->name('city.store');
     Route::get('/masterdata/cities/edit/{id}','Backend\MasterDataController@cityEdit')->name('city.edit');
     Route::post('/masterdata/cities/update/{id}','Backend\MasterDataController@cityUpdate')->name('city.update');
     Route::post('/masterdata/cities/delete/{id}','Backend\MasterDataController@cityDestroy')->name('city.destroy');
+
     Route::get('/masterdata/tugas-dan-fungsi','Backend\MasterDataController@dutyCatIndex')->name('dutycat.index');
     Route::post('/masterdata/tugas-dan-fungsi/store','Backend\MasterDataController@dutyCatStore')->name('dutycat.store');
     Route::get('/masterdata/tugas-dan-fungsi/edit/{id}','Backend\MasterDataController@dutyCatEdit')->name('dutycat.edit');
     Route::post('/masterdata/tugas-dan-fungsi/update/{id}','Backend\MasterDataController@dutyCatUpdate')->name('dutycat.update');
     Route::post('/masterdata/tugas-dan-fungsi/delete/{id}','Backend\MasterDataController@dutyCatDestroy')->name('dutycat.destroy');
+
     Route::get('/masterdata/kategori-artikel','Backend\MasterDataController@articleCategoryIndex')->name('articlecat.index');
     Route::post('/masterdata/kategori-artikel/store','Backend\MasterDataController@articleCategoryStore')->name('articlecat.store');
     Route::get('/masterdata/kategori-artikel/edit/{id}','Backend\MasterDataController@articleCategoryEdit')->name('articlecat.edit');
     Route::post('/masterdata/kategori-artikel/update/{id}','Backend\MasterDataController@articleCategoryUpdate')->name('articlecat.update');
     Route::post('/masterdata/kategori-artikel/delete/{id}','Backend\MasterDataController@articleCategoryDelete')->name('articlecat.destroy');
+
     Route::get('/masterdata/kategori-faq','Backend\MasterDataController@faqCategoryIndex')->name('faqcat.index');
     Route::post('/masterdata/kategori-faq/store','Backend\MasterDataController@faqCategoryStore')->name('faqcat.store');
     Route::get('/masterdata/kategori-faq/edit/{id}','Backend\MasterDataController@faqCategoryEdit')->name('faqcat.edit');
     Route::post('/masterdata/kategori-faq/update/{id}','Backend\MasterDataController@faqCategoryUpdate')->name('faqcat.update');
     Route::post('/masterdata/kategori-faq/delete/{id}','Backend\MasterDataController@faqCategoryDelete')->name('faqcat.destroy');
+
+    Route::get('/masterdata/unit-kerja','Backend\MasterDataController@unitIndex')->name('unit.index');
+    Route::post('/masterdata/unit-kerja/store','Backend\MasterDataController@unitStore')->name('unit.store');
+    Route::get('/masterdata/unit-kerja/edit/{id}','Backend\MasterDataController@unitEdit')->name('unit.edit');
+    Route::post('/masterdata/unit-kerja/update/{id}','Backend\MasterDataController@unitUpdate')->name('unit.update');
+    Route::post('/masterdata/unit-kerja/delete/{id}','Backend\MasterDataController@unitDestroy')->name('unit.destroy');
 
     Route::get('/konten/media/berita-video','Backend\ContentManagementController@videoIndex')->name('video.index');
     Route::post('/konten/media/berita-video/store','Backend\ContentManagementController@videoStore')->name('video.store');
@@ -131,6 +142,13 @@ Route::group(['prefix' => 'cms', 'middleware' => ['auth']], function() {
     Route::post('/konten/artikel/publish/{id}','Backend\ContentManagementController@postPublish')->name('post.publish');
     Route::post('/konten/artikel/archive/{id}','Backend\ContentManagementController@postArchive')->name('post.archive');
     Route::post('/konten/artikel/delete/{id}','Backend\ContentManagementController@postDestroy')->name('post.destroy');
+
+    Route::get('/konten/pejabat','Backend\ContentManagementController@officialIndex')->name('official.index');
+    Route::get('/konten/pejabat/create','Backend\ContentManagementController@officialCreate')->name('official.create');
+    Route::post('/konten/pejabat/store','Backend\ContentManagementController@officialStore')->name('official.store');
+    Route::get('/konten/pejabat/edit/{id}','Backend\ContentManagementController@officialEdit')->name('official.edit');
+    Route::post('/konten/pejabat/update/{id}','Backend\ContentManagementController@officialUpdate')->name('official.update');
+    Route::post('/konten/pejabat/delete/{id}','Backend\ContentManagementController@officialDestroy')->name('official.destroy');
 });
 /*Route::get('/home', 'HomeController@index')->name('home');*/
 
