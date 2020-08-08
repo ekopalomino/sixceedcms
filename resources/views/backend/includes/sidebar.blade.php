@@ -134,7 +134,7 @@
 							<li class="nav-item">
 								<a href="{{ route('articlecat.index') }}" class="nav-link {{set_active('articlecat.index') }}">
 									<i class="far fa-circle nav-icon"></i>
-									<p>Artikel</p>
+									<p>Konten</p>
 								</a>
 							</li>
 							<li class="nav-item">
@@ -154,7 +154,7 @@
 				</ul>
 			</li>
 			<li class="nav-item has-treeview {{set_open(['foto.index','video.index','fnban.index','fnpub.index','about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index','post.index','write.create','upload.create','post.edit',
-				'postSearch.index','postQuery.index','faq.index','faq.create','faq.edit','event.index','event.create','event.edit','official.index','official.create','official.edit']) }}">
+				'postSearch.index','postQuery.index','faq.index','faq.create','faq.edit','event.index','event.create','event.edit','official.index','official.create','official.edit','organization.index','organization.edit']) }}">
 				<a href="#" class="nav-link {{set_active(['foto.index','video.index','fnban.index','fnpub.index','about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index','post.index','write.create','upload.create','post.edit',
 					'postSearch.index','postQuery.index','faq.index','faq.create','faq.edit','event.index','event.create','event.edit','official.index','official.create','official.edit']) }}">
 					<i class="nav-icon fas fa-newspaper"></i>
@@ -218,12 +218,6 @@
 								<a href="{{ route('official.index') }}" class="nav-link {{set_active(['official.index','official.create','official.edit']) }}">
 									<i class="far fa-circle nav-icon"></i>
 									<p>Pejabat Kementerian</p>
-								</a>
-							</li>
-							<li class="nav-item">
-								<a href="" class="nav-link ">
-									<i class="far fa-circle nav-icon"></i>
-									<p>Struktur Organisasi</p>
 								</a>
 							</li>
 							<li class="nav-item">

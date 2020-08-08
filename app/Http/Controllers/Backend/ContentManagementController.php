@@ -24,6 +24,7 @@ use Sixceed\Models\Faq;
 use Sixceed\Models\FaqCategory;
 use Sixceed\Models\Event;
 use Sixceed\Models\Official;
+use Sixceed\Models\OrganizationChart;
 use File;
 use Carbon\Carbon;
 
@@ -1891,4 +1892,6 @@ class ContentManagementController extends Controller
 
         return redirect()->route('official.index')->with($notification);
     }
+
+    
 }

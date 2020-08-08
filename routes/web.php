@@ -149,6 +149,8 @@ Route::group(['prefix' => 'cms', 'middleware' => ['auth']], function() {
     Route::get('/konten/pejabat/edit/{id}','Backend\ContentManagementController@officialEdit')->name('official.edit');
     Route::post('/konten/pejabat/update/{id}','Backend\ContentManagementController@officialUpdate')->name('official.update');
     Route::post('/konten/pejabat/delete/{id}','Backend\ContentManagementController@officialDestroy')->name('official.destroy');
+
+    
 });
 /*Route::get('/home', 'HomeController@index')->name('home');*/
 
