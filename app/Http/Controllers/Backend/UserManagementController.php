@@ -17,11 +17,20 @@ class UserManagementController extends Controller
 {
     public function userIndex()
     {
-        $roles = Role::pluck('name','name')->all();
-        $sites = Site::pluck('site_name','id')->toArray();
-        $data = User::where('status_id','f13c7f2e-4723-47a7-b75c-fbec0aaca411')->get();
+        if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f') {
+            $roles = Role::pluck('name','name')->all();
+            $sites = Site::pluck('site_name','id')->toArray();
+            $data = User::where('status_id','f13c7f2e-4723-47a7-b75c-fbec0aaca411')->get();
 
-        return view('backend.pages.users',compact('data','roles','sites'));
+            return view('backend.pages.users',compact('data','roles','sites'));
+        } else {
+            $roles = Role::pluck('name','name')->all();
+            $sites = Site::pluck('site_name','id')->toArray();
+            $data = User::where('site_id',auth()->user()->site_id)->get();
+
+            return view('backend.pages.users',compact('data','roles','sites'));
+        }
+        
     }
 
     public function userStore(Request $request)

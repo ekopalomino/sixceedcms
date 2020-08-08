@@ -25,10 +25,12 @@
                 <div class="col-sm-12">
                     {!! Form::select('roles[]', $roles,$userRole, array('class' => 'form-control')) !!}
                 </div>
+            @if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f')
             <label for="email" class="col-sm-12 col-form-label">Site Access</label>
                 <div class="col-sm-12">
                     {!! Form::select('site_id', $sites,old('site_id'), array('class' => 'form-control')) !!}
                 </div> 
+            @endif
             <div class="modal-footer">
                 <button type="close" class="btn btn-default" data-dismiss="modal">Close</button>
                 <button id="register" type="submit" class="btn btn-primary">Save changes</button>

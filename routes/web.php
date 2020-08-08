@@ -16,7 +16,7 @@ Route::get('/', function () {
 });
 
 Auth::routes(['register' => false]);
-Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
+Route::group(['prefix' => 'cms', 'middleware' => ['auth']], function() {
     Route::get('/config','Backend\HomeController@adminIndex')->name('config.index');
     Route::get('/main','Backend\HomeController@mainIndex')->name('main.index');
     Route::get('/pengembangan-ekspor-nasional','Backend\HomeController@penIndex')->name('pen.index');
@@ -24,6 +24,7 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::get('/perdagangan-luar-negeri','Backend\HomeController@plnIndex')->name('pln.index');
     Route::get('/perlindungan-konsumen-tertib-niaga','Backend\HomeController@pktnIndex')->name('pktn.index');
     Route::get('/perdagangan-dalam-negeri','Backend\HomeController@pdnIndex')->name('pdn.index');
+    Route::get('/pusat-pengembangan-sumber-daya-kemetrologian','Backend\DashboardController@ppsdk')->name('ppsdk.index');
 
     Route::get('/users','Backend\UserManagementController@userIndex')->name('user.index');
     Route::get('/users/edit/{id}','Backend\UserManagementController@userEdit')->name('user.edit');

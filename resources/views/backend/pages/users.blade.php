@@ -65,12 +65,14 @@ Kementerian Perdagangan Republik Indonesia | User Database
 											{!! Form::select('roles[]', [null=>'Please Select'] + $roles,[], array('class' => 'form-control')) !!}
 										</div>
 									</div>
+									@if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f')
 									<div class="form-group row">
 										<label for="inputEmail" class="col-sm-2 col-form-label">Site Access</label>
 										<div class="col-sm-10">
 											{!! Form::select('site_id', [null=>'Please Select'] + $sites,[], array('class' => 'form-control')) !!}
 										</div>
 									</div>
+									@endif
 									{!! Form::hidden('status_id', 'f13c7f2e-4723-47a7-b75c-fbec0aaca411', array('class' => 'form-control','readonly')) !!}
 								</div>
 				            	<div class="modal-footer ">
@@ -142,7 +144,7 @@ Kementerian Perdagangan Republik Indonesia | User Database
 								</td>
 								<td>{{date("d F Y H:i",strtotime($user->created_at)) }}</td>
 								<td>
-									<a class="btn btn-xs btn-info modalLg" href="#" value="{{ action('Backend\UserManagementController@userEdit',['id'=>$user->id]) }}" data-toggle="modal" data-target="#modalLg"><i class="fa fa-edit"></i></a>
+									<a class="btn btn-xs btn-info modalLg" href="#" value="{{ action('Backend\UserManagementController@userEdit',['id'=>$user->id]) }}" data-toggle="modal" data-target="#modalLg" title="Edit User"><i class="fa fa-edit"></i></a>
 									{!! Form::open(['method' => 'POST','route' => ['user.destroy', $user->id],'style'=>'display:inline','onsubmit' => 'return ConfirmSuspend()']) !!}
 									{!! Form::button('<i class="fas fa-user-slash"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger']) !!}
 									{!! Form::close() !!}
@@ -175,7 +177,7 @@ Kementerian Perdagangan Republik Indonesia | User Database
 <script>
     function ConfirmSuspend()
     {
-    var x = confirm("User Suspended?");
+    var x = confirm("User Akan Di Suspend?");
     if (x)
         return true;
     else

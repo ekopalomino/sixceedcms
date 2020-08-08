@@ -3,9 +3,11 @@
 		<li class="nav-item">
 			<a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
 		</li>
+		@if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f')
 		<li class="nav-item d-none d-sm-inline-block">
 			<a href="{{ route('config.index') }}" class="nav-link {{set_active(['config.index','user.index','roles.index','roles.create','log.index','country.index','region.index','city.index','dutycat.index','articlecat.index','faqcat.index']) }}">Konfig</a>
 		</li>
+		@endif
 		@if((auth()->user()->site_id) == '8689caab-d1d0-4b99-a814-d6e2d0b56361')
 		<li class="nav-item d-none d-sm-inline-block">
 			<a href="{{route('main.index') }}" class="nav-link {{set_active(['main.index']) }}">Situs Utama</a>
@@ -43,7 +45,7 @@
 		@endif
 		@if((auth()->user()->site_id) == '92876445-2b7c-4e2f-bb43-d3b71b608e4e')
 		<li class="nav-item d-none d-sm-inline-block">
-			<a href="#" class="nav-link {{set_active(['foto.index','video.index','fnban.index','fnpub.index','about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index','post.index','write.create','upload.create','post.edit',
+			<a href="{{ route('ppsdk.index') }}" class="nav-link {{set_active(['ppsdk.index','foto.index','video.index','fnban.index','fnpub.index','about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index','post.index','write.create','upload.create','post.edit',
 					'postSearch.index','postQuery.index','faq.index','faq.create','faq.edit','event.index','event.create','event.edit']) }}">Pusat Pengembangan Sumber Daya Kemetrologian</a>
 		</li>
 		@endif

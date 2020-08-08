@@ -31,21 +31,23 @@ class LoginController extends Controller
     protected function redirectTo()
     {
         if(Auth::user()->site_id == 'ee145b28-ffd9-4d86-8711-80d92e3d6152') {
-            return 'apps/config';
+            return 'cms/config';
         } elseif(Auth::user()->site_id == '47b71eb9-d8a2-4e89-88fe-97bac68a63b8') {
-            return '/apps/main';
+            return '/cms/main';
         } elseif(Auth::user()->site_id == '10bf5f46-4ece-49bf-ad42-e6eed3f2d0bf') {
-            return '/apps/pengembangan-ekspor-nasional';
+            return '/cms/pengembangan-ekspor-nasional';
         } elseif(Auth::user()->site_id == 'b85cb37f-239e-42ba-854b-48c5ba43f6c9') {
-            return '/apps/perundingan-perdagangan-internasional';
+            return '/cms/perundingan-perdagangan-internasional';
         } elseif(Auth::user()->site_id == '29db58a0-edb8-4eca-814c-32d45c8aa567') {
-            return '/apps/perdagangan-luar-negeri';
+            return '/cms/perdagangan-luar-negeri';
         } elseif(Auth::user()->site_id == 'd59a0c3f-e50d-4daa-b39e-bd470b2be04e') {
-            return '/apps/perlindungan-konsumen-tertib-niaga';
+            return '/cms/perlindungan-konsumen-tertib-niaga';
         } elseif(Auth::user()->site_id == '698e1c25-a948-4d28-a30a-b941d6175369') {
-            return '/apps/perdagangan-dalam-negeri';
+            return '/cms/perdagangan-dalam-negeri';
+        } elseif(Auth::user()->site_id == '92876445-2b7c-4e2f-bb43-d3b71b608e4e') {
+            return '/cms/pusat-pengembangan-sumber-daya-kemetrologian';
         } else{
-            return 'apps/config';
+            return 'cms/config';
         }
     }
     /**
