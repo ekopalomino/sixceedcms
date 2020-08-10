@@ -157,7 +157,6 @@ class ContentManagementController extends Controller
         $this->validate($request, [
                 'name' => 'required',
                 'cover_image'=>'required|image',
-                'description' => 'required'
             ]);
 
         $file = $request->file('cover_image');
