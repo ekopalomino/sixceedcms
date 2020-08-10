@@ -174,10 +174,10 @@ class ContentManagementController extends Controller
             'site_id' => auth()->user()->site_id,
             'created_by' => auth()->user()->id,
         ));
-        $data = 'Album '.($album->name).' berhasil disimpan';
+        $data = 'Berita Foto '.($album->name).' Berhasil Disimpan';
             \LogActivity::addToLog($data);
             $notification = array (
-                'message' => 'Album '.($album->name).' berhasil disimpan',
+                'message' => 'Berita Foto '.($album->name).' Berhasil Disimpan',
                 'alert-type' => 'success'
             );
 
@@ -188,16 +188,20 @@ class ContentManagementController extends Controller
     {
         $album = Album::find($id);
         $file = $album->cover_image;
+        $images = Image::where('album_id',$id)->get('image');
+        
         $album->delete();
         \File::delete(public_path('albums/' . $file));
-        $data = 'Album '.($album->name).' berhasil dihapus';
+        foreach($images as $image) {
+            \File::delete(public_path('albums/' . $image->image));
+        }
+        $data = 'Berita Foto '.($album->name).' Berhasil Dihapus';
             \LogActivity::addToLog($data);
             $notification = array (
-                'message' => 'Album '.($album->name).' berhasil dihapus',
+                'message' => 'Berita Foto '.($album->name).' Berhasil Dihapus',
                 'alert-type' => 'success'
             );
-        return redirect()->route('album.index')
-                        ->with($notification);
+        return redirect()->route('foto.index')->with($notification);
     }
 
     public function imageCreate($id)
@@ -227,14 +231,13 @@ class ContentManagementController extends Controller
         'image' => $filename,
         'album_id'=> $request->album_id
         ));
-        $data = 'Gambar '.($images->image).' berhasil disimpan';
+        $data = 'Foto '.($images->image).' Berhasil Disimpan';
         \LogActivity::addToLog($data);
             $notification = array (
-                'message' => 'Gambar '.($images->image).' berhasil disimpan',
+                'message' => 'Foto '.($images->image).' Berhasil Disimpan',
                 'alert-type' => 'success'
             );
-        return redirect()->route('image.create',array('id'=>$request->album_id))
-                        ->with($notification);
+        return redirect()->route('image.create',array('id'=>$request->album_id))->with($notification);
     }
 
     public function imageDelete($id)
@@ -242,16 +245,15 @@ class ContentManagementController extends Controller
         $image = Image::find($id);
         $berkas = Image::where('id', $id)
                 ->get('image');
-        $file = File::delete($berkas);
+        \File::delete(public_path('albums/' . $image->image));
         $image->delete();
-        $data = 'Gambar '.($image->image).' berhasil dihapus';
+        $data = 'Foto '.($image->image).' Berhasil Dihapus';
         \LogActivity::addToLog($data);
             $notification = array (
-                'message' => 'Gambar '.($image->image).' berhasil dihapus',
+                'message' => 'Foto '.($image->image).' Berhasil Dihapus',
                 'alert-type' => 'success'
             );
-        return redirect()->route('image.create',array('id'=>$image->album_id))
-                        ->with($notification);
+        return redirect()->route('image.create',array('id'=>$image->album_id))->with($notification);
     }
 
     public function frontBannerIndex()
