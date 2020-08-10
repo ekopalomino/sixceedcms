@@ -1505,9 +1505,7 @@ class ContentManagementController extends Controller
             $this->validate($request, [
                 'id_title' => 'required',
                 'en_title' => 'required',
-                'id_content' => 'required',
-                'en_content' => 'required',
-                'file' => 'required|file|mimes:pdf,PDF',
+                'file' => 'required',
                 'category_id' => 'required',
                 'reporter_id' => 'required'
             ]);
