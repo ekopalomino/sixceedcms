@@ -156,7 +156,7 @@ class ContentManagementController extends Controller
     {
         $this->validate($request, [
                 'name' => 'required',
-                'cover_image'=>'required|image|dimensions:min_width=848,min_length=429',
+                'cover_image'=>'required|image',
                 'description' => 'required'
             ]);
 
@@ -168,9 +168,11 @@ class ContentManagementController extends Controller
         $uploadSuccess = $request->file('cover_image')
         ->move($destinationPath, $filename);
         $album = Album::create(array(
-        'name' => $request->name,
-        'description' => $request->description,
-        'cover_image' => $filename,
+            'name' => $request->name,
+            'description' => $request->description,
+            'cover_image' => $filename,
+            'site_id' => auth()->user()->site_id,
+            'created_by' => auth()->user()->id,
         ));
         $data = 'Album '.($album->name).' berhasil disimpan';
             \LogActivity::addToLog($data);
@@ -179,7 +181,7 @@ class ContentManagementController extends Controller
                 'alert-type' => 'success'
             );
 
-        return redirect()->route('beritafoto')->with($notification);
+        return redirect()->route('image.create',$album->id)->with($notification);
     }
 
     public function albumDelete($id)
@@ -194,21 +196,23 @@ class ContentManagementController extends Controller
                 'message' => 'Album '.($album->name).' berhasil dihapus',
                 'alert-type' => 'success'
             );
-        return redirect()->route('beritafoto')
+        return redirect()->route('album.index')
                         ->with($notification);
     }
 
     public function imageCreate($id)
     {
-        $album = Album::find($id);
-        return view('backend.form.addimage', compact('album'));
+        $album = Album::with('Photos')->find($id);
+        $details = Album::with('Photos')->find($id);
+        
+        return view('backend.input.image', compact('album','details'));
     }
 
     public function imageStore(Request $request)
     {
         $this->validate($request, [
                 'album_id' => 'required|numeric|exists:albums,id',
-                'image'=>'required|image|dimensions:min_width=848,min_length=429',
+                'image'=>'required|image',
                 'description' => 'required'
             ]);
     
@@ -229,7 +233,7 @@ class ContentManagementController extends Controller
                 'message' => 'Gambar '.($images->image).' berhasil disimpan',
                 'alert-type' => 'success'
             );
-        return redirect()->route('show_album',array('id'=>$request->album_id))
+        return redirect()->route('image.create',array('id'=>$request->album_id))
                         ->with($notification);
     }
 
@@ -246,7 +250,7 @@ class ContentManagementController extends Controller
                 'message' => 'Gambar '.($image->image).' berhasil dihapus',
                 'alert-type' => 'success'
             );
-        return redirect()->route('show_album',array('id'=>$image->album_id))
+        return redirect()->route('image.create',array('id'=>$image->album_id))
                         ->with($notification);
     }
 

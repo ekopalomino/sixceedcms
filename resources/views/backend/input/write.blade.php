@@ -16,22 +16,22 @@ Kementerian Perdagangan Republik Indonesia | Buat Artikel Tulisan
     </div>
 </section>
 <section class="content">
-	<div class="row">
-		@if (count($errors) > 0) 
-		<div class="alert alert-danger alert-dismissible">
-		  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-			<h5><i class="icon fas fa-ban"></i> Alert!</h5>
-			<ul>
-			  @foreach ($errors->all() as $error)
-			  <li>{{ $error }}</li>
-			  @endforeach
-			</ul>
-		</div>
-		@endif
-		{!! Form::open(array('route' => 'post.store','method'=>'POST', 'class' => 'form-horizontal')) !!}
-		@csrf
+	<div class="container-fluid">
 		<div class="row">
-			<div class="col-9">
+			@if (count($errors) > 0) 
+			<div class="alert alert-danger alert-dismissible">
+			  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				<h5><i class="icon fas fa-ban"></i> Alert!</h5>
+				<ul>
+				  @foreach ($errors->all() as $error)
+				  <li>{{ $error }}</li>
+				  @endforeach
+				</ul>
+			</div>
+			@endif 
+			{!! Form::open(array('route' => 'post.store','method'=>'POST', 'class' => 'form-horizontal')) !!}
+			@csrf
+			<div class="col-md-9">
 				<div class="card card-outline card-danger">
 					<div class="card-body">
 						<div class="row">
@@ -66,7 +66,7 @@ Kementerian Perdagangan Republik Indonesia | Buat Artikel Tulisan
 					</div>
 				</div>
 			</div>
-			<div class="col-3">
+			<div class="col-md-3">
 				<div class="card card-outline card-info">
 					<div class="card-body">
 						<div class="row">

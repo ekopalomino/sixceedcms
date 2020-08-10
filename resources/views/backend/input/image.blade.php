@@ -1,6 +1,6 @@
 @extends('backend.layout.main')
 @section('header.title')
-Kementerian Perdagangan Republik Indonesia | Berita Foto
+Kementerian Perdagangan Republik Indonesia | Konten Berita Foto
 @endsection
 @section('header.plugins')
 <link rel="stylesheet" href="{{ asset('bower_components/admin-lte/plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
@@ -10,7 +10,7 @@ Kementerian Perdagangan Republik Indonesia | Berita Foto
 	<div class="container-fluid">
       	<div class="row mb-2">
        		<div class="col-sm-6">
-          		<h1>Berita Foto</h1>
+          		<h1>Konten Berita Foto</h1>
        		</div>
        	</div>
     </div>
@@ -33,14 +33,9 @@ Kementerian Perdagangan Republik Indonesia | Berita Foto
 									</button>
 								</div>
 								<div class="modal-body">
-									{!! Form::open(array('route' => 'album.store','method'=>'POST', 'class' => 'form-horizontal', 'files' => 'true')) !!}
+									{!! Form::open(array('route' => 'image.store','method'=>'POST', 'class' => 'form-horizontal', 'files' => 'true')) !!}
 									@csrf
-									<div class="form-group row">
-										<label for="inputEmail" class="col-sm-2 col-form-label">Judul Berita</label>
-										<div class="col-sm-10">
-											{!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
-										</div>
-									</div>
+									<input type="hidden" name="album_id"value="{{$album->id}}" />
 									<div class="form-group row">
 										<label for="inputEmail" class="col-sm-2 col-form-label">Deskripsi</label>
 										<div class="col-sm-10">
@@ -48,9 +43,9 @@ Kementerian Perdagangan Republik Indonesia | Berita Foto
 										</div>
 									</div>
 									<div class="form-group row">
-										<label for="inputEmail" class="col-sm-2 col-form-label">Foto Cover</label>
+										<label for="inputEmail" class="col-sm-2 col-form-label">Foto</label>
 										<div class="col-sm-10">
-											{!! Form::file('cover_image', null, array('placeholder' => 'Image','class' => 'form-control')) !!}
+											{!! Form::file('image', null, array('placeholder' => 'Image','class' => 'form-control')) !!}
 										</div>
 									</div>
 								</div>
@@ -78,31 +73,18 @@ Kementerian Perdagangan Republik Indonesia | Berita Foto
 					<table id="example1" class="table table-bordered table-hover">
 						<thead>
 							<tr>
-								<th>No</th>
-								@if(auth()->user()->site_id == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f')
-								<th>Situs</th>
-								@endif
-								<th>Cover Foto</th>
-								<th>Judul Berita</th>
+								<th>Foto</th>
 								<th>Tgl Data</th>
 								<th></th>
 							</tr>
 						</thead>
 						<tbody>
-							@foreach($albums as $key=>$album) 
+							@foreach($album->Photos as $key=>$image) 
 							<tr>
-								<td>{{ $key+1 }}</td>
-								@if(auth()->user()->site_id == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f')
-								<td>{{ $album->Sites->site_name }}</td>
-								@endif
-								<td><img src="/albums/{{$album->cover_image}}" width="100" height="100"></td>
-								<td>{{ $album->name }}</td>
+								<td><img src="/albums/{{$image->image}}" width="100" height="100"></td>
 								<td>{{date("d F Y H:i",strtotime($album->updated_at)) }}</td>
 								<td>
-									<a button id="search" type="submit" class="btn btn-xs btn-info" href="{{ route('album.show',$album->id) }}">
-										<i class="fa fa-edit"></i>
-									</a>
-									{!! Form::open(['method' => 'POST','route' => ['album.destroy', $album->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
+									{!! Form::open(['method' => 'POST','route' => ['image.destroy', $image->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
 									{!! Form::button('<i class="fas fa-trash-alt"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger']) !!}
 									{!! Form::close() !!}
 								</td>

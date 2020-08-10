@@ -151,6 +151,12 @@
 							<p>Unit Kerja</p>
 						</a>
 					</li>
+					<li class="nav-item">
+						<a href="{{ route('unit.index') }}" class="nav-link {{set_active('unit.index') }}">
+							<i class="right fas fa-angle-right"></i>
+							<p>Footer Link</p>
+						</a>
+					</li>
 				</ul>
 			</li>
 			<li class="nav-item has-treeview {{set_open(['foto.index','video.index','fnban.index','fnpub.index','about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index','post.index','write.create','upload.create','post.edit',
@@ -249,19 +255,19 @@
 					<li class="nav-item {{set_open(['post.index','write.create','upload.create','post.edit','postSearch.index','postQuery.index']) }}">
 						<a href="" class="nav-link {{set_active(['post.index','write.create','upload.create','post.edit','postSearch.index','postQuery.index']) }}">
 							<i class="right fas fa-angle-left"></i>
-							<p>Artikel</p>
+							<p>Konten Umum</p>
 						</a>
 						<ul class="nav nav-treeview">
 							<li class="nav-item">
 								<a href="{{ route('post.index') }}" class="nav-link {{set_active(['post.index','write.create','upload.create','post.edit']) }}">
 									<i class="far fa-circle nav-icon"></i>
-									<p>Artikel Baru</p>
+									<p>Konten Baru</p>
 								</a>
 							</li>
 							<li class="nav-item">
 								<a href="{{ route('postSearch.index') }}" class="nav-link {{set_active(['postSearch.index','postQuery.index']) }}">
 									<i class="far fa-circle nav-icon"></i>
-									<p>Cari Artikel</p>
+									<p>Cari Konten</p>
 								</a>
 							</li>
 						</ul>
