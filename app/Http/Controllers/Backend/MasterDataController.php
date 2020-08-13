@@ -12,6 +12,7 @@ use Sixceed\Models\DutyCategoryTranslation;
 use Sixceed\Models\ArticleCategory;
 use Sixceed\Models\FaqCategory;
 use Sixceed\Models\Unit;
+use Sixceed\Models\PublicationCategory;
 use Auth;
 
 class MasterDataController extends Controller
@@ -556,5 +557,87 @@ class MasterDataController extends Controller
         $data->destroy($id);
 
         return redirect()->route('unit.index')->with($notification);
+    }
+
+    public function pubIndex()
+    {
+        if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f') {
+            $data = PublicationCategory::orderBy('id','ASC')->get();
+
+            return view('backend.pages.publicationCategory',compact('data'));
+        } else {
+            $data = PublicationCategory::where('site_id',auth()->user()->site_id)->orderBy('id','ASC')->get();
+
+            return view('backend.pages.publicationCategory',compact('data'));
+        }
+    }
+
+    public function pubStore(Request $request)
+    {
+        $request->validate([
+    		'category_name' => 'required'
+        ]);
+
+        $input = [
+            'site_id' => auth()->user()->site_id,
+            'category_name' => $request->input('category_name'),
+            'created_by' => auth()->user()->id,
+        ];
+
+        $data = PublicationCategory::create($input);
+
+        $log = 'Kategori Publikasi '.($data->category_name).' Berhasil Disimpan';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Kategori Publikasi '.($data->category_name).' Berhasil Disimpan',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('pubCat.index')->with($notification);
+    }
+
+    public function pubEdit($id)
+    {
+        $data = PublicationCategory::find($id);
+
+        return view('backend.edit.publicationCategory',compact('data'))->renderSections()['content'];
+    }
+
+    public function pubUpdate(Request $request,$id)
+    {
+        $request->validate([
+    		'category_name' => 'required'
+        ]);
+
+        $input = [
+            'category_name' => $request->input('category_name'),
+            'updated_by' => auth()->user()->id,
+        ];
+
+        $data = PublicationCategory::find($id);
+        $data->update($input);
+
+        $log = 'Kategori Publikasi '.($data->category_name).' Berhasil Diubah';
+        \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Kategori Publikasi '.($data->category_name).' Berhasil Diubah',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('pubCat.index')->with($notification);
+    }
+
+    public function pubDestroy($id)
+    {
+        $data = PublicationCategory::find($id);
+        $log = 'Kategori Publikasi '.($data->category_name).' Berhasil Dihapus';
+        \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Kategori Publikasi '.($data->category_name).' Berhasil Dihapus',
+            'alert-type' => 'success'
+        );
+        $data->destroy($id);
+
+        return redirect()->route('pubCat.index')->with($notification);
     }
 }

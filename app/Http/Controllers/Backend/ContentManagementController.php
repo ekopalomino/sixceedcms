@@ -27,6 +27,7 @@ use Sixceed\Models\Official;
 use Sixceed\Models\OrganizationChart;
 use Sixceed\Models\ContactUs;
 use Sixceed\Models\ContactUsProcess;
+use Sixceed\Models\PublicationCategory;
 use File;
 use Carbon\Carbon;
 
@@ -392,17 +393,21 @@ class ContentManagementController extends Controller
     {
         if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f') {
             $data = Publication::orderBy('updated_at','DESC')->get();
+            $category = PublicationCategory::orderBy('category_name','ASC')->pluck('category_name','id')->toArray();
         } else {
             $data = Publication::where('site_id',auth()->user()->site_id)->orderBy('updated_at','DESC')->get();
+            $category = PublicationCategory::orderBy('category_name','ASC')->pluck('category_name','id')->toArray();
         }
 
-        return view('backend.pages.publication',compact('data'));
+        return view('backend.pages.publication',compact('data','category'));
     }
 
     public function frontPubStore(Request $request)
     {
         $request->validate([
-            'cover' => 'required|image|dimensions:width=125,length=160',
+            'title' => 'required',
+            'cover' => 'required|image',
+            'category_id' => 'required',
             'link' => 'required',
         ]);
 
@@ -414,8 +419,10 @@ class ContentManagementController extends Controller
         $uploadSuccess = $request->file('cover')->move($destinationPath, $filename);
 
         $input = [
+            'title' => $request->input('title'),
             'cover_image' => $filename,
             'link' => $request->input('link'),
+            'category_id' => $request->input('category_id'),
             'site_id' => auth()->user()->site_id,
             'created_by' => auth()->user()->id
         ];
@@ -439,7 +446,9 @@ class ContentManagementController extends Controller
     public function frontPubUpdate(Request $request,$id)
     {
         $request->validate([
-            'cover' => 'image|dimensions:max_width=125,max_length=180',
+            'title' => 'required',
+            'cover' => 'image',
+            'category_id' => 'required',
             'link' => 'required',
         ]);
 
@@ -452,13 +461,17 @@ class ContentManagementController extends Controller
             $uploadSuccess = $request->file('cover')->move($destinationPath, $filename);
 
             $input = [
+                'title' => $request->input('title'),
                 'cover_image' => $filename,
                 'link' => $request->input('link'),
+                'category_id' => $request->input('category_id'),
                 'updated_by' => auth()->user()->id
             ];
         } else {
             $input = [
+                'title' => $request->input('title'),
                 'link' => $request->input('link'),
+                'category_id' => $request->input('category_id'),
                 'updated_by' => auth()->user()->id
             ];
         }

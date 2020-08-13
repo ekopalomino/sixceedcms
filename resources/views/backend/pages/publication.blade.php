@@ -36,6 +36,18 @@ Kementerian Perdagangan Republik Indonesia | Publikasi
 									{!! Form::open(array('route' => 'fnpub.store','method'=>'POST', 'class' => 'form-horizontal', 'files'=>'true')) !!}
 									@csrf
 									<div class="form-group row">
+										<label for="inputEmail" class="col-sm-2 col-form-label">Judul</label>
+										<div class="col-sm-10">
+											{!! Form::text('title', null, array('placeholder' => 'Judul Publikasi','class' => 'form-control')) !!}
+										</div>
+									</div>
+									<div class="form-group row">
+										<label for="inputEmail" class="col-sm-2 col-form-label">Kategori</label>
+										<div class="col-sm-10">
+											{!! Form::select('category_id', [null=>'Please Select'] + $category,[], array('class' => 'form-control')) !!}
+										</div>
+									</div>
+									<div class="form-group row">
 										<label for="inputEmail" class="col-sm-2 col-form-label">Cover</label>
 										<div class="col-sm-10">
 											{!! Form::file('cover', null, array('placeholder' => 'Cover Publikasi','class' => 'form-control')) !!}

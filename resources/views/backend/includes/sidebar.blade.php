@@ -84,8 +84,8 @@
 					</li>
 				</ul>
 			</li>
-			<li class="nav-item has-treeview {{set_open(['country.index','region.index','city.index','dutycat.index','articlecat.index','faqcat.index','unit.index']) }}">
-				<a href="#" class="nav-link {{set_active(['country.index','region.index','city.index','dutycat.index','articlecat.index','faqcat.index','unit.index']) }}">
+			<li class="nav-item has-treeview {{set_open(['country.index','region.index','city.index','dutycat.index','articlecat.index','faqcat.index','unit.index','pubCat.index']) }}">
+				<a href="#" class="nav-link {{set_active(['country.index','region.index','city.index','dutycat.index','articlecat.index','faqcat.index','unit.index','pubCat.index']) }}">
 					<i class="nav-icon fas fa-database"></i>
 					<p>
 						Master Data
@@ -119,18 +119,20 @@
 							</li>
 						</ul>
 					</li>
-					<li class="nav-item {{set_open(['dutycat.index','articlecat.index','faqcat.index']) }}">
-						<a href="" class="nav-link {{set_active(['dutycat.index','articlecat.index','faqcat.index']) }}">
+					<li class="nav-item {{set_open(['dutycat.index','articlecat.index','faqcat.index','pubCat.index']) }}">
+						<a href="" class="nav-link {{set_active(['dutycat.index','articlecat.index','faqcat.index','pubCat.index']) }}">
 							<i class="right fas fa-angle-left"></i>
 							<p>Kategori</p>
 						</a>
 						<ul class="nav nav-treeview">
+							@can('disable')
 							<li class="nav-item">
 								<a href="{{ route('dutycat.index') }}" class="nav-link {{set_active('dutycat.index') }}">
 									<i class="far fa-circle nav-icon"></i>
 									<p>Tugas & Fungsi</p>
 								</a>
 							</li>
+							@endcan
 							<li class="nav-item">
 								<a href="{{ route('articlecat.index') }}" class="nav-link {{set_active('articlecat.index') }}">
 									<i class="far fa-circle nav-icon"></i>
@@ -141,6 +143,12 @@
 								<a href="{{ route('faqcat.index') }}" class="nav-link {{set_active('faqcat.index') }}">
 									<i class="far fa-circle nav-icon"></i>
 									<p>FAQ</p>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a href="{{ route('pubCat.index') }}" class="nav-link {{set_active('pubCat.index') }}">
+									<i class="far fa-circle nav-icon"></i>
+									<p>Publikasi</p>
 								</a>
 							</li>
 						</ul>

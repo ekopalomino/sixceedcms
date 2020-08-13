@@ -8,6 +8,8 @@ class Publication extends Model
 {
     protected $fillable = [
         'cover_image',
+        'title',
+        'category_id',
         'link',
         'site_id',
         'file',
