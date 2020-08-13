@@ -25,6 +25,8 @@ use Sixceed\Models\FaqCategory;
 use Sixceed\Models\Event;
 use Sixceed\Models\Official;
 use Sixceed\Models\OrganizationChart;
+use Sixceed\Models\ContactUs;
+use Sixceed\Models\ContactUsProcess;
 use File;
 use Carbon\Carbon;
 
@@ -1894,6 +1896,15 @@ class ContentManagementController extends Controller
         $data->delete();
 
         return redirect()->route('official.index')->with($notification);
+    }
+
+    public function messageIndex()
+    {
+        $data = ContactUs::where('site_id',auth()->user()->site_id)
+                         ->where('status_id','9b984ef2-6524-4146-b1c7-b6eac9ad8a98')
+                         ->get();
+        
+        return view('backend.pages.kontakKami',compact('data'));
     }
 
     

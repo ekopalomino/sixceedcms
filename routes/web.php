@@ -157,6 +157,15 @@ Route::group(['prefix' => 'cms', 'middleware' => ['auth']], function() {
     Route::post('/konten/pejabat/update/{id}','Backend\ContentManagementController@officialUpdate')->name('official.update');
     Route::post('/konten/pejabat/delete/{id}','Backend\ContentManagementController@officialDestroy')->name('official.destroy');
 
+
+
+    Route::get('/kontak-kami','Backend\ContentManagementController@messageIndex')->name('messageNew.index');
+    Route::get('/konten/pejabat/create','Backend\ContentManagementController@officialCreate')->name('official.create');
+    Route::post('/konten/pejabat/store','Backend\ContentManagementController@officialStore')->name('official.store');
+    Route::get('/konten/pejabat/edit/{id}','Backend\ContentManagementController@officialEdit')->name('official.edit');
+    Route::post('/konten/pejabat/update/{id}','Backend\ContentManagementController@officialUpdate')->name('official.update');
+    Route::post('/konten/pejabat/delete/{id}','Backend\ContentManagementController@officialDestroy')->name('official.destroy');
+
     
 });
 /*Route::get('/home', 'HomeController@index')->name('home');*/

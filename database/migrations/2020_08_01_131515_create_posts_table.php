@@ -17,13 +17,14 @@ class CreatePostsTable extends Migration
             $table->bigIncrements('id');
             $table->uuid('site_id');
             $table->string('type');
-            $table->uuid('category_id');
+            $table->bigInteger('category_id');
             $table->string('source')->nullable();
             $table->string('file')->nullable();
             $table->uuid('reporter_id');
             $table->uuid('status_id');
             $table->uuid('created_by');
-            $table->uuid('updated_by')->nullable(); 
+            $table->uuid('updated_by')->nullable();
+            $table->dateTime('published_date')->nullable(); 
             $table->timestamps();
         });
     }

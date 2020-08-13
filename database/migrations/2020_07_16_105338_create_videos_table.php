@@ -22,6 +22,9 @@ class CreateVideosTable extends Migration
             $table->string('thumbnail');
             $table->string('thumbnail_small');
             $table->string('player');
+            $table->uuid('site_id');
+            $table->uuid('created_by');
+            $table->uuid('updated_by')->nullable();
             $table->primary('id');
             $table->timestamps();
         });

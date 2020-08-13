@@ -15,7 +15,7 @@ class CreateEventTranslationsTable extends Migration
     {
         Schema::create('event_translations', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('event_id');
+            $table->bigInteger('event_id')->unsigned();
             $table->string('locale')->index();
             $table->string('title');
             $table->string('slug')->unique();

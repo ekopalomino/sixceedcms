@@ -16,6 +16,7 @@ class CreateAboutUsTable extends Migration
         Schema::create('about_us', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('status_id');
+            $table->uuid('site_id');
             $table->timestamps();
         });
     }

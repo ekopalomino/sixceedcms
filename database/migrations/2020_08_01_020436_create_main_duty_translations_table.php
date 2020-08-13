@@ -15,7 +15,7 @@ class CreateMainDutyTranslationsTable extends Migration
     {
         Schema::create('main_duty_translations', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('main_duty_id');
+            $table->integer('main_duty_id')->unsigned();
             $table->string('locale')->index();
             $table->string('category');
             $table->string('slug');

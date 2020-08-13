@@ -17,6 +17,8 @@ class CreatePublicationsTable extends Migration
             $table->bigIncrements('id');
             $table->string('cover_image');
             $table->string('link');
+            $table->string('file')->nullable();
+            $table->uuid('site_id');
             $table->uuid('created_by');
             $table->uuid('updated_by')->nullable();
             $table->timestamps();
