@@ -4,10 +4,10 @@
     <div class="sidebar">
     	<div class="user-panel mt-3 pb-3 mb-3 d-flex">
 	        <div class="image">
-				<img src="{{ asset('bower_components/admin-lte/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
+				<img src="/storage/avatars/{{Auth::user()->avatar}}" class="img-circle elevation-2" alt="User Image">
 			</div>
 	        <div class="info">
-	           <a href="{{ route('main.index') }}" class="d-block">{{{ isset(Auth::user()->name) ? Auth::user()->name : Auth::user()->email }}}</a>
+	           <a href="{{ route('myMenu.index') }}" class="d-block">{{{ isset(Auth::user()->name) ? Auth::user()->name : Auth::user()->email }}}</a>
 	        </div>
 	    </div>
 	    <nav class="mt-2">

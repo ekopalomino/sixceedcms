@@ -27,10 +27,13 @@ Route::group(['prefix' => 'cms', 'middleware' => ['auth']], function() {
     Route::get('/pusat-pengembangan-sumber-daya-kemetrologian','Backend\DashboardController@ppsdk')->name('ppsdk.index');
 
     Route::get('/pengguna','Backend\UserManagementController@userIndex')->name('user.index');
+    Route::get('/pengguna/menu-saya','Backend\UserManagementController@userMenu')->name('myMenu.index');
     Route::get('/pengguna/edit/{id}','Backend\UserManagementController@userEdit')->name('user.edit');
     Route::post('/pengguna/store','Backend\UserManagementController@userStore')->name('user.store');
     Route::post('pengguna/update/{id}','Backend\UserManagementController@userUpdate')->name('user.update');
     Route::post('pengguna/suspend/{id}','Backend\UserManagementController@userDestroy')->name('user.destroy');
+    Route::post('/pengguna/menu-saya/ubah-password','Backend\UserManagementController@updatePassword')->name('myPassword.update');
+    Route::post('/pengguna/menu-saya/ganti-avatar','Backend\UserManagementController@updateAvatar')->name('myAvatar.update');
     Route::get('/hak-akses','Backend\UserManagementController@rolesIndex')->name('roles.index');
     Route::get('/hak-akses/create','Backend\UserManagementController@roleCreate')->name('roles.create');
     Route::get('/hak-akses/edit/{id}','Backend\UserManagementController@roleEdit')->name('roles.edit');

@@ -106,10 +106,15 @@ class UserManagementController extends Controller
                         ->with($notification);
     }
 
+    public function userMenu()
+    {
+        return view('backend.pages.userMenu'); 
+    }
+
     public function updateAvatar(Request $request){
 
         $request->validate([
-            'avatar' => 'required|image|mimes:jpeg,png,jpg,JPG,gif,svg|dimensions:min_width=150,min_length=150',
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,JPG,gif,svg',
         ]);
 
         $user = Auth::user();
@@ -127,15 +132,14 @@ class UserManagementController extends Controller
             'message' => 'User Picture '.($user->name).' berhasil disimpan',
             'alert-type' => 'success'
         );
-        return back()
-            ->with($notification);
+        return back()->with($notification);
 
     }
 
     public function updatePassword(Request $request)
     {
         $request->validate([
-            'password' => 'same:confirm-password',
+            'password' => 'required|same:confirm-password',
         ]);
 
         $input = $request->all();
@@ -154,8 +158,7 @@ class UserManagementController extends Controller
             'message' => 'User '.($user->name).' berhasil merubah password',
             'alert-type' => 'success'
         );
-        return back()
-            ->with($notification);
+        return back()->with($notification);
     }
 
     public function userDestroy($id)
