@@ -28,6 +28,7 @@ use Sixceed\Models\OrganizationChart;
 use Sixceed\Models\ContactUs;
 use Sixceed\Models\ContactUsProcess;
 use Sixceed\Models\PublicationCategory;
+use Sixceed\Models\Oiml;
 use File;
 use Carbon\Carbon;
 
@@ -413,7 +414,7 @@ class ContentManagementController extends Controller
 
         $file = $request->file('cover'); 
         $random_name = str_random(8);
-        $destinationPath = 'public/publikasi';
+        $destinationPath = 'publikasi';
         $extension = $file->getClientOriginalExtension();
         $filename=$random_name.'.'.$extension;
         $uploadSuccess = $request->file('cover')->move($destinationPath, $filename);
@@ -426,7 +427,7 @@ class ContentManagementController extends Controller
             'site_id' => auth()->user()->site_id,
             'created_by' => auth()->user()->id
         ];
-        $storage = PublikasiPerdagangan::create($input);
+        $storage = Publication::create($input);
         $log = 'Publikasi Berhasil Disimpan';
          \LogActivity::addToLog($log);
         $notification = array (
@@ -455,7 +456,7 @@ class ContentManagementController extends Controller
     	if ($request->hasFile('cover')) {
             $file = $request->file('cover'); 
             $random_name = str_random(8);
-            $destinationPath = 'public/publikasi';
+            $destinationPath = 'publikasi';
             $extension = $file->getClientOriginalExtension();
             $filename=$random_name.'.'.$extension;
             $uploadSuccess = $request->file('cover')->move($destinationPath, $filename);
@@ -1909,6 +1910,91 @@ class ContentManagementController extends Controller
         $data->delete();
 
         return redirect()->route('official.index')->with($notification);
+    }
+
+    public function oimlIndex()
+    {
+        $data = Oiml::orderBy('updated_at','DESC')->get();
+
+        return view('backend.pages.oiml',compact('data'));
+    }
+
+    public function oimlStore(Request $request)
+    {
+        $this->validate($request, [
+            'title' => 'required',
+            'category' => 'required',
+            'reference_no' => 'required',
+            'link' => 'required',
+        ]);
+
+        $input = [
+            'title' => $request->input('title'),
+            'category' => $request->input('category'),
+            'reference_no' => $request->input('reference_no'),
+            'link' => $request->input('link'),
+        ];
+
+        $data = Oiml::create($input);
+
+        $log = 'OIML '.($data->title).' Berhasil Disimpan';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'OIML '.($data->title).' Berhasil Disimpan',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('oiml.index')->with($notification);
+    }
+
+    public function oimlEdit($id)
+    {
+        $data = Oiml::find($id);
+
+        return view('backend.edit.oiml',compact('data'))->renderSections()['content'];
+    }
+
+    public function oimlUpdate(Request $request,$id)
+    {
+        $this->validate($request, [
+            'title' => 'required',
+            'category' => 'required',
+            'reference_no' => 'required',
+            'link' => 'required',
+        ]);
+
+        $input = [
+            'title' => $request->input('title'),
+            'category' => $request->input('category'),
+            'reference_no' => $request->input('reference_no'),
+            'link' => $request->input('link'),
+        ];
+
+        $data = Oiml::find($id);
+        $data->update($input);
+
+        $log = 'OIML '.($data->title).' Berhasil Diubah';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'OIML '.($data->title).' Berhasil Diubah',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('oiml.index')->with($notification);
+    }
+
+    public function oimlDestroy($id)
+    {
+        $data = Oiml::find($id);
+        $log = 'OIML '.($data->title).' Berhasil Dihapus';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'OIML '.($data->title).' Berhasil Dihapus',
+            'alert-type' => 'success'
+        );
+        $data->delete($id);
+
+        return redirect()->route('oiml.index')->with($notification);
     }
 
     public function messageIndex()

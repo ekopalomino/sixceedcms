@@ -114,6 +114,12 @@ Route::group(['prefix' => 'cms', 'middleware' => ['auth']], function() {
     Route::post('/konten/publikasi-depan/update/{id}','Backend\ContentManagementController@frontPubUpdate')->name('fnpub.update');
     Route::post('/konten/publikasi-depan/delete/{id}','Backend\ContentManagementController@frontPubDestroy')->name('fnpub.destroy');
 
+    Route::get('/konten/publikasi/oiml','Backend\ContentManagementController@oimlIndex')->name('oiml.index');
+    Route::post('/konten/publikasi/oiml/store','Backend\ContentManagementController@oimlStore')->name('oiml.store');
+    Route::get('/konten/publikasi/oiml/edit/{id}','Backend\ContentManagementController@oimlEdit')->name('oiml.edit');
+    Route::post('/konten/publikasi/oiml/update/{id}','Backend\ContentManagementController@oimlUpdate')->name('oiml.update');
+    Route::post('/konten/publikasi/oiml/delete/{id}','Backend\ContentManagementController@oimlDestroy')->name('oiml.destroy');
+
     Route::get('/konten/tentang-kami/pesan','Backend\ContentManagementController@aboutIndex')->name('about.index');
     Route::get('/konten/tentang-kami/pesan/create','Backend\ContentManagementController@aboutCreate')->name('about.create');
     Route::post('/konten/tentang-kami/pesan/store','Backend\ContentManagementController@aboutStore')->name('about.store');

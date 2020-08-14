@@ -46,7 +46,7 @@
 		@if((auth()->user()->site_id) == '92876445-2b7c-4e2f-bb43-d3b71b608e4e')
 		<li class="nav-item d-none d-sm-inline-block">
 			<a href="{{ route('ppsdk.index') }}" class="nav-link {{set_active(['user.index','roles.index','roles.create','log.index','country.index','region.index','city.index','dutycat.index','articlecat.index','faqcat.index','unit.index','pubCat.index','ppsdk.index','foto.index','image.create','video.index','fnban.index','fnpub.index','about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index','post.index','write.create','upload.create','post.edit',
-					'postSearch.index','postQuery.index','faq.index','faq.create','faq.edit','event.index','event.create','event.edit','official.index','official.create','official.edit']) }}">Pusat Pengembangan Sumber Daya Kemetrologian</a>
+					'postSearch.index','postQuery.index','faq.index','faq.create','faq.edit','event.index','event.create','event.edit','official.index','official.create','official.edit','oiml.index']) }}">Pusat Pengembangan Sumber Daya Kemetrologian</a>
 		</li>
 		@endif
 		@if((auth()->user()->site_id) == '2da488d4-a8e7-499a-b6e7-360ff17f9585')
