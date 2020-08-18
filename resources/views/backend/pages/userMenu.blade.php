@@ -85,15 +85,3 @@ Kementerian Perdagangan Republik Indonesia | User Menu
     </div>
 </section>
 @endsection
-@section('footer.scripts')
-<script>
-    function ConfirmDelete()
-    {
-    var x = confirm("Video Akan Dihapus?");
-    if (x)
-        return true;
-    else
-        return false;
-    }
-</script>
-@endsection

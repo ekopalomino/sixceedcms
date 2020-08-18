@@ -42,6 +42,9 @@ Route::group(['prefix' => 'cms', 'middleware' => ['auth']], function() {
     Route::post('hak-akses/suspend/{id}','Backend\UserManagementController@roleDestroy')->name('roles.destroy');
     Route::get('/log-aktifitas','Backend\UserManagementController@logActivities')->name('log.index');
 
+    Route::get('/backup','Backend\MaintenanceController@backupIndex')->name('backup.index');
+    Route::get('/backup/create','Backend\MaintenanceController@backupCreate')->name('backup.create');
+
     Route::get('/masterdata/negara','Backend\MasterDataController@countryIndex')->name('country.index');
     Route::post('/masterdata/negara/store','Backend\MasterDataController@countryStore')->name('country.store');
     Route::get('/masterdata/negara/edit/{id}','Backend\MasterDataController@countryEdit')->name('user.edit');

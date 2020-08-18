@@ -62,11 +62,37 @@ Kementerian Perdagangan Republik Indonesia | Buat Artikel Upload
           <div class="row">
             <div class="col-6">
               <label><strong>Kategori Artikel</strong></label>
-              {!! Form::select('category_id', $categories,[], array('class' => 'form-control')) !!}
+              {!! Form::select('category_id', $categories,[], array('class' => 'form-control','id'=>'category_id')) !!}
+            </div>
+            <div class="col-6" id="row_menteri">
+              <label><strong>Peraturan Kementerian</strong></label>
+              <select name="menteri_id" class="form-control">
+                <option value="0">Please Select</option>
+                <option value="1">Kementerian Perdagangan</option>
+                <option value="2">Kementerian Pemberdayaan Aparatur Negara dan Reformasi Birokrasi</option>
+                <option value="3">Kementerian Keuangan</option>
+                <option value="4">Kementerian Kesehatan</option>
+                <option value="5">Kementerian Hukum dan Hak Asasi Manusia</option>
+                <option value="6">Badan Kepegawaian Negara</option>
+                <option value="7">Lembaga Administrasi Negara</option>
+              </select>
+            </div>
+            <div class="col-6" id="row_lain">
+              <label><strong>Peraturan Lain</strong></label>
+              <select name="lainnya_id" class="form-control">
+                <option value="0">Please Select</option>
+                <option value="1">Sekretariat Jenderal</option>
+                <option value="2">Syarat Teknis</option>
+              </select>
             </div>
             <div class="col-6">
               <label><strong>File Artikel</strong></label>
-              {!! Form::file('file', null, array('placeholder' => 'Image','class' => 'form-control')) !!}
+              <div class="input-group">
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" id="file" name="file">
+                  <label class="custom-file-label" for="customFile">Choose file</label>
+                </div>
+              </div>
             </div>
           </div>
           <br>
@@ -77,7 +103,9 @@ Kementerian Perdagangan Republik Indonesia | Buat Artikel Upload
             </div>
             <div class="col-6">
               <label><strong>Sumber Berita</strong></label>
-              {!! Form::text('source', null, array('placeholder' => 'Sumber Berita','class' => 'form-control')) !!}
+                <div class="col-sm-10">
+                  {!! Form::text('source', null, array('placeholder' => 'Sumber Berita','class' => 'form-control')) !!}
+                </div>
             </div>
           </div>
           {!! Form::hidden('type', 'upload', array('class' => 'form-control','readonly')) !!}
@@ -92,10 +120,40 @@ Kementerian Perdagangan Republik Indonesia | Buat Artikel Upload
 @endsection
 @section('footer.scripts')
 <script src="{{ asset('bower_components/admin-lte/plugins/summernote/summernote-bs4.min.js') }}"></script>
+<script src="{{ asset('bower_components/admin-lte/plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
 <script>
   $(function () {
     // Summernote
     $('.textarea').summernote()
   })
+</script>
+<script>
+  $(function() {
+    $('#row_menteri').hide(); 
+    $('#category_id').change(function(){
+        if($('#category_id').val() == '8') {
+            $('#row_menteri').show(); 
+        } else {
+            $('#row_menteri').hide(); 
+        } 
+    });
+});
+</script>
+<script>
+  $(function() {
+    $('#row_lain').hide(); 
+    $('#category_id').change(function(){
+        if($('#category_id').val() == '9') {
+            $('#row_lain').show(); 
+        } else {
+            $('#row_lain').hide(); 
+        } 
+    });
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function () {
+  bsCustomFileInput.init();
+});
 </script>
 @endsection

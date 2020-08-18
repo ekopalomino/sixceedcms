@@ -1501,6 +1501,8 @@ class ContentManagementController extends Controller
                 'category_id' => $request->input('category_id'),
                 'reporter_id' => $request->input('reporter_id'),
                 'source' => $request->input('source'),
+                'menteri_id' => $request->input('menteri_id'),
+                'peraturan_lain_id' => $request->input('lainnya_id'),
                 'created_by' => auth()->user()->id,
                 'site_id' => auth()->user()->site_id,
                 'status_id' => '3bc97e4a-5e86-4d7c-86d5-7ee450a247ee'
@@ -1538,6 +1540,8 @@ class ContentManagementController extends Controller
                 ],
                 'category_id' => $request->input('category_id'),
                 'reporter_id' => $request->input('reporter_id'),
+                'menteri_id' => $request->input('menteri_id'),
+                'peraturan_lain_id' => $request->input('lainnya_id'),
                 'file' => $path,
                 'created_by' => auth()->user()->id,
                 'type' => $request->input('type'),
