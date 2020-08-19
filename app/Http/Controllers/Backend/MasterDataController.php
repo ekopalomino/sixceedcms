@@ -78,7 +78,7 @@ class MasterDataController extends Controller
         $logs = 'Negara '.($country->country_name).' berhasil dihapus';
         $country->destroy($id);
         
-         \LogActivity::addToLog($data);
+         \LogActivity::addToLog($logs);
         $notification = array (
             'message' => 'Negara '.($country->country_name).' berhasil dihapus',
             'alert-type' => 'success'
@@ -154,7 +154,7 @@ class MasterDataController extends Controller
         $logs = 'Provinsi '.($data->region_name).' Berhasil Dihapus';
         $data->destroy($id);
         
-         \LogActivity::addToLog($data);
+         \LogActivity::addToLog($logs);
         $notification = array (
             'message' => 'Provinsi '.($data->region_name).' Berhasil Dihapus',
             'alert-type' => 'success'
@@ -190,7 +190,7 @@ class MasterDataController extends Controller
         $saves = City::create($input);
         
         $logs = 'Kota '.($saves->city_name).' Berhasil Disimpan';
-         \LogActivity::addToLog($data);
+         \LogActivity::addToLog($logs);
         $notification = array (
             'message' => 'Kota '.($saves->city_name).' Berhasil Disimpan',
             'alert-type' => 'success'
@@ -220,7 +220,7 @@ class MasterDataController extends Controller
         $saves = City::find($id);
         $saves->update($input);
         $logs = 'Kota '.($saves->city_name).' Berhasil Diubah';
-         \LogActivity::addToLog($data);
+         \LogActivity::addToLog($logs);
         $notification = array (
             'message' => 'Kota '.($saves->city_name).' Berhasil Diubah',
             'alert-type' => 'success'
@@ -235,7 +235,7 @@ class MasterDataController extends Controller
         $logs = 'Kota '.($data->city_name).' Berhasil Dihapus';
         $data->destroy($id);
         
-         \LogActivity::addToLog($data);
+         \LogActivity::addToLog($logs);
         $notification = array (
             'message' => 'Kota '.($data->city_name).' Berhasil Dihapus',
             'alert-type' => 'success'
