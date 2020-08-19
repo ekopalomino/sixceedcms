@@ -126,7 +126,11 @@ Kementerian Perdagangan Republik Indonesia | User Database
 										@endforeach
 									@endif 
 								</td>
-								<td>{{ $user->Sites->site_name }}</td>
+								<td>
+								@if(!empty($user->site_id)) 
+								{{ $user->Sites->site_name }}
+								@endif
+								</td>
             					<td>
 									@if(($user->status_id) == 'f13c7f2e-4723-47a7-b75c-fbec0aaca411' )
 										<span class="badge badge-info">{{ $user->status->status_name }}</span>
