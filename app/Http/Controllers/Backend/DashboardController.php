@@ -19,4 +19,9 @@ class DashboardController extends Controller
     {
         return view('backend.dashboard.ppsdk');
     }
+
+    public function dagri()
+    {
+        return view('backend.dashboard.dagri');
+    }
 }

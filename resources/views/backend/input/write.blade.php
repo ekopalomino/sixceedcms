@@ -31,56 +31,70 @@ Kementerian Perdagangan Republik Indonesia | Buat Artikel Tulisan
 			@endif 
 			{!! Form::open(array('route' => 'post.store','method'=>'POST', 'class' => 'form-horizontal')) !!}
 			@csrf
-			<div class="col-md-9">
-				<div class="card card-outline card-danger">
-					<div class="card-body">
-						<div class="row">
-						  <div class="col-6">
-							<label><strong>Judul</strong></label>
-							{!! Form::text('id_title', null, array('placeholder' => 'Judul','class' => 'form-control')) !!}
-						  </div>
-						  <div class="col-6">
-							<label><strong>Title</strong></label>
-							{!! Form::text('en_title', null, array('placeholder' => 'Title','class' => 'form-control')) !!}
-						  </div>
-						</div>
-						<br>
-						<div class="row">
-							<div class="col-12">
-								<label><strong>Bahasa Indonesia</strong></label>
-								<textarea class="textarea" name="id_content" id="id_content" placeholder="Place some text here"
-									style="width: 100%; height: 100%; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">
-								</textarea>
+			<div class="row">
+				<div class="col-md-9">
+					<div class="card card-outline card-danger">
+						<div class="card-body">
+							<div class="row">
+							  <div class="col-6">
+								<label><strong>Judul (Indonesia)</strong></label>
+								{!! Form::text('id_title', null, array('placeholder' => 'Judul','class' => 'form-control')) !!}
+							  </div>
+							  <div class="col-6">
+								<label><strong>Judul (Inggris)</strong></label>
+								{!! Form::text('en_title', null, array('placeholder' => 'Title','class' => 'form-control')) !!}
+							  </div>
 							</div>
-							<div class="col-12">
-								<label><strong>English</strong></label>
-								<textarea class="textarea" name="en_content" id="en_content" placeholder="Place some text here"
-									style="width: 100%; height: 1000px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">
-								</textarea>
+							<br>
+							<div class="row">
+								<div class="col-12">
+									<label><strong>Konten (Indonesia)</strong></label>
+									<textarea class="textarea" name="id_content" id="id_content" placeholder="Place some text here"
+										style="width: 100%; height: 100%; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">
+									</textarea>
+								</div>
+								<div class="col-12">
+									<label><strong>Konten (Inggris)</strong></label>
+									<textarea class="textarea" name="en_content" id="en_content" placeholder="Place some text here"
+										style="width: 100%; height: 1000px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">
+									</textarea>
+								</div>
 							</div>
+							{!! Form::hidden('type', 'write', array('class' => 'form-control','readonly')) !!}
+							<br>
+							<button type="submit" class="btn btn-sm btn-info">Submit</button>
+							<a button type="button" class="btn btn-sm btn-danger" href="{{ route('post.index') }}">Cancel</a>
 						</div>
-						{!! Form::hidden('type', 'write', array('class' => 'form-control','readonly')) !!}
-						<br>
-						<button type="submit" class="btn btn-sm btn-info">Submit</button>
-						<a button type="button" class="btn btn-sm btn-danger" href="{{ route('post.index') }}">Cancel</a>
 					</div>
 				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="card card-outline card-info">
-					<div class="card-body">
-						<div class="row">
-							<div class="col-12">
-								<label><strong>Kategori Artikel</strong></label>
-								{!! Form::select('category_id', $categories,[], array('class' => 'form-control')) !!}
-							</div>
-							<div class="col-12">
-								<label><strong>Reporter</strong></label>
-								{!! Form::select('reporter_id', $reporter,[], array('class' => 'form-control')) !!}
-							</div>
-							<div class="col-12">
-								<label><strong>Sumber Berita</strong></label>
-								{!! Form::text('source', null, array('placeholder' => 'Sumber Berita','class' => 'form-control')) !!}
+				<div class="col-md-3">
+					<div class="card card-outline card-info">
+						<div class="card-body">
+							<div class="row">
+								<div class="col-12">
+									<div class="form-group">
+										<label><strong>Kategori Artikel</strong></label>
+										{!! Form::select('category_id', [null=>'Please Select'] + $categories,[], array('class' => 'form-control')) !!}
+									</div>
+								</div>
+								<div class="col-12">
+									<div class="form-group">
+										<label><strong>Nama Reporter</strong></label>
+										{!! Form::select('reporter_id', [null=>'Please Select'] + $reporter,[], array('class' => 'form-control')) !!}
+									</div>
+								</div>
+								<div class="col-12">
+									<div class="form-group">
+										<label><strong>Sumber Berita</strong></label>
+										{!! Form::text('source', null, array('placeholder' => 'Sumber Berita','class' => 'form-control')) !!}
+									</div>
+								</div>
+								<div class="col-12">
+									<div class="form-group">
+										<label><strong>Tanggal Publish</strong></label>
+										{!! Form::date('publish_date', '', array('id' => 'datepicker','class' => 'form-control')) !!}
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>

@@ -23,7 +23,7 @@ Route::group(['prefix' => 'cms', 'middleware' => ['auth']], function() {
     Route::get('/perundingan-perdagangan-internasional','Backend\HomeController@ppiIndex')->name('ppi.index');
     Route::get('/perdagangan-luar-negeri','Backend\HomeController@plnIndex')->name('pln.index');
     Route::get('/perlindungan-konsumen-tertib-niaga','Backend\HomeController@pktnIndex')->name('pktn.index');
-    Route::get('/perdagangan-dalam-negeri','Backend\HomeController@pdnIndex')->name('pdn.index');
+    Route::get('/perdagangan-dalam-negeri','Backend\DashboardController@dagri')->name('pdn.index');
     Route::get('/pusat-pengembangan-sumber-daya-kemetrologian','Backend\DashboardController@ppsdk')->name('ppsdk.index');
 
     Route::get('/pengguna','Backend\UserManagementController@userIndex')->name('user.index');

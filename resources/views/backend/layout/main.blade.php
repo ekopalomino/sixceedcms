@@ -70,6 +70,7 @@
 	<script src="{{ asset('bower_components/admin-lte/dist/js/adminlte.min.js') }}"></script>
 	<script src="{{ asset('bower_components/admin-lte/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 	<script src="{{ asset('bower_components/admin-lte/plugins/toastr/toastr.min.js') }}"></script>
+  <script src="{{ asset('bower_components/admin-lte/dist/js/demo.js') }}"></script>
 	<script src="{{ asset('js/admin.js') }}" type="text/javascript"></script>
 	@yield('footer.scripts') 
 	<script type="text/javascript">
