@@ -150,7 +150,7 @@ Kementerian Perdagangan Republik Indonesia | User Database
 								</td>
 								<td>{{date("d F Y H:i",strtotime($user->created_at)) }}</td>
 								<td>
-									<a class="btn btn-xs btn-info modalLg" href="#" value="{{ action('Backend\UserManagementController@userEdit',['id'=>$user->id]) }}" data-toggle="modal" data-target="#modalLg" title="Edit User"><i class="fa fa-edit"></i></a>
+									<a class="btn btn-xs btn-info modalLg" href="#" value="{{ action('Backend\UserManagementController@userEdit',['id'=>$user->id]) }}" data-toggle="modal" data-target="#modalLg" title="Edit Pengguna"><i class="fa fa-edit"></i></a>
 									{!! Form::open(['method' => 'POST','route' => ['user.destroy', $user->id],'style'=>'display:inline','onsubmit' => 'return ConfirmSuspend()']) !!}
 									{!! Form::button('<i class="fas fa-user-slash"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger']) !!}
 									{!! Form::close() !!}

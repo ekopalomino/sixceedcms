@@ -36,14 +36,17 @@ Kementerian Perdagangan Republik Indonesia | Buat Artikel Tulisan
 					<div class="card card-outline card-danger">
 						<div class="card-body">
 							<div class="row">
-							  <div class="col-6">
-								<label><strong>Judul (Indonesia)</strong></label>
-								{!! Form::text('id_title', null, array('placeholder' => 'Judul','class' => 'form-control')) !!}
-							  </div>
-							  <div class="col-6">
-								<label><strong>Judul (Inggris)</strong></label>
-								{!! Form::text('en_title', null, array('placeholder' => 'Title','class' => 'form-control')) !!}
-							  </div>
+							  	<div class="col-6">
+									<label><strong>Judul (Indonesia)</strong></label>
+									{!! Form::text('id_title', null, array('placeholder' => 'Judul','class' => 'form-control')) !!}
+							  	</div>
+							</div>
+							<br>
+							<div class="row">
+							  	<div class="col-6">
+									<label><strong>Judul (Inggris)</strong></label>
+									{!! Form::text('en_title', null, array('placeholder' => 'Title','class' => 'form-control')) !!}
+							  	</div>
 							</div>
 							<br>
 							<div class="row">

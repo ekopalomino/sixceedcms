@@ -15,6 +15,7 @@ class Publication extends Model
         'file',
         'created_by',
         'updated_by',
+        'publish_year',
     ];
 
     public function Creator()

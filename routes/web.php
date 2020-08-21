@@ -93,6 +93,8 @@ Route::group(['prefix' => 'cms', 'middleware' => ['auth']], function() {
     Route::post('/masterdata/kategori-publikasi/update/{id}','Backend\MasterDataController@pubUpdate')->name('pubCat.update');
     Route::post('/masterdata/kategori-publikasi/delete/{id}','Backend\MasterDataController@pubDestroy')->name('pubCat.destroy');
 
+    Route::get('/masterdata/struktur-menu','Backend\MasterDataController@menuIndex')->name('menu.index');
+
     Route::get('/konten/media/berita-video','Backend\ContentManagementController@videoIndex')->name('video.index');
     Route::post('/konten/media/berita-video/store','Backend\ContentManagementController@videoStore')->name('video.store');
     Route::get('/konten/media/berita-video/show/{id}','Backend\ContentManagementController@videoShow')->name('video.show');

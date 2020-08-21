@@ -36,7 +36,7 @@
 		@if((auth()->user()->site_id) == '85cd37d3-e818-4e04-b294-3491feb60285')
 		<li class="nav-item d-none d-sm-inline-block">
 			<a href="{{ route('pdn.index') }}" class="nav-link {{set_active(['myMenu.index','user.index','roles.index','roles.create','log.index','country.index','region.index','city.index','dutycat.index','articlecat.index','faqcat.index','unit.index','pubCat.index','ppsdk.index','foto.index','image.create','video.index','fnban.index','fnpub.index','about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index','post.index','write.create','upload.create','post.edit',
-					'postSearch.index','postQuery.index','faq.index','faq.create','faq.edit','event.index','event.create','event.edit','official.index','official.create','official.edit','oiml.index']) }}">CMS Direktorat Jenderal Perdagangan Dalam Negeri</a>
+					'postSearch.index','postQuery.index','faq.index','faq.create','faq.edit','event.index','event.create','event.edit','official.index','official.create','official.edit','oiml.index','menu.index']) }}">CMS Direktorat Jenderal Perdagangan Dalam Negeri</a>
 		</li>
 		@endif
 		@if((auth()->user()->site_id) == '745572a6-c3a9-491a-b069-966d9cfa7054')

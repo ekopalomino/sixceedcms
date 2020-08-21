@@ -24,10 +24,13 @@ Kementerian Perdagangan Republik Indonesia | Log Activity
 						<thead>
 							<tr>
 								<th>No</th>
-								<th>Action</th>
+								<th>Pengguna</th>
+								@if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f')
+								<th>Situs</th>
+								@endif
 								<th>URL</th>
+								<th>Action</th>
 								<th>User IP</th>
-								<th>Username</th>
 								<th>Activity Date</th>
 							</tr>
 						</thead>
@@ -36,10 +39,13 @@ Kementerian Perdagangan Republik Indonesia | Log Activity
 							@foreach($logs as $key => $log)
 							<tr>
 								<td>{{ $key+1 }}</td>
-								<td>{{ $log->subject }}</td>
-								<td class="text-success">{{ $log->url }}</td>
-								<td class="text-danger">{{ $log->ip }}</td>
 								<td><span class="badge badge-danger">{{ $log->Creator->name }}</span></td>
+								@if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f')
+								<td><span class="badge badge-info">{{ $log->Sites->site_name }}</span></td>
+								@endif
+								<td class="text-success">{{ $log->url }}</td>
+								<td>{{ $log->subject }}</td>
+								<td class="text-danger">{{ $log->ip }}</td>
 								<td>{{date("d F Y H:i",strtotime($log->created_at)) }}</td>
 							</tr>
 							@endforeach

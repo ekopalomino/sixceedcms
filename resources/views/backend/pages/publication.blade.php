@@ -42,6 +42,16 @@ Kementerian Perdagangan Republik Indonesia | Publikasi
 										</div>
 									</div>
 									<div class="form-group row">
+										<label for="inputEmail" class="col-sm-2 col-form-label">Tahun Publikasi</label>
+										<div class="col-sm-10">
+											<select name="publish_year" class="form-control">
+												@foreach($yearArray as $year)
+												<option value="{{ $year }}">{{ $year }}</option>
+												@endforeach
+											</select>
+										</div>
+									</div>
+									<div class="form-group row">
 										<label for="inputEmail" class="col-sm-2 col-form-label">Kategori</label>
 										<div class="col-sm-10">
 											{!! Form::select('category_id', [null=>'Please Select'] + $category,[], array('class' => 'form-control')) !!}
@@ -57,6 +67,12 @@ Kementerian Perdagangan Republik Indonesia | Publikasi
 										<label for="inputEmail" class="col-sm-2 col-form-label">Link</label>
 										<div class="col-sm-10">
 											{!! Form::text('link', null, array('placeholder' => 'Link Publikasi','class' => 'form-control')) !!}
+										</div>
+									</div>
+									<div class="form-group row">
+										<label for="inputEmail" class="col-sm-2 col-form-label">File</label>
+										<div class="col-sm-10">
+											{!! Form::file('file', null, array('placeholder' => 'Cover Publikasi','class' => 'form-control')) !!}
 										</div>
 									</div>
 								</div>

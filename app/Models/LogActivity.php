@@ -12,11 +12,17 @@ class LogActivity extends Model
     	'method',
     	'ip',
     	'agent',
-    	'user_id',
+		'user_id',
+		'site_id',
 	];
 	
 	public function Creator()
 	{
 		return $this->belongsTo(User::class,'user_id');
+	}
+
+	public function Sites()
+	{
+		return $this->belongsTo(Site::class,'site_id');
 	}
 }

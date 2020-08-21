@@ -640,4 +640,9 @@ class MasterDataController extends Controller
 
         return redirect()->route('pubCat.index')->with($notification);
     }
+
+    public function menuIndex()
+    {
+        return view('backend.pages.menu');
+    }
 }

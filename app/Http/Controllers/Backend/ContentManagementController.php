@@ -400,7 +400,9 @@ class ContentManagementController extends Controller
             $category = PublicationCategory::orderBy('category_name','ASC')->pluck('category_name','id')->toArray();
         }
 
-        return view('backend.pages.publication',compact('data','category'));
+        $yearArray = range(1990, 2100);
+
+        return view('backend.pages.publication',compact('data','category','yearArray'));
     }
 
     public function frontPubStore(Request $request)
@@ -410,6 +412,8 @@ class ContentManagementController extends Controller
             'cover' => 'required|image',
             'category_id' => 'required',
             'link' => 'required',
+            'file' => 'file|mimes:pdf,PDF',
+            'publish_year' => 'required',
         ]);
 
         $file = $request->file('cover'); 
@@ -418,23 +422,49 @@ class ContentManagementController extends Controller
         $extension = $file->getClientOriginalExtension();
         $filename=$random_name.'.'.$extension;
         $uploadSuccess = $request->file('cover')->move($destinationPath, $filename);
+        
+        if($request->hasFile('file')) {
+            $uploadedFile = $request->file('file');
+            $path = $uploadedFile->store('publication');
 
-        $input = [
-            'title' => $request->input('title'),
-            'cover_image' => $filename,
-            'link' => $request->input('link'),
-            'category_id' => $request->input('category_id'),
-            'site_id' => auth()->user()->site_id,
-            'created_by' => auth()->user()->id
-        ];
-        $storage = Publication::create($input);
-        $log = 'Publikasi Berhasil Disimpan';
-         \LogActivity::addToLog($log);
-        $notification = array (
-            'message' => 'Publikasi Berhasil Disimpan',
-            'alert-type' => 'success'
-        );
-        return redirect()->route('fnpub.index')->with($notification);
+            $input = [
+                'title' => $request->input('title'),
+                'cover_image' => $filename,
+                'link' => $request->input('link'),
+                'category_id' => $request->input('category_id'),
+                'file' => $path,
+                'publish_year' => $request->input('publish_year'),
+                'site_id' => auth()->user()->site_id,
+                'created_by' => auth()->user()->id
+            ];
+            $storage = Publication::create($input);
+            $log = 'Publikasi Berhasil Disimpan';
+             \LogActivity::addToLog($log);
+            $notification = array (
+                'message' => 'Publikasi Berhasil Disimpan',
+                'alert-type' => 'success'
+            );
+            return redirect()->route('fnpub.index')->with($notification);
+        } else {
+            $input = [
+                'title' => $request->input('title'),
+                'cover_image' => $filename,
+                'link' => $request->input('link'),
+                'category_id' => $request->input('category_id'),
+                'publish_year' => $request->input('publish_year'),
+                'site_id' => auth()->user()->site_id,
+                'created_by' => auth()->user()->id
+            ];
+            
+            $storage = Publication::create($input);
+            $log = 'Publikasi Berhasil Disimpan';
+             \LogActivity::addToLog($log);
+            $notification = array (
+                'message' => 'Publikasi Berhasil Disimpan',
+                'alert-type' => 'success'
+            );
+            return redirect()->route('fnpub.index')->with($notification);
+        }
     }
 
     public function frontPubEdit($id)

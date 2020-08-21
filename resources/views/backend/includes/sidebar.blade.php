@@ -84,8 +84,8 @@
 					</li>
 				</ul>
 			</li>
-			<li class="nav-item has-treeview {{set_open(['country.index','region.index','city.index','dutycat.index','articlecat.index','faqcat.index','unit.index','pubCat.index']) }}">
-				<a href="#" class="nav-link {{set_active(['country.index','region.index','city.index','dutycat.index','articlecat.index','faqcat.index','unit.index','pubCat.index']) }}">
+			<li class="nav-item has-treeview {{set_open(['country.index','region.index','city.index','dutycat.index','articlecat.index','faqcat.index','unit.index','pubCat.index','menu.index']) }}">
+				<a href="#" class="nav-link {{set_active(['country.index','region.index','city.index','dutycat.index','articlecat.index','faqcat.index','unit.index','pubCat.index','menu.index']) }}">
 					<i class="nav-icon fas fa-database"></i>
 					<p>
 						Master Data
@@ -167,6 +167,12 @@
 						</a>
 					</li>
 					@endcan
+					<li class="nav-item">
+						<a href="{{ route('menu.index') }}" class="nav-link {{set_active('menu.index') }}">
+							<i class="right fas fa-angle-right"></i>
+							<p>Menu</p>
+						</a>
+					</li>
 				</ul>
 			</li>
 			<li class="nav-item has-treeview {{set_open(['foto.index','image.create','video.index','fnban.index','fnpub.index','about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index','post.index','write.create','upload.create','post.edit',
@@ -218,6 +224,7 @@
 							<p>Konten Khusus</p>
 						</a>
 						<ul class="nav nav-treeview">
+							@if((auth()->user()->site_id) == '8689caab-d1d0-4b99-a814-d6e2d0b56361')
 							<li class="nav-item">
 								<a href="{{ route('about.index') }}" class="nav-link {{set_active(['about.index','about.create','about.edit']) }}">
 									<i class="far fa-circle nav-icon"></i>
@@ -236,12 +243,15 @@
 									<p>Pejabat Kementerian</p>
 								</a>
 							</li>
+							@endif
+							@if((auth()->user()->site_id) == '4c565b80-f7e9-4421-81be-a831ae48edf2')
 							<li class="nav-item">
 								<a href="" class="nav-link ">
 									<i class="far fa-circle nav-icon"></i>
 									<p>FTA/PTA/CEPA</p>
 								</a>
 							</li>
+							@endif
 							@if((auth()->user()->site_id) == '92876445-2b7c-4e2f-bb43-d3b71b608e4e')
 							<li class="nav-item">
 								<a href="{{ route ('oiml.index') }}" class="nav-link {{set_active(['oiml.index']) }}">
