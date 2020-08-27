@@ -1,0 +1,202 @@
+.navbar-brand {
+    height: auto;
+    padding: 0px;
+}
+.header-v4 .navbar-header {
+    margin: 0px;
+}
+.tab-content {
+  /*  border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;*/
+    padding: 10px;
+}
+
+.nav-tabs {
+    margin-bottom: 0;
+}
+
+.marquee {
+    position: absolute;
+    white-space: nowrap;
+    -webkit-animation: rightThenLeft 4s linear;
+}
+
+@-webkit-keyframes rightThenLeft {
+    0%   {left: 0%;}
+    50%  {left: 100%;}
+    100% {left: 0%;}
+}
+@media (min-width: 768px){
+  .seven-cols .col-md-1,
+  .seven-cols .col-sm-1,
+  .seven-cols .col-lg-1  {
+    width: 100%;
+    *width: 100%;
+  }
+}
+
+@media (min-width: 992px) {
+  .seven-cols .col-md-1,
+  .seven-cols .col-sm-1,
+  .seven-cols .col-lg-1 {
+    width: 14.285714285714285714285714285714%;
+    *width: 14.285714285714285714285714285714%;
+  }
+
+  .seven-cols .no-padding-right{
+  	padding-right: 0px;
+  }
+
+  .seven-cols .no-padding-left{
+  	padding-right: 0px;
+  }
+
+  .seven-cols .no-padding{
+  	padding-right: 0px;
+  }
+}
+
+/**
+ *  The following is not really needed in this case
+ *  Only to demonstrate the usage of @media for large screens
+ */    
+@media (min-width: 1200px) {
+  .seven-cols .col-md-1,
+  .seven-cols .col-sm-1,
+  .seven-cols .col-lg-1 {
+    width: 14.285714285714285714285714285714%;
+    *width: 14.285714285714285714285714285714%;
+  }
+}
+
+/*.container.navbar-kemendag {
+	background-color: #337ab7
+}
+
+.header-v4 .navbar-default .navbar-nav > li > a {
+	color: #ffffff
+}*/
+.headline h2, .headline h3, .headline h4 {
+     border-bottom: none; 
+}
+.header-v4 .navbar-default .navbar-nav > li > a {
+    color: #ffffff;
+}
+/*.header-v4 .navbar-collapse {
+    background-color: #666666;
+}*/
+.header-v4 .navbar-default .navbar-nav > .active > a {
+    color: #ccc;
+}
+@media (min-width: 992px){
+  .header-v4 .navbar-default .navbar-nav > li {
+      margin-left: -1px;
+     /* border-left: 1px solid #ccc;
+      border-right: 1px solid #ccc;*/
+  }
+}
+.header-v4 .navbar .nav > li > .search {
+    color: #ffffff;
+}
+
+.header-v4 .navbar .nav > li > .search {
+    color: #ccc;
+}
+.header-v4 .navbar .nav > li > .search:hover {
+  color: #ffffff;
+}
+.header-v4 .navbar-default .navbar-nav > li > a {
+    font-weight: bold;
+}
+.panel-primary>.panel-heading {
+    background-color: #012233;
+}
+@media (min-width: 1200px){
+  .container {
+      width: 980px;
+  }
+}
+@media (min-width: 992px)
+{
+  .header-v4 .navbar-default .navbar-nav > li > a {
+      font-size: 12.6px;
+      padding: 10px 30px 11px 20px;
+  }
+}
+@media (min-width: 992px){
+  .header-v4 .navbar-brand img {
+      margin-left: 15px;
+  }
+}
+
+.panel-body {
+    padding: 5px;
+}
+@media (min-width: 768px){
+  .navbar-header {
+       float: none;
+  }
+}
+.breadcrumbs-v1 {
+    padding: 45px 0;
+}
+.map {
+    width: 100%;
+    height: 350px;
+    border-top: solid 1px #eee;
+    border-bottom: solid 1px #eee;
+}
+.latest-list li {
+    padding: 3px 0;
+}
+
+@media screen and (min-width: 768px)
+{
+  .carousel-caption.gallery {
+      padding-bottom: 30px;
+      right: 35px;
+      top: 40px;
+      left: 575px;
+  }
+}
+
+.carousel-control.right{
+  background-image: none;
+}
+.carousel-control.left{
+  background-image: none;
+}
+
+@media (max-width: 768px) {
+.pull-right-sm {
+  float: right;
+}
+}
+
+@media (min-width: 768px) {
+.pull-right-sm {
+  float: right;
+}
+}
+@media (min-width: 992px) {
+.pull-right-md {
+  float: right;
+}
+}
+@media (min-width: 1200px) {
+.pull-right-lg {
+  float: right;
+}
+}
+
+@media (min-width: 992px) {
+.panel-container-latest-home{
+  padding-left: 0px;
+}
+}
+
+@media (min-width: 992px){
+  .no-padding-md {
+    padding: 0px;
+  }
+}
