@@ -114,6 +114,7 @@ Route::group(['prefix' => 'cms', 'middleware' => ['auth']], function() {
     Route::post('/konten/banner-depan/store','Backend\ContentManagementController@frontBannerStore')->name('fnban.store');
     Route::get('/konten/banner-depan/edit/{id}','Backend\ContentManagementController@frontBannerEdit')->name('fnban.edit');
     Route::post('/konten/banner-depan/update/{id}','Backend\ContentManagementController@frontBannerUpdate')->name('fnban.update');
+    Route::post('/konten/banner-depan/disable/{id}','Backend\ContentManagementController@frontBannerDeactivate')->name('fnban.disable');
     Route::post('/konten/banner-depan/delete/{id}','Backend\ContentManagementController@frontBannerDestroy')->name('fnban.destroy');
 
     Route::get('/konten/publikasi-depan','Backend\ContentManagementController@frontPubIndex')->name('fnpub.index');
@@ -161,7 +162,7 @@ Route::group(['prefix' => 'cms', 'middleware' => ['auth']], function() {
     Route::get('/konten/artikel','Backend\ContentManagementController@postIndex')->name('post.index');
     Route::get('/konten/artikel/cari','Backend\ContentManagementController@postSearchForm')->name('postSearch.index');
     Route::post('/konten/artikel/cari/proses','Backend\ContentManagementController@postQuery')->name('postQuery.index');
-    Route::get('/konten/artikel/tulisan/create','Backend\ContentManagementController@postCreate')->name('write.create');
+    Route::get('/konten/artikel/create','Backend\ContentManagementController@postCreate')->name('post.create');
     Route::get('/konten/artikel/upload/create','Backend\ContentManagementController@uploadCreate')->name('upload.create');
     Route::post('/konten/artikel/store','Backend\ContentManagementController@postStore')->name('post.store');
     Route::get('/konten/artikel/edit/{id}','Backend\ContentManagementController@postEdit')->name('post.edit');

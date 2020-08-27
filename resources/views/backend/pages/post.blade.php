@@ -20,8 +20,7 @@ Kementerian Perdagangan Republik Indonesia | Buat Artikel
 		<div class="col-12">
 			<div class="card card-info card-outline">
 				<div class="card-header">
-					<a class="btn btn-sm btn-danger" href="{{ route('write.create') }}">Tambah Tulisan</a>
-					<a class="btn btn-sm btn-danger" href="{{ route('upload.create') }}">Tambah Upload</a>
+					<a class="btn btn-sm btn-danger" href="{{ route('post.create') }}">Tambah</a>
 				</div>
 				<div class="card-body">
 					@if (count($errors) > 0) 

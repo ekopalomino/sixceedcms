@@ -175,7 +175,7 @@
 					</li>
 				</ul>
 			</li>
-			<li class="nav-item has-treeview {{set_open(['foto.index','image.create','video.index','fnban.index','fnpub.index','about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index','post.index','write.create','upload.create','post.edit',
+			<li class="nav-item has-treeview {{set_open(['foto.index','image.create','video.index','fnban.index','fnpub.index','about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index','post.index','post.create','post.edit',
 				'postSearch.index','postQuery.index','faq.index','faq.create','faq.edit','event.index','event.create','event.edit','official.index','official.create','official.edit','organization.index','organization.edit','oiml.index']) }}">
 				<a href="#" class="nav-link {{set_active(['foto.index','image.create','video.index','fnban.index','fnpub.index','about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index','post.index','write.create','upload.create','post.edit',
 					'postSearch.index','postQuery.index','faq.index','faq.create','faq.edit','event.index','event.create','event.edit','official.index','official.create','official.edit','oiml.index']) }}">
@@ -274,14 +274,14 @@
 							<p>Kegiatan</p>
 						</a>
 					</li>
-					<li class="nav-item {{set_open(['post.index','write.create','upload.create','post.edit','postSearch.index','postQuery.index']) }}">
+					<li class="nav-item {{set_open(['post.index','post.create','post.edit','postSearch.index','postQuery.index']) }}">
 						<a href="" class="nav-link {{set_active(['post.index','write.create','upload.create','post.edit','postSearch.index','postQuery.index']) }}">
 							<i class="right fas fa-angle-left"></i>
 							<p>Konten Umum</p>
 						</a>
 						<ul class="nav nav-treeview">
 							<li class="nav-item">
-								<a href="{{ route('post.index') }}" class="nav-link {{set_active(['post.index','write.create','upload.create','post.edit']) }}">
+								<a href="{{ route('post.index') }}" class="nav-link {{set_active(['post.index','post.create','post.edit']) }}">
 									<i class="far fa-circle nav-icon"></i>
 									<p>Konten Baru</p>
 								</a>
@@ -313,6 +313,27 @@
 								</a>
 							</li>
 						</ul>
+					</li>
+				</ul>
+			</li>
+			<li class="nav-item ">
+				<a href="" class="nav-link ">
+					<i class="nav-icon far fa-comments"></i>
+					<p>Tabel Statistik
+					<i class="right fas fa-angle-left"></i></p>
+				</a>
+				<ul class="nav nav-treeview ">
+					<li class="nav-item ">
+						<a href="{{ route('messageNew.index') }}" class="nav-link ">
+							<i class="far fa-circle nav-icon"></i>
+							<p>Pesan Baru</p>							
+						</a>
+					</li>
+					<li class="nav-item ">
+						<a href="" class="nav-link ">
+							<i class="far fa-circle nav-icon"></i>
+							<p>Proses Pesan</p>
+						</a>
 					</li>
 				</ul>
 			</li>

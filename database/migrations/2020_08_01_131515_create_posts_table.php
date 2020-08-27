@@ -22,6 +22,9 @@ class CreatePostsTable extends Migration
             $table->string('file')->nullable();
             $table->uuid('reporter_id');
             $table->uuid('status_id');
+            $table->string('keywords')->nullable();
+            $table->string('description')->nullable();
+            $table->smallInteger('peraturan_id')->nullable();
             $table->uuid('created_by');
             $table->uuid('updated_by')->nullable();
             $table->dateTime('published_date')->nullable(); 

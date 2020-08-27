@@ -262,9 +262,9 @@ class ContentManagementController extends Controller
     public function frontBannerIndex()
     {
         if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f') {
-            $data = FrontBanner::orderBy('updated_at','DESC')->get();
+            $data = FrontBanner::where('status_id','f13c7f2e-4723-47a7-b75c-fbec0aaca411')->orderBy('updated_at','DESC')->get();
         } else {
-            $data = FrontBanner::where('site_id',auth()->user()->site_id)->orderBy('updated_at','DESC')->get();
+            $data = FrontBanner::where('site_id',auth()->user()->site_id)->where('status_id','f13c7f2e-4723-47a7-b75c-fbec0aaca411')->orderBy('updated_at','DESC')->get();
         }
         
         return view('backend.pages.frontBanner',compact('data'));
@@ -300,6 +300,7 @@ class ContentManagementController extends Controller
             'ukuran' => $size,
             'ekstensi' => $ext,
             'description' => $request->input('description'),
+            'status_id' => 'f13c7f2e-4723-47a7-b75c-fbec0aaca411',
             'created_by' => auth()->user()->id,
         ];
 
@@ -369,6 +370,24 @@ class ContentManagementController extends Controller
          \LogActivity::addToLog($log);
         $notification = array (
             'message' => 'Banner '.($blocks->title).' berhasil diubah',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('fnban.index')->with($notification);
+    }
+
+    public function frontBannerDeactivate(Request $request,$id)
+    {
+        $input = [
+            'status_id' => '504330a1-63d5-478d-921b-f692cfb19b6f',
+        ];
+
+        $source = FrontBanner::find($id);
+        $source->update($input);
+
+        $log = 'Banner '.($source->title).' Berhasil Di Nonaktifkan';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Banner '.($source->title).' Berhasil Di Nonaktifkan',
             'alert-type' => 'success'
         );
         return redirect()->route('fnban.index')->with($notification);
@@ -1461,7 +1480,7 @@ class ContentManagementController extends Controller
         $categories = ArticleCategory::where('site_id',auth()->user()->site_id)->pluck('category_name','id')->toArray();
         $reporter = User::where('site_id',auth()->user()->site_id)->pluck('name','id')->toArray();
         
-        return view('backend.input.write',compact('categories','reporter'));
+        return view('backend.input.content',compact('categories','reporter'));
     }
 
     public function uploadCreate()
@@ -1474,15 +1493,20 @@ class ContentManagementController extends Controller
 
     public function postStore(Request $request)
     {
-        if($request->input('type') == 'write') {
-            $this->validate($request, [
-                'id_title' => 'required',
-                'en_title' => 'required',
-                'id_content' => 'required',
-                'en_content' => 'required',
-                'category_id' => 'required',
-            ]);
-    
+        $this->validate($request, [
+            'id_title' => 'required',
+            'en_title' => 'required',
+            'id_content' => 'required',
+            'en_content' => 'required',
+            'category_id' => 'required',
+            'reporter_id' => 'required',
+            'published_date' => 'required',
+        ]);
+
+        if($request->hasFile('lampiran')) {
+            $uploadedFile = $request->file('lampiran');
+            $path = $uploadedFile->store('public/database/konten_umum');
+
             $idcontent = $request->input('id_content');
             $encontent = $request->input('en_content');
     
@@ -1494,7 +1518,7 @@ class ContentManagementController extends Controller
                 list($type, $data) = explode(';', $isi);
                 list(, $isi) = explode(',', $isi);
                 $isi = base64_decode($isi);
-                $image_name = "/upload" . time().$k.'.png';
+                $image_name = "/database/konten_umum/post" . time().$k.'.png';
                 $path = public_path() . $image_name;
                 file_put_contents($path, $isi);
                 $img->removeAttribute('src');
@@ -1510,7 +1534,7 @@ class ContentManagementController extends Controller
                 list($type, $data) = explode(';', $isi);
                 list(, $isi) = explode(',', $isi);
                 $isi = base64_decode($isi);
-                $image_name = "/upload" . time().$k.'.png';
+                $image_name = "/database/konten_umum/post" . time().$k.'.png';
                 $path = public_path() . $image_name;
                 file_put_contents($path, $isi);
                 $img->removeAttribute('src');
@@ -1527,15 +1551,17 @@ class ContentManagementController extends Controller
                     'title'     => $request->input('en_title'),
                     'content' => $encontent
                 ],
-                'type' => $request->input('type'),
                 'category_id' => $request->input('category_id'),
                 'reporter_id' => $request->input('reporter_id'),
                 'source' => $request->input('source'),
-                'menteri_id' => $request->input('menteri_id'),
-                'peraturan_lain_id' => $request->input('lainnya_id'),
+                'file' => $path,
+                'peraturan_id' => $request->input('peraturan_id'),
                 'created_by' => auth()->user()->id,
                 'site_id' => auth()->user()->site_id,
-                'status_id' => '3bc97e4a-5e86-4d7c-86d5-7ee450a247ee'
+                'status_id' => '3bc97e4a-5e86-4d7c-86d5-7ee450a247ee',
+                'published_date' => $request->input('published_date'),
+                'keywords' => $request->input('keywords'),
+                'description' => $request->input('description'),
             ];
     
             $posts = Post::create($data);
@@ -1547,43 +1573,68 @@ class ContentManagementController extends Controller
             );
 
             return redirect()->route('post.index')->with($notification);
-            
         } else {
-            $this->validate($request, [
-                'id_title' => 'required',
-                'en_title' => 'required',
-                'file' => 'required',
-                'category_id' => 'required',
-                'reporter_id' => 'required'
-            ]);
+            $idcontent = $request->input('id_content');
+            $encontent = $request->input('en_content');
     
-            $uploadedFile = $request->file('file');
-            $path = $uploadedFile->store('public/files');
+            $dom = new\DomDocument();
+            $dom->loadHtml($idcontent, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+            $images = $dom->getElementsByTagName('img');
+            foreach($images as $k => $img){
+                $isi = $img->getAttribute('src');
+                list($type, $data) = explode(';', $isi);
+                list(, $isi) = explode(',', $isi);
+                $isi = base64_decode($isi);
+                $image_name = "/database/konten_umum/post" . time().$k.'.png';
+                $path = public_path() . $image_name;
+                file_put_contents($path, $isi);
+                $img->removeAttribute('src');
+                $img->setAttribute('src', $image_name);
+            }
+            $idcontent = $dom->saveHtml();
+    
+            $dom = new\DomDocument();
+            $dom->loadHtml($encontent, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+            $images = $dom->getElementsByTagName('img');
+            foreach($images as $k => $img){
+                $isi = $img->getAttribute('src');
+                list($type, $data) = explode(';', $isi);
+                list(, $isi) = explode(',', $isi);
+                $isi = base64_decode($isi);
+                $image_name = "/database/konten_umum/post" . time().$k.'.png';
+                $path = public_path() . $image_name;
+                file_put_contents($path, $isi);
+                $img->removeAttribute('src');
+                $img->setAttribute('src', $image_name);
+            }
+            $encontent = $dom->saveHtml();
+    
             $data = [
-                'en' => [
-                    'title' => $request->input('en_title'),
-                    'content' => $request->input('en_content')
-                ],
                 'id' => [
-                    'title' => $request->input('id_title'),
-                    'content' => $request->input('id_content')
+                    'title'     => $request->input('id_title'),
+                    'content' => $idcontent
+                ],
+                'en' => [
+                    'title'     => $request->input('en_title'),
+                    'content' => $encontent
                 ],
                 'category_id' => $request->input('category_id'),
                 'reporter_id' => $request->input('reporter_id'),
-                'menteri_id' => $request->input('menteri_id'),
-                'peraturan_lain_id' => $request->input('lainnya_id'),
-                'file' => $path,
+                'source' => $request->input('source'),
+                'peraturan_id' => $request->input('peraturan_id'),
                 'created_by' => auth()->user()->id,
-                'type' => $request->input('type'),
                 'site_id' => auth()->user()->site_id,
-                'status_id' => '3bc97e4a-5e86-4d7c-86d5-7ee450a247ee'
+                'status_id' => '3bc97e4a-5e86-4d7c-86d5-7ee450a247ee',
+                'published_date' => $request->input('published_date'),
+                'keywords' => $request->input('keywords'),
+                'description' => $request->input('description'),
             ];
     
-            $articleupload = Post::create($data);
-            $log = 'Artikel '.($data->title).' berhasil disimpan';
-             \LogActivity::addToLog($log);
+            $posts = Post::create($data);
+            $log = 'Artikel '.($posts->title).' Berhasil Disimpan';
+            \LogActivity::addToLog($log);
             $notification = array (
-                'message' => 'Artikel '.($data->title).' berhasil disimpan',
+                'message' => 'Artikel '.($posts->title).' Berhasil Disimpan',
                 'alert-type' => 'success'
             );
 

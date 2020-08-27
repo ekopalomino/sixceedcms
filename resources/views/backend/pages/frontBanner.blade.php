@@ -42,7 +42,7 @@ Kementerian Perdagangan Republik Indonesia | Banner Depan
 										</div>
 									</div>
 									<div class="form-group row">
-										<label for="inputEmail" class="col-sm-2 col-form-label">Tipe</label>
+										<label for="inputEmail" class="col-sm-2 col-form-label">Letak Banner</label>
 										<div class="col-sm-10">
 											{!! Form::select('type', array('0'=>'Please Select','1'=>'Kolom 1','2'=>'Kolom 2','3'=>'Kolom 3', '4'=>'Kolom 4', '5'=>'Pop Up'),[], array('class' => 'form-control')) !!}
 										</div>
@@ -134,6 +134,9 @@ Kementerian Perdagangan Republik Indonesia | Banner Depan
 								<td>{{date("d F Y H:i",strtotime($banner->updated_at)) }}</td>
 								<td>
 									<a class="btn btn-xs btn-info modalLg" href="#" value="{{ action('Backend\ContentManagementController@frontBannerEdit',['id'=>$banner->id]) }}" data-toggle="modal" data-target="#modalLg" title="Ubah Data"><i class="far fa-edit"></i></a>
+									{!! Form::open(['method' => 'POST','route' => ['fnban.disable', $banner->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDisable()']) !!}
+									{!! Form::button('<i class="fas fa-window-close"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger']) !!}
+									{!! Form::close() !!}
 									{!! Form::open(['method' => 'POST','route' => ['fnban.destroy', $banner->id],'style'=>'display:inline','onsubmit' => 'return ConfirmSuspend()']) !!}
 									{!! Form::button('<i class="fas fa-trash-alt"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger']) !!}
 									{!! Form::close() !!}
@@ -166,7 +169,17 @@ Kementerian Perdagangan Republik Indonesia | Banner Depan
 <script>
     function ConfirmSuspend()
     {
-    var x = confirm("User Suspended?");
+    var x = confirm("Data akan dihapus?");
+    if (x)
+        return true;
+    else
+        return false;
+    }
+</script>
+<script>
+    function ConfirmDisable()
+    {
+    var x = confirm("Data akan di nonaktifkan?");
     if (x)
         return true;
     else

@@ -17,6 +17,7 @@ class FrontBanner extends Model
         'site_id',
         'created_by',
         'updated_by',
+        'status_id',
     ];
 
     public function Creator()
