@@ -147,8 +147,9 @@ class ContentManagementController extends Controller
 
     public function albumShow($id)
     {
-        $album = Album::with('Photos')->find($id);
-        return view('backend.show.album', compact('album'));
+        $albums = Album::with('Photos')->find($id);
+        
+        return view('backend.preview.album', compact('albums'));
     }
     
     public function albumCreate()

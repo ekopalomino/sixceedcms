@@ -8,13 +8,13 @@
 							<div class="headline"><h8 style="font-weight: bold;font-size: 16px;">{{ trans('menu.profil') }}</h8></div>
 							<ul class="list-unstyled latest-list footer-link" style="margin-bottom: 0px;margin-right: 0px;font-size: 12px;line-height: 16px;">
 								<li>
-									<a href="{{ route('history.index') }}" style="color: #006666">{{ trans('menu.sejarah') }}</a>
+									<a href="" style="color: #006666">{{ trans('menu.sejarah') }}</a>
 								</li>
 								<li>
-									<a href="{{ route('mainDuty.index') }}" style="color: #006666">{{ trans('menu.tugas') }}</a>
+									<a href="" style="color: #006666">{{ trans('menu.tugas') }}</a>
 								</li>
 								<li>
-									<a href="{{ route('vision.index') }}" style="color: #006666">{{ trans('menu.visi') }}</a>
+									<a href="" style="color: #006666">{{ trans('menu.visi') }}</a>
 								</li>
 								<li>
 									<a href="#" style="color: #006666">{{ trans('menu.struktur') }}</a>

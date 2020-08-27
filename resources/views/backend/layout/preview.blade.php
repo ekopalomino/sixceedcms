@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-@include('frontend.includes.head')
+@include('backend.includes.head')
 <body>
-	@include('frontend.includes.navbar')
+	@include('backend.includes.navbar')
 	@yield('content')
-	@include('frontend.includes.foot')
+	@include('backend.includes.foot')
 </body>
 </html>

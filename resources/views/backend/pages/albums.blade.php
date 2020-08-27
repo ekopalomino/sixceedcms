@@ -99,7 +99,7 @@ Kementerian Perdagangan Republik Indonesia | Berita Foto
 								<td>{{ $album->name }}</td>
 								<td>{{date("d F Y H:i",strtotime($album->updated_at)) }}</td>
 								<td>
-									<a button id="search" type="submit" class="btn btn-xs btn-info" href="{{ route('album.show',$album->id) }}">
+									<a button id="search" type="submit" class="btn btn-xs btn-info" href="{{ route('album.show',$album->id) }}" target="_blank">
 										<i class="fa fa-search"></i>
 									</a>
 									{!! Form::open(['method' => 'POST','route' => ['album.destroy', $album->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}

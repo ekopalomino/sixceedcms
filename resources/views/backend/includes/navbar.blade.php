@@ -23,8 +23,8 @@
 						</div>
 						<div class="list-lang">
 							<ul class="list-inline top-v1-data">
-								<li class="lang-font" style="margin: -1px 1px 1px 1px;line-height: 8px;border-right: 1px solid  #a9a9a9;padding: 4px;float: left;"><a href="{{ route('lang.switch', 'id') }}"><img src="/assets/preview_frontend/img/icons/indonesia.png" width="15" height="15" alt="Bahasa Indonesia"/> Bahasa Indonesia</a></li>
-								<li class="lang-font" style="margin: -1px 1px 1px 1px;line-height: 8px;padding: 4px;float: left;"><a href="{{ route('lang.switch', 'en') }}"><img src="/assets/preview_frontend/img/icons/united-kingdom.png" width=15" height="15" alt="English"/> English</a></li>
+								<li class="lang-font" style="margin: -1px 1px 1px 1px;line-height: 8px;border-right: 1px solid  #a9a9a9;padding: 4px;float: left;"><a href=""><img src="/preview_frontend/img/icons/indonesia.png" width="15" height="15" alt="Bahasa Indonesia"/> Bahasa Indonesia</a></li>
+								<li class="lang-font" style="margin: -1px 1px 1px 1px;line-height: 8px;padding: 4px;float: left;"><a href=""><img src="/preview_frontend/img/icons/united-kingdom.png" width=15" height="15" alt="English"/> English</a></li>
 							</ul>
 						</div>
 						</br>
@@ -47,38 +47,38 @@
     	            	<li><a href="/"><i class="fa fa-home"></i><span class="hometext">&nbsp;Home</span></a></li>
                   		<li ><a href="">{{ trans('menu.profil') }}</a>
 	                    	<ul class="wsdownmenu-submenu">
-	                      		<li><a href="{{ route('history.index') }}">{{ trans('menu.sejarah') }}</a></li>
-	                      		<li><a href="{{ route('mainDuty.index') }}">{{ trans('menu.tugas') }}</a></li>
-	                      		<li><a href="{{ route('vision.index') }}">{{ trans('menu.visi') }}</a></li>
-	                      		<li><a href="{{ route('structure.index') }}">{{ trans('menu.struktur') }}</a></li>          
+	                      		<li><a href="">{{ trans('menu.sejarah') }}</a></li>
+	                      		<li><a href="">{{ trans('menu.tugas') }}</a></li>
+	                      		<li><a href="">{{ trans('menu.visi') }}</a></li>
+	                      		<li><a href="">{{ trans('menu.struktur') }}</a></li>          
 	                    	</ul>
                   		</li>
                     	<li >
-                    		<a href="{{ route('news.index') }}">{{ trans('menu.berita') }}</a>
+                    		<a href="">{{ trans('menu.berita') }}</a>
                     	</li>
                    		<li >
-                    		<a href="{{ route('diklat.index') }}">{{ trans('menu.diklat-announce') }}</a>
+                    		<a href="">{{ trans('menu.diklat-announce') }}</a>
                     	</li>
                     	<li ><a href="">{{ trans('menu.aturan') }}</a>
                     		<ul class="wsdownmenu-submenu">
-	                      		<li><a href="{{ route('undang.index') }}">{{ trans('menu.undang-undang') }}</a></li>
-	                      		<li><a href="{{ route('govReg.index') }}">{{ trans('menu.aturan-pmr') }}</a></li>
-	                      		<li><a href="{{ route('kepres.index') }}">{{ trans('menu.aturan-pres') }}</a></li>
-	                      		<li><a href="{{ route('menteri.index') }}">{{ trans('menu.aturan-men') }}</a></li>
-	                      		<li><a href="{{ route('otherReg.index') }}">{{ trans('menu.aturan-lain') }}</a></li>          
+	                      		<li><a href="">{{ trans('menu.undang-undang') }}</a></li>
+	                      		<li><a href="">{{ trans('menu.aturan-pmr') }}</a></li>
+	                      		<li><a href="">{{ trans('menu.aturan-pres') }}</a></li>
+	                      		<li><a href="">{{ trans('menu.aturan-men') }}</a></li>
+	                      		<li><a href="">{{ trans('menu.aturan-lain') }}</a></li>          
 	                    	</ul>
 	                    </li>
 	                    <li ><a href="">{{ trans('menu.publikasi') }}</a>
                     		<ul class="wsdownmenu-submenu">
-	                      		<li><a href="{{ route('majalah.index') }}">{{ trans('menu.pub-mag') }}</a></li>
-	                      		<li><a href="{{ route('oiml.index') }}">{{ trans('menu.oiml') }}</a></li>         
+	                      		<li><a href="">{{ trans('menu.pub-mag') }}</a></li>
+	                      		<li><a href="">{{ trans('menu.oiml') }}</a></li>         
 	                    	</ul>
 	                    </li>
 	                    <li >
-                    		<a href="{{ route('photo.index') }}">{{ trans('menu.galeri') }}</a>
+                    		<a href="">{{ trans('menu.galeri') }}</a>
                     	</li>
                     	<li >
-                    		<a href="{{ route('contact.index') }}">{{ trans('menu.kontak') }}</a>
+                    		<a href="">{{ trans('menu.kontak') }}</a>
                     	</li>	
                 	</ul>
               	</nav>
