@@ -174,9 +174,9 @@
 				</ul>
 			</li>
 			<li class="nav-item has-treeview {{set_open(['foto.index','image.create','video.index','fnban.index','fnpub.index','about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index','post.index','post.create','post.edit',
-				'postSearch.index','postQuery.index','faq.index','faq.create','faq.edit','event.index','event.create','event.edit','official.index','official.create','official.edit','organization.index','organization.edit','oiml.index']) }}">
+				'postSearch.index','postQuery.index','faq.index','faq.create','faq.edit','event.index','event.create','event.edit','official.index','official.create','official.edit','organization.index','organization.edit','oiml.index','regDagri.index']) }}">
 				<a href="#" class="nav-link {{set_active(['foto.index','image.create','video.index','fnban.index','fnpub.index','about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index','post.index','write.create','upload.create','post.edit',
-					'postSearch.index','postQuery.index','faq.index','faq.create','faq.edit','event.index','event.create','event.edit','official.index','official.create','official.edit','oiml.index']) }}">
+					'postSearch.index','postQuery.index','faq.index','faq.create','faq.edit','event.index','event.create','event.edit','official.index','official.create','official.edit','oiml.index','regDagri.index']) }}">
 					<i class="nav-icon fas fa-newspaper"></i>
 					<p>
 						Konten
@@ -216,8 +216,8 @@
 							<p>Publikasi</p>
 						</a>
 					</li>
-					<li class="nav-item {{set_open(['about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index','official.index','official.create','official.edit','oiml.index']) }}">
-						<a href="" class="nav-link {{set_active(['about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index','official.index','official.create','official.edit','oiml.index']) }}">
+					<li class="nav-item {{set_open(['about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index','official.index','official.create','official.edit','oiml.index','regDagri.index']) }}">
+						<a href="" class="nav-link {{set_active(['about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index','official.index','official.create','official.edit','oiml.index','regDagri.index']) }}">
 							<i class="right fas fa-angle-left"></i>
 							<p>Konten Khusus</p>
 						</a>
@@ -260,7 +260,7 @@
 							@endif
 							@if((auth()->user()->site_id) == '85cd37d3-e818-4e04-b294-3491feb60285')
 							<li class="nav-item">
-								<a href="" class="nav-link {{set_active(['oiml.index']) }}">
+								<a href="{{ route('regDagri.index') }}" class="nav-link {{set_active(['regDagri.index']) }}">
 									<i class="far fa-circle nav-icon"></i>
 									<p>Regulasi Perdagangan</p>
 								</a>
@@ -322,6 +322,7 @@
 					</li>
 				</ul>
 			</li>
+			@if((auth()->user()->site_id) == '8689caab-d1d0-4b99-a814-d6e2d0b56361')
 			<li class="nav-item ">
 				<a href="" class="nav-link ">
 					<i class="nav-icon far fa-comments"></i>
@@ -343,6 +344,7 @@
 					</li>
 				</ul>
 			</li>
+			@endif
 			<li class="nav-item ">
 				<a href="" class="nav-link ">
 					<i class="nav-icon far fa-comments"></i>

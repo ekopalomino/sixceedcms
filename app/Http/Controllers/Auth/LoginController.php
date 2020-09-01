@@ -30,22 +30,30 @@ class LoginController extends Controller
 
     protected function redirectTo()
     {
-        if(Auth::user()->site_id == 'ee145b28-ffd9-4d86-8711-80d92e3d6152') {
+        if(Auth::user()->site_id == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f') {
             return 'cms/config';
-        } elseif(Auth::user()->site_id == '47b71eb9-d8a2-4e89-88fe-97bac68a63b8') {
+        } elseif(Auth::user()->site_id == '8689caab-d1d0-4b99-a814-d6e2d0b56361') {
             return '/cms/main';
-        } elseif(Auth::user()->site_id == '10bf5f46-4ece-49bf-ad42-e6eed3f2d0bf') {
-            return '/cms/pengembangan-ekspor-nasional';
-        } elseif(Auth::user()->site_id == 'b85cb37f-239e-42ba-854b-48c5ba43f6c9') {
-            return '/cms/perundingan-perdagangan-internasional';
-        } elseif(Auth::user()->site_id == '29db58a0-edb8-4eca-814c-32d45c8aa567') {
-            return '/cms/perdagangan-luar-negeri';
-        } elseif(Auth::user()->site_id == 'd59a0c3f-e50d-4daa-b39e-bd470b2be04e') {
-            return '/cms/perlindungan-konsumen-tertib-niaga';
-        } elseif(Auth::user()->site_id == '698e1c25-a948-4d28-a30a-b941d6175369') {
+        } elseif(Auth::user()->site_id == '85cd37d3-e818-4e04-b294-3491feb60285') {
             return '/cms/perdagangan-dalam-negeri';
+        } elseif(Auth::user()->site_id == '745572a6-c3a9-491a-b069-966d9cfa7054') {
+            return '/cms/perdagangan-luar-negeri';
+        } elseif(Auth::user()->site_id == '4c565b80-f7e9-4421-81be-a831ae48edf2') {
+            return '/cms/perundingan-perdagangan';
+        } elseif(Auth::user()->site_id == 'e2fa0b3f-84e2-4046-ae68-fe5f987cbe7b') {
+            return '/cms/perlindungan-konsumen';
+        } elseif(Auth::user()->site_id == 'bc5397fc-f875-4326-846f-315e6e6fd0ba') {
+            return '/cms/pengembangan-ekspor';
         } elseif(Auth::user()->site_id == '92876445-2b7c-4e2f-bb43-d3b71b608e4e') {
             return '/cms/pusat-pengembangan-sumber-daya-kemetrologian';
+        }elseif(Auth::user()->site_id == '2da488d4-a8e7-499a-b6e7-360ff17f9585') {
+            return 'cms/pengkajian-perdagangan';
+        } elseif(Auth::user()->site_id == 'd59ba15e-5abf-4572-9992-64950d4f65ea') {
+            return 'cms/pengamanan-perdagangan';
+        } elseif(Auth::user()->site_id == 'ee5c63f5-58b4-4ca5-9acb-09de683f6549') {
+            return 'cms/anti-dumping';
+        } elseif(Auth::user()->site_id == 'a0fe8237-c432-4d27-8edd-669cb9719278') {
+            return 'cms/inspektorat-jenderal';
         } else{
             return 'cms/config';
         }

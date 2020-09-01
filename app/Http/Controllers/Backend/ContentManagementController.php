@@ -2088,85 +2088,111 @@ class ContentManagementController extends Controller
     {
         $data = RegulasiDagri::orderBy('updated_at','DESC')->get();
 
-        return view('backend.pages.oiml',compact('data'));
+        return view('backend.pages.regDagri',compact('data'));
     }
 
     public function regDagriStore(Request $request)
     {
         $this->validate($request, [
-            'title' => 'required',
-            'category' => 'required',
-            'reference_no' => 'required',
-            'link' => 'required',
+            'tahun' => 'required|numeric',
+            'judul' => 'required',
+            'no_regulasi' => 'required',
+            'lampiran' => 'required|file',
         ]);
 
+        $uploadedFile = $request->file('lampiran');
+        $path = $uploadedFile->store('public/ditjenpdn/regulasi');
         $input = [
-            'title' => $request->input('title'),
-            'category' => $request->input('category'),
-            'reference_no' => $request->input('reference_no'),
-            'link' => $request->input('link'),
+            'tahun' => $request->input('tahun'),
+            'judul' => $request->input('judul'),
+            'no_regulasi' => $request->input('no_regulasi'),
+            'file' => $path,
+            'created_by' => auth()->user()->id,
         ];
 
-        $data = Oiml::create($input);
+        $data = RegulasiDagri::create($input);
 
-        $log = 'OIML '.($data->title).' Berhasil Disimpan';
+        $log = 'Regulasi '.($data->title).' Berhasil Disimpan';
          \LogActivity::addToLog($log);
         $notification = array (
-            'message' => 'OIML '.($data->title).' Berhasil Disimpan',
+            'message' => 'Regulasi '.($data->title).' Berhasil Disimpan',
             'alert-type' => 'success'
         );
 
-        return redirect()->route('oiml.index')->with($notification);
+        return redirect()->route('regDagri.index')->with($notification);
     }
 
     public function regDagriEdit($id)
     {
-        $data = Oiml::find($id);
+        $data = RegulasiDagri::find($id);
 
-        return view('backend.edit.oiml',compact('data'))->renderSections()['content'];
+        return view('backend.edit.regDagri',compact('data'))->renderSections()['content'];
     }
 
     public function regDagriUpdate(Request $request,$id)
     {
         $this->validate($request, [
-            'title' => 'required',
-            'category' => 'required',
-            'reference_no' => 'required',
-            'link' => 'required',
+            'tahun' => 'required|numeric',
+            'judul' => 'required',
+            'no_regulasi' => 'required',
         ]);
+        if($request->hasFile('lampiran')) {
+            $uploadedFile = $request->file('lampiran');
+            $path = $uploadedFile->store('public/ditjenpdn/regulasi');
+            $input = [
+                'tahun' => $request->input('tahun'),
+                'judul' => $request->input('judul'),
+                'no_regulasi' => $request->input('no_regulasi'),
+                'file' => $path,
+                'updated_by' => auth()->user()->id,
+            ];
 
-        $input = [
-            'title' => $request->input('title'),
-            'category' => $request->input('category'),
-            'reference_no' => $request->input('reference_no'),
-            'link' => $request->input('link'),
-        ];
+            $data = RegulasiDagri::find($id);
+            $data->update($input);
 
-        $data = Oiml::find($id);
-        $data->update($input);
+            $log = 'Regulasi '.($data->title).' Berhasil Diubah';
+            \LogActivity::addToLog($log);
+            $notification = array (
+                'message' => 'Regulasi '.($data->title).' Berhasil Diubah',
+                'alert-type' => 'success'
+            );
 
-        $log = 'OIML '.($data->title).' Berhasil Diubah';
-         \LogActivity::addToLog($log);
-        $notification = array (
-            'message' => 'OIML '.($data->title).' Berhasil Diubah',
-            'alert-type' => 'success'
-        );
+            return redirect()->route('regDagri.index')->with($notification);
+        } else {
+            $input = [
+                'tahun' => $request->input('tahun'),
+                'judul' => $request->input('judul'),
+                'no_regulasi' => $request->input('no_regulasi'),
+                'updated_by' => auth()->user()->id,
+            ];
 
-        return redirect()->route('oiml.index')->with($notification);
+            $data = RegulasiDagri::find($id);
+            $data->update($input);
+
+            $log = 'Regulasi '.($data->title).' Berhasil Diubah';
+            \LogActivity::addToLog($log);
+            $notification = array (
+                'message' => 'Regulasi '.($data->title).' Berhasil Diubah',
+                'alert-type' => 'success'
+            );
+
+            return redirect()->route('regDagri.index')->with($notification);
+        }
     }
 
     public function regDagriDestroy($id)
     {
-        $data = Oiml::find($id);
-        $log = 'OIML '.($data->title).' Berhasil Dihapus';
+        $data = RegulasiDagri::find($id);
+        $log = 'Regulasi '.($data->title).' Berhasil Dihapus';
          \LogActivity::addToLog($log);
         $notification = array (
-            'message' => 'OIML '.($data->title).' Berhasil Dihapus',
+            'message' => 'Regulasi '.($data->title).' Berhasil Dihapus',
             'alert-type' => 'success'
         );
+        $file = File::delete($data->file);
         $data->delete($id);
 
-        return redirect()->route('oiml.index')->with($notification);
+        return redirect()->route('regDagri.index')->with($notification);
     }
 
     public function messageIndex()
