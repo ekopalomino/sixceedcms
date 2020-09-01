@@ -129,6 +129,12 @@ Route::group(['prefix' => 'cms', 'middleware' => ['auth']], function() {
     Route::post('/konten/publikasi/oiml/update/{id}','Backend\ContentManagementController@oimlUpdate')->name('oiml.update');
     Route::post('/konten/publikasi/oiml/delete/{id}','Backend\ContentManagementController@oimlDestroy')->name('oiml.destroy');
 
+    Route::get('/konten/regulasi-dagri','Backend\ContentManagementController@regDagriIndex')->name('regDagri.index');
+    Route::post('/konten/regulasi-dagri/store','Backend\ContentManagementController@regDagriStore')->name('regDagri.store');
+    Route::get('/konten/regulasi-dagri/edit/{id}','Backend\ContentManagementController@regDagriEdit')->name('regDagri.edit');
+    Route::post('/konten/regulasi-dagri/update/{id}','Backend\ContentManagementController@regDagriUpdate')->name('regDagri.update');
+    Route::post('/konten/regulasi-dagri/delete/{id}','Backend\ContentManagementController@regDagriDestroy')->name('regDagri.destroy');
+
     Route::get('/konten/tentang-kami/pesan','Backend\ContentManagementController@aboutIndex')->name('about.index');
     Route::get('/konten/tentang-kami/pesan/create','Backend\ContentManagementController@aboutCreate')->name('about.create');
     Route::post('/konten/tentang-kami/pesan/store','Backend\ContentManagementController@aboutStore')->name('about.store');

@@ -29,6 +29,7 @@ use Sixceed\Models\ContactUs;
 use Sixceed\Models\ContactUsProcess;
 use Sixceed\Models\PublicationCategory;
 use Sixceed\Models\Oiml;
+use Sixceed\Models\RegulasiDagri;
 use File;
 use Carbon\Carbon;
 
@@ -2070,6 +2071,91 @@ class ContentManagementController extends Controller
     }
 
     public function oimlDestroy($id)
+    {
+        $data = Oiml::find($id);
+        $log = 'OIML '.($data->title).' Berhasil Dihapus';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'OIML '.($data->title).' Berhasil Dihapus',
+            'alert-type' => 'success'
+        );
+        $data->delete($id);
+
+        return redirect()->route('oiml.index')->with($notification);
+    }
+
+    public function regDagriIndex()
+    {
+        $data = RegulasiDagri::orderBy('updated_at','DESC')->get();
+
+        return view('backend.pages.oiml',compact('data'));
+    }
+
+    public function regDagriStore(Request $request)
+    {
+        $this->validate($request, [
+            'title' => 'required',
+            'category' => 'required',
+            'reference_no' => 'required',
+            'link' => 'required',
+        ]);
+
+        $input = [
+            'title' => $request->input('title'),
+            'category' => $request->input('category'),
+            'reference_no' => $request->input('reference_no'),
+            'link' => $request->input('link'),
+        ];
+
+        $data = Oiml::create($input);
+
+        $log = 'OIML '.($data->title).' Berhasil Disimpan';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'OIML '.($data->title).' Berhasil Disimpan',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('oiml.index')->with($notification);
+    }
+
+    public function regDagriEdit($id)
+    {
+        $data = Oiml::find($id);
+
+        return view('backend.edit.oiml',compact('data'))->renderSections()['content'];
+    }
+
+    public function regDagriUpdate(Request $request,$id)
+    {
+        $this->validate($request, [
+            'title' => 'required',
+            'category' => 'required',
+            'reference_no' => 'required',
+            'link' => 'required',
+        ]);
+
+        $input = [
+            'title' => $request->input('title'),
+            'category' => $request->input('category'),
+            'reference_no' => $request->input('reference_no'),
+            'link' => $request->input('link'),
+        ];
+
+        $data = Oiml::find($id);
+        $data->update($input);
+
+        $log = 'OIML '.($data->title).' Berhasil Diubah';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'OIML '.($data->title).' Berhasil Diubah',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('oiml.index')->with($notification);
+    }
+
+    public function regDagriDestroy($id)
     {
         $data = Oiml::find($id);
         $log = 'OIML '.($data->title).' Berhasil Dihapus';

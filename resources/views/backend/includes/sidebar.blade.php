@@ -159,14 +159,12 @@
 							<p>Unit Kerja</p>
 						</a>
 					</li>
-					@can('disable')
 					<li class="nav-item">
 						<a href="{{ route('unit.index') }}" class="nav-link {{set_active('unit.index') }}">
 							<i class="right fas fa-angle-right"></i>
 							<p>Footer Link</p>
 						</a>
 					</li>
-					@endcan
 					<li class="nav-item">
 						<a href="{{ route('menu.index') }}" class="nav-link {{set_active('menu.index') }}">
 							<i class="right fas fa-angle-right"></i>
@@ -257,6 +255,14 @@
 								<a href="{{ route ('oiml.index') }}" class="nav-link {{set_active(['oiml.index']) }}">
 									<i class="far fa-circle nav-icon"></i>
 									<p>OIML</p>
+								</a>
+							</li>
+							@endif
+							@if((auth()->user()->site_id) == '85cd37d3-e818-4e04-b294-3491feb60285')
+							<li class="nav-item">
+								<a href="" class="nav-link {{set_active(['oiml.index']) }}">
+									<i class="far fa-circle nav-icon"></i>
+									<p>Regulasi Perdagangan</p>
 								</a>
 							</li>
 							@endif
