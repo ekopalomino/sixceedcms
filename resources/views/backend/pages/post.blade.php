@@ -42,7 +42,6 @@ Kementerian Perdagangan Republik Indonesia | Buat Artikel
 								@if(auth()->user()->site_id == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f')
 								<th>Situs</th>
 								@endif
-								<th>Tipe</th>
 								<th>Kategori</th>
 								<th>Sumber</th>
 								<th>Status</th>
@@ -59,13 +58,6 @@ Kementerian Perdagangan Republik Indonesia | Buat Artikel
 								@if(auth()->user()->site_id == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f')
 								<td>{{ $post->Sites->site_name }}</td>
 								@endif
-								<td>
-									@if(($post->type) == 'write')
-									Artikel Tulisan
-									@else
-									Artikel Unggahan
-									@endif
-								</td>
 								<td>{{ $post->Categories->category_name }}</td>
 								<td>
 									@if(!empty($post->source))

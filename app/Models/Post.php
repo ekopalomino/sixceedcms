@@ -11,7 +11,23 @@ class Post extends Model implements TranslatableContract
     use Translatable;
 
     public $translatedAttributes = ['slug', 'title','content'];
-    protected $fillable = ['slug', 'title','content','site_id','category_id','source','file','reporter_id','status_id','created_by','updated_by','published_date','peraturan_id','keywords','description'];
+    protected $fillable = [
+        'slug', 
+        'title',
+        'content',
+        'site_id',
+        'category_slug',
+        'source',
+        'file',
+        'reporter_id',
+        'status_id',
+        'created_by',
+        'updated_by',
+        'published_date',
+        'regulation_id',
+        'keywords',
+        'description'
+    ];
     
     public function author()
     {
@@ -30,7 +46,7 @@ class Post extends Model implements TranslatableContract
 
     public function Categories()
     {
-        return $this->belongsTo(ArticleCategory::class,'category_id');
+        return $this->belongsTo(ArticleCategory::class,'category_slug','category_slug');
     }
 
     public function Statuses()

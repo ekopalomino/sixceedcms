@@ -77,7 +77,7 @@ Kementerian Perdagangan Republik Indonesia | Buat Artikel
 								<div class="col-12">
 									<div class="form-group">
 										<label><strong>Kategori</strong></label>
-										{!! Form::select('category_id', [null=>'Please Select'] + $categories,[], array('class' => 'form-control','id'=>'category_id')) !!}
+										{!! Form::select('category_slug', [null=>'Please Select'] + $categories,[], array('class' => 'form-control','id'=>'category_id')) !!}
 									</div>
 								</div>
 								<div class="col-12" id="row_menteri">

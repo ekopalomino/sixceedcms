@@ -123,17 +123,17 @@ Route::group(['prefix' => 'cms', 'middleware' => ['auth']], function() {
     Route::post('/konten/publikasi-depan/update/{id}','Backend\ContentManagementController@frontPubUpdate')->name('fnpub.update');
     Route::post('/konten/publikasi-depan/delete/{id}','Backend\ContentManagementController@frontPubDestroy')->name('fnpub.destroy');
 
-    Route::get('/konten/publikasi/oiml','Backend\ContentManagementController@oimlIndex')->name('oiml.index');
-    Route::post('/konten/publikasi/oiml/store','Backend\ContentManagementController@oimlStore')->name('oiml.store');
-    Route::get('/konten/publikasi/oiml/edit/{id}','Backend\ContentManagementController@oimlEdit')->name('oiml.edit');
-    Route::post('/konten/publikasi/oiml/update/{id}','Backend\ContentManagementController@oimlUpdate')->name('oiml.update');
-    Route::post('/konten/publikasi/oiml/delete/{id}','Backend\ContentManagementController@oimlDestroy')->name('oiml.destroy');
+    Route::get('/konten-khusus/ppsdk/publikasi/oiml','Backend\CustomContentController@oimlIndex')->name('oiml.index');
+    Route::post('/konten-khusus/ppsdk/publikasi/oiml/store','Backend\CustomContentController@oimlStore')->name('oiml.store');
+    Route::get('/konten-khusus/ppsdk/publikasi/oiml/edit/{id}','Backend\CustomContentController@oimlEdit')->name('oiml.edit');
+    Route::post('/konten-khusus/ppsdk/publikasi/oiml/update/{id}','Backend\CustomContentController@oimlUpdate')->name('oiml.update');
+    Route::post('/konten-khusus/ppsdk/publikasi/oiml/delete/{id}','Backend\CustomContentController@oimlDestroy')->name('oiml.destroy');
 
-    Route::get('/konten/regulasi-dagri','Backend\ContentManagementController@regDagriIndex')->name('regDagri.index');
-    Route::post('/konten/regulasi-dagri/store','Backend\ContentManagementController@regDagriStore')->name('regDagri.store');
-    Route::get('/konten/regulasi-dagri/edit/{id}','Backend\ContentManagementController@regDagriEdit')->name('regDagri.edit');
-    Route::post('/konten/regulasi-dagri/update/{id}','Backend\ContentManagementController@regDagriUpdate')->name('regDagri.update');
-    Route::post('/konten/regulasi-dagri/delete/{id}','Backend\ContentManagementController@regDagriDestroy')->name('regDagri.destroy');
+    Route::get('/konten-khusus/ditjenpdn/regulasi-dagri','Backend\CustomContentController@regDagriIndex')->name('regDagri.index');
+    Route::post('/konten-khusus/ditjenpdn/regulasi-dagri/store','Backend\CustomContentController@regDagriStore')->name('regDagri.store');
+    Route::get('/konten-khusus/ditjenpdn/regulasi-dagri/edit/{id}','Backend\CustomContentController@regDagriEdit')->name('regDagri.edit');
+    Route::post('/konten-khusus/ditjenpdn/regulasi-dagri/update/{id}','Backend\CustomContentController@regDagriUpdate')->name('regDagri.update');
+    Route::post('/konten-khusus/ditjenpdn/regulasi-dagri/delete/{id}','Backend\CustomContentController@regDagriDestroy')->name('regDagri.destroy');
 
     Route::get('/konten/tentang-kami/pesan','Backend\ContentManagementController@aboutIndex')->name('about.index');
     Route::get('/konten/tentang-kami/pesan/create','Backend\ContentManagementController@aboutCreate')->name('about.create');
@@ -143,12 +143,12 @@ Route::group(['prefix' => 'cms', 'middleware' => ['auth']], function() {
     Route::post('/konten/tentang-kami/pesan/update/{id}','Backend\ContentManagementController@aboutUpdate')->name('about.update');
     Route::post('/konten/tentang-kami/pesan/delete/{id}','Backend\ContentManagementController@aboutDestroy')->name('about.destroy');
 
-    Route::get('/konten/tentang-kami/tugas-dan-fungsi','Backend\ContentManagementController@dutyIndex')->name('duty.index');
-    Route::get('/konten/tentang-kami/tugas-dan-fungsi/create','Backend\ContentManagementController@dutyCreate')->name('duty.create');
-    Route::post('/konten/tentang-kami/tugas-dan-fungsi/store','Backend\ContentManagementController@dutyStore')->name('duty.store');
-    Route::get('/konten/tentang-kami/tugas-dan-fungsi/edit/{id}','Backend\ContentManagementController@dutyEdit')->name('duty.edit');
-    Route::post('/konten/tentang-kami/tugas-dan-fungsi/update/{id}','Backend\ContentManagementController@dutyUpdate')->name('duty.update');
-    Route::post('/konten/tentang-kami/tugas-dan-fungsi/delete/{id}','Backend\ContentManagementController@dutyDestroy')->name('duty.destroy');
+    Route::get('/konten/tentang-kami/tugas-dan-fungsi','Backend\CustomContentController@dutyIndex')->name('duty.index');
+    Route::get('/konten/tentang-kami/tugas-dan-fungsi/create','Backend\CustomContentController@dutyCreate')->name('duty.create');
+    Route::post('/konten/tentang-kami/tugas-dan-fungsi/store','Backend\CustomContentController@dutyStore')->name('duty.store');
+    Route::get('/konten/tentang-kami/tugas-dan-fungsi/edit/{id}','Backend\CustomContentController@dutyEdit')->name('duty.edit');
+    Route::post('/konten/tentang-kami/tugas-dan-fungsi/update/{id}','Backend\CustomContentController@dutyUpdate')->name('duty.update');
+    Route::post('/konten/tentang-kami/tugas-dan-fungsi/delete/{id}','Backend\CustomContentController@dutyDestroy')->name('duty.destroy');
 
     Route::get('/konten/faq','Backend\ContentManagementController@faqIndex')->name('faq.index');
     Route::get('/konten/faq/create','Backend\ContentManagementController@faqCreate')->name('faq.create');

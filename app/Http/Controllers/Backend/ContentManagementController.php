@@ -736,199 +736,6 @@ class ContentManagementController extends Controller
         return redirect()->route('about.index')->with($notification);
     }
 
-    public function dutyIndex()
-    {
-        if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f') {
-            $duties = MainDuty::withTranslation()->get();
-        } else {
-            $duties = MainDuty::withTranslation()->where('site_id',auth()->user()->site_id)->get();
-        }
-        
-        return view('backend.pages.mainDuty',compact('duties'));
-    }
-
-    public function dutyCreate()
-    {
-        $categories = DutyCategoryTranslation::where('locale','id')->pluck('category_name','duty_category_id')->toArray();
-        
-        return view('backend.input.mainDuty',compact('categories'));
-    }
-
-    public function dutyStore(Request $request)
-    {
-        $request->validate([
-    		'category' => 'required',
-    		'id_position' => 'required',
-    		'en_position' => 'required',
-    		'id_duties' => 'required',
-    		'en_duties' => 'required',
-    		'id_function' => 'required',
-    		'en_function' => 'required'
-    	]);
-    	
-        $idfnc = $request->input('id_function');
-        $enfnc = $request->input('en_function');
-
-        $dom = new\DomDocument();
-        $dom->loadHtml($idfnc, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-        $images = $dom->getElementsByTagName('img');
-        foreach($images as $k => $img){
-            $isi = $img->getAttribute('src');
-            list($type, $data) = explode(';', $isi);
-            list(, $isi) = explode(',', $isi);
-            $isi = base64_decode($isi);
-            $image_name = "/public/mainduties" . time().$k.'.png';
-            $path = public_path() . $image_name;
-            file_put_contents($path, $isi);
-            $img->removeAttribute('src');
-            $img->setAttribute('src', $image_name);
-        }
-        $id_function = $dom->saveHtml();
-
-        $dom = new\DomDocument();
-        $dom->loadHtml($enfnc, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-        $images = $dom->getElementsByTagName('img');
-        foreach($images as $k => $img){
-            $isi = $img->getAttribute('src');
-            list($type, $data) = explode(';', $isi);
-            list(, $isi) = explode(',', $isi);
-            $isi = base64_decode($isi);
-            $image_name = "/public/mainduties" . time().$k.'.png';
-            $path = public_path() . $image_name;
-            file_put_contents($path, $isi);
-            $img->removeAttribute('src');
-            $img->setAttribute('src', $image_name);
-        }
-        $en_function = $dom->saveHtml();
-        $id_slug = DutyCategoryTranslation::where('duty_category_id',$request->input('category'))->where('locale','id')->first();
-        $en_slug = DutyCategoryTranslation::where('duty_category_id',$request->input('category'))->where('locale','en')->first();
-    	$data = [
-    		'id' => [
-                'slug'     => $request->input('id_slug'),
-    			'position' => $request->input('id_position'),
-    			'mainduty' => $request->input('id_duties'),
-    			'function' => $id_function
-    		],
-    		'en' => [
-                'slug'     => $request->input('en_slug'),
-    			'position' => $request->input('en_position'),
-    			'mainduty' => $request->input('en_duties'),
-    			'function' => $en_function
-    		],
-            'created_by' => auth()->user()->id,
-            'site_id' => auth()->user()->site_id
-    	];
-
-        $mainduties = Mainduty::create($data);
-        $data = 'Tugas dan Fungsi '.($data['id']['position']).' dan '.($data['en']['position']). 'berhasil disimpan';
-         \LogActivity::addToLog($data);
-        $notification = array (
-            'message' => 'Tugas dan Fungsi berhasil disimpan',
-            'alert-type' => 'success'
-        );
-
-        return redirect()->route('duty.index')->with($notification);
-    }
-
-    public function dutyEdit($id)
-    {
-        $duties = MainDuty::withTranslation()->where('main_duties.id',$id)->first();
-        $categories = DutyCategoryTranslation::where('locale','id')->pluck('category_name','duty_category_id')->toArray();
-        
-    	return view('backend.edit.mainDuty',compact('duties','categories'));
-    }
-
-    public function dutyUpdate(Request $request,$id)
-    {
-        $request->validate([
-    		'category' => 'required',
-    		'id_position' => 'required',
-    		'en_position' => 'required',
-    		'id_duties' => 'required',
-    		'en_duties' => 'required',
-    		'id_function' => 'required',
-    		'en_function' => 'required'
-    	]);
-    	
-        $idfnc = $request->input('id_function');
-        $enfnc = $request->input('en_function');
-
-        $dom = new\DomDocument();
-        $dom->loadHtml($idfnc, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-        $images = $dom->getElementsByTagName('img');
-        foreach($images as $k => $img){
-            $isi = $img->getAttribute('src');
-            list($type, $data) = explode(';', $isi);
-            list(, $isi) = explode(',', $isi);
-            $isi = base64_decode($isi);
-            $image_name = "/public/mainduties" . time().$k.'.png';
-            $path = public_path() . $image_name;
-            file_put_contents($path, $isi);
-            $img->removeAttribute('src');
-            $img->setAttribute('src', $image_name);
-        }
-        $id_function = $dom->saveHtml();
-
-        $dom = new\DomDocument();
-        $dom->loadHtml($enfnc, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-        $images = $dom->getElementsByTagName('img');
-        foreach($images as $k => $img){
-            $isi = $img->getAttribute('src');
-            list($type, $data) = explode(';', $isi);
-            list(, $isi) = explode(',', $isi);
-            $isi = base64_decode($isi);
-            $image_name = "/public/mainduties" . time().$k.'.png';
-            $path = public_path() . $image_name;
-            file_put_contents($path, $isi);
-            $img->removeAttribute('src');
-            $img->setAttribute('src', $image_name);
-        }
-        $en_function = $dom->saveHtml();
-        $id_slug = DutyCategoryTranslation::where('duty_category_id',$request->input('category'))->where('locale','id')->first();
-        $en_slug = DutyCategoryTranslation::where('duty_category_id',$request->input('category'))->where('locale','en')->first();
-    	$data = [
-    		'id' => [
-                'slug'     => $request->input('id_slug'),
-    			'position' => $request->input('id_position'),
-    			'mainduty' => $request->input('id_duties'),
-    			'function' => $id_function
-    		],
-    		'en' => [
-                'slug'     => $request->input('en_slug'),
-    			'position' => $request->input('en_position'),
-    			'mainduty' => $request->input('en_duties'),
-    			'function' => $en_function
-    		],
-            'updated_by' => auth()->user()->id
-    	];
-
-        $mainduties = Mainduty::withTranslation()->where('main_duties.id',$id)->first();
-        $mainduties->update($data);
-        $log = 'Tugas dan Fungsi Berhasil Diubah';
-         \LogActivity::addToLog($log);
-        $notification = array (
-            'message' => 'Tugas dan Fungsi Berhasil Diubah',
-            'alert-type' => 'success'
-        );
-
-        return redirect()->route('duty.index')->with($notification);
-    }
-
-    public function dutyDestroy($id)
-    {
-        $duties = MainDuty::withTranslation()->where('main_duties.id',$id)->first();
-        $logs = 'Tugas dan Fungsi berhasil dihapus';
-        $duties->destroy($id);
-        
-         \LogActivity::addToLog($logs);
-        $notification = array (
-            'message' => 'Tugas dan Fungsi berhasil dihapus',
-            'alert-type' => 'success'
-        );
-
-        return redirect()->route('duty.index')->with($notification);
-    }
-
     public function faqIndex()
     {
         if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f') {
@@ -1124,12 +931,10 @@ class ContentManagementController extends Controller
             'location' => 'required',
             'event_date' => 'required'
         ]);
-        
+
         if($request->hasFile('lampiran')) {
             $dates = explode('-',$request->input('event_date'));
-            $amount = date_diff(date_create($dates[0]),date_create($dates[1]));
-            $diff = $amount->format('%d.%h');
-
+            
             $file = $request->file('lampiran');
             $file_name = $file->getClientOriginalName();
             $size = $file->getSize();
@@ -1186,8 +991,8 @@ class ContentManagementController extends Controller
                 ],
                 'site_id' => auth()->user()->site_id,
                 'event_type' => $request->input('event_type'),
-                'date_from' => Carbon::parse($dates[0]),
-                'date_to' => Carbon::parse($dates[1]),
+                'date_from' => $dates[0],
+                'date_to' => $dates[1],
                 'country_id' => $request->input('country_id'),
                 'location' => $request->input('location'),
                 'brocure' => $filename,
@@ -1207,9 +1012,7 @@ class ContentManagementController extends Controller
             return redirect()->route('event.index')->with($notification);
         } else {
             $dates = explode('-',$request->input('event_date'));
-            $amount = date_diff(date_create($dates[0]),date_create($dates[1]));
-            $diff = $amount->format('%d.%h');
-            
+
             $id_content = $request->input('id_content');
             $en_content = $request->input('en_content');
 
@@ -1256,8 +1059,8 @@ class ContentManagementController extends Controller
                 ],
                 'site_id' => auth()->user()->site_id,
                 'event_type' => $request->input('event_type'),
-                'date_from' => Carbon::parse($dates[0]),
-                'date_to' => Carbon::parse($dates[1]),
+                'date_from' => $dates[0],
+                'date_to' => $dates[1],
                 'country_id' => $request->input('country_id'),
                 'location' => $request->input('location'),
                 'link' => $request->input('link'),
@@ -1479,7 +1282,7 @@ class ContentManagementController extends Controller
 
     public function postCreate()
     {
-        $categories = ArticleCategory::where('site_id',auth()->user()->site_id)->pluck('category_name','id')->toArray();
+        $categories = ArticleCategory::where('site_id',auth()->user()->site_id)->pluck('category_name','category_slug')->toArray();
         $reporter = User::where('site_id',auth()->user()->site_id)->pluck('name','id')->toArray();
         
         return view('backend.input.content',compact('categories','reporter'));
@@ -1500,7 +1303,7 @@ class ContentManagementController extends Controller
             'en_title' => 'required',
             'id_content' => 'required',
             'en_content' => 'required',
-            'category_id' => 'required',
+            'category_slug' => 'required',
             'reporter_id' => 'required',
             'published_date' => 'required',
         ]);
@@ -1553,7 +1356,7 @@ class ContentManagementController extends Controller
                     'title'     => $request->input('en_title'),
                     'content' => $encontent
                 ],
-                'category_id' => $request->input('category_id'),
+                'category_slug' => $request->input('category_slug'),
                 'reporter_id' => $request->input('reporter_id'),
                 'source' => $request->input('source'),
                 'file' => $path,
@@ -1620,7 +1423,7 @@ class ContentManagementController extends Controller
                     'title'     => $request->input('en_title'),
                     'content' => $encontent
                 ],
-                'category_id' => $request->input('category_id'),
+                'category_slug' => $request->input('category_slug'),
                 'reporter_id' => $request->input('reporter_id'),
                 'source' => $request->input('source'),
                 'peraturan_id' => $request->input('peraturan_id'),
@@ -1807,7 +1610,7 @@ class ContentManagementController extends Controller
 
         \LogActivity::addToLog($log);
         $notification = array (
-            'message' => 'Artikel '.($data->title).' berhasil dipublish',
+            'message' => 'Artikel '.($data->title).' berhasil dihapus',
             'alert-type' => 'success'
         );
 
@@ -1997,202 +1800,6 @@ class ContentManagementController extends Controller
         $data->delete();
 
         return redirect()->route('official.index')->with($notification);
-    }
-
-    public function oimlIndex()
-    {
-        $data = Oiml::orderBy('updated_at','DESC')->get();
-
-        return view('backend.pages.oiml',compact('data'));
-    }
-
-    public function oimlStore(Request $request)
-    {
-        $this->validate($request, [
-            'title' => 'required',
-            'category' => 'required',
-            'reference_no' => 'required',
-            'link' => 'required',
-        ]);
-
-        $input = [
-            'title' => $request->input('title'),
-            'category' => $request->input('category'),
-            'reference_no' => $request->input('reference_no'),
-            'link' => $request->input('link'),
-        ];
-
-        $data = Oiml::create($input);
-
-        $log = 'OIML '.($data->title).' Berhasil Disimpan';
-         \LogActivity::addToLog($log);
-        $notification = array (
-            'message' => 'OIML '.($data->title).' Berhasil Disimpan',
-            'alert-type' => 'success'
-        );
-
-        return redirect()->route('oiml.index')->with($notification);
-    }
-
-    public function oimlEdit($id)
-    {
-        $data = Oiml::find($id);
-
-        return view('backend.edit.oiml',compact('data'))->renderSections()['content'];
-    }
-
-    public function oimlUpdate(Request $request,$id)
-    {
-        $this->validate($request, [
-            'title' => 'required',
-            'category' => 'required',
-            'reference_no' => 'required',
-            'link' => 'required',
-        ]);
-
-        $input = [
-            'title' => $request->input('title'),
-            'category' => $request->input('category'),
-            'reference_no' => $request->input('reference_no'),
-            'link' => $request->input('link'),
-        ];
-
-        $data = Oiml::find($id);
-        $data->update($input);
-
-        $log = 'OIML '.($data->title).' Berhasil Diubah';
-         \LogActivity::addToLog($log);
-        $notification = array (
-            'message' => 'OIML '.($data->title).' Berhasil Diubah',
-            'alert-type' => 'success'
-        );
-
-        return redirect()->route('oiml.index')->with($notification);
-    }
-
-    public function oimlDestroy($id)
-    {
-        $data = Oiml::find($id);
-        $log = 'OIML '.($data->title).' Berhasil Dihapus';
-         \LogActivity::addToLog($log);
-        $notification = array (
-            'message' => 'OIML '.($data->title).' Berhasil Dihapus',
-            'alert-type' => 'success'
-        );
-        $data->delete($id);
-
-        return redirect()->route('oiml.index')->with($notification);
-    }
-
-    public function regDagriIndex()
-    {
-        $data = RegulasiDagri::orderBy('updated_at','DESC')->get();
-
-        return view('backend.pages.regDagri',compact('data'));
-    }
-
-    public function regDagriStore(Request $request)
-    {
-        $this->validate($request, [
-            'tahun' => 'required|numeric',
-            'judul' => 'required',
-            'no_regulasi' => 'required',
-            'lampiran' => 'required|file',
-        ]);
-
-        $uploadedFile = $request->file('lampiran');
-        $path = $uploadedFile->store('public/ditjenpdn/regulasi');
-        $input = [
-            'tahun' => $request->input('tahun'),
-            'judul' => $request->input('judul'),
-            'no_regulasi' => $request->input('no_regulasi'),
-            'file' => $path,
-            'created_by' => auth()->user()->id,
-        ];
-
-        $data = RegulasiDagri::create($input);
-
-        $log = 'Regulasi '.($data->title).' Berhasil Disimpan';
-         \LogActivity::addToLog($log);
-        $notification = array (
-            'message' => 'Regulasi '.($data->title).' Berhasil Disimpan',
-            'alert-type' => 'success'
-        );
-
-        return redirect()->route('regDagri.index')->with($notification);
-    }
-
-    public function regDagriEdit($id)
-    {
-        $data = RegulasiDagri::find($id);
-
-        return view('backend.edit.regDagri',compact('data'))->renderSections()['content'];
-    }
-
-    public function regDagriUpdate(Request $request,$id)
-    {
-        $this->validate($request, [
-            'tahun' => 'required|numeric',
-            'judul' => 'required',
-            'no_regulasi' => 'required',
-        ]);
-        if($request->hasFile('lampiran')) {
-            $uploadedFile = $request->file('lampiran');
-            $path = $uploadedFile->store('public/ditjenpdn/regulasi');
-            $input = [
-                'tahun' => $request->input('tahun'),
-                'judul' => $request->input('judul'),
-                'no_regulasi' => $request->input('no_regulasi'),
-                'file' => $path,
-                'updated_by' => auth()->user()->id,
-            ];
-
-            $data = RegulasiDagri::find($id);
-            $data->update($input);
-
-            $log = 'Regulasi '.($data->title).' Berhasil Diubah';
-            \LogActivity::addToLog($log);
-            $notification = array (
-                'message' => 'Regulasi '.($data->title).' Berhasil Diubah',
-                'alert-type' => 'success'
-            );
-
-            return redirect()->route('regDagri.index')->with($notification);
-        } else {
-            $input = [
-                'tahun' => $request->input('tahun'),
-                'judul' => $request->input('judul'),
-                'no_regulasi' => $request->input('no_regulasi'),
-                'updated_by' => auth()->user()->id,
-            ];
-
-            $data = RegulasiDagri::find($id);
-            $data->update($input);
-
-            $log = 'Regulasi '.($data->title).' Berhasil Diubah';
-            \LogActivity::addToLog($log);
-            $notification = array (
-                'message' => 'Regulasi '.($data->title).' Berhasil Diubah',
-                'alert-type' => 'success'
-            );
-
-            return redirect()->route('regDagri.index')->with($notification);
-        }
-    }
-
-    public function regDagriDestroy($id)
-    {
-        $data = RegulasiDagri::find($id);
-        $log = 'Regulasi '.($data->title).' Berhasil Dihapus';
-         \LogActivity::addToLog($log);
-        $notification = array (
-            'message' => 'Regulasi '.($data->title).' Berhasil Dihapus',
-            'alert-type' => 'success'
-        );
-        $file = File::delete($data->file);
-        $data->delete($id);
-
-        return redirect()->route('regDagri.index')->with($notification);
     }
 
     public function messageIndex()
