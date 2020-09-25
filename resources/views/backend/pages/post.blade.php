@@ -78,21 +78,24 @@ Kementerian Perdagangan Republik Indonesia | Buat Artikel
 								<td>{{date("d F Y H:i",strtotime($post->created_at)) }}</td>
 								<td>{{date("d F Y H:i",strtotime($post->updated_at)) }}</td>
 								<td>
-									<a button id="search" type="submit" class="btn btn-xs btn-info" href="{{ route('post.edit',$post->id) }}">
+									<a button id="search" type="submit" class="btn btn-xs btn-info" href="{{ route('post.edit',$post->id) }}" title="Edit Konten">
 										<i class="fa fa-edit"></i>
 									</a>
-									@if(($post->status_id) == '3bc97e4a-5e86-4d7c-86d5-7ee450a247ee')
+									<a button id="search" type="submit" class="btn btn-xs btn-info" href="{{ route('postReview.index',$post->id) }}" target="blank" title="Preview Konten">
+										<i class="fa fa-search"></i>
+									</a>
+									@if(($post->status_id) == '3bc97e4a-5e86-4d7c-86d5-7ee450a247ee' || ($post->status_id) == '97081d35-d4b2-4582-b88f-edd0c66adcb4')
 									{!! Form::open(['method' => 'POST','route' => ['post.publish', $post->id],'style'=>'display:inline','onsubmit' => 'return ConfirmPublish()']) !!}
-									{!! Form::button('<i class="fas fa-check-square"></i>',['type'=>'submit','class' => 'btn btn-xs btn-success']) !!}
+									{!! Form::button('<i class="fas fa-check-square"></i>',['type'=>'submit','class' => 'btn btn-xs btn-success', 'title'=>'Publish Konten']) !!}
 									{!! Form::close() !!}
 									@endif
 									@if(($post->status_id) == '2872ac69-2f76-438b-8b83-31c52787027d')
 									{!! Form::open(['method' => 'POST','route' => ['post.archive', $post->id],'style'=>'display:inline','onsubmit' => 'return ConfirmArchive()']) !!}
-									{!! Form::button('<i class="fas fa-check-square"></i>',['type'=>'submit','class' => 'btn btn-xs btn-success']) !!}
+									{!! Form::button('<i class="fas fa-check-square"></i>',['type'=>'submit','class' => 'btn btn-xs btn-success','title'=>'Arsip Konten']) !!}
 									{!! Form::close() !!}
 									@endif
 									{!! Form::open(['method' => 'POST','route' => ['post.destroy', $post->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
-									{!! Form::button('<i class="fas fa-trash-alt"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger']) !!}
+									{!! Form::button('<i class="fas fa-trash-alt"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Hapus Konten']) !!}
 									{!! Form::close() !!}
 								</td>
             				</tr>

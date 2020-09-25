@@ -7,6 +7,7 @@ use Sixceed\Http\Controllers\Controller;
 use Sixceed\Models\Oiml;
 use Sixceed\Models\RegulasiDagri;
 use Sixceed\Models\MainDuty;
+use Sixceed\Models\Post;
 use File;
 use Carbon\Carbon;
 

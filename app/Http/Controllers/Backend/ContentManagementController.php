@@ -1282,18 +1282,10 @@ class ContentManagementController extends Controller
 
     public function postCreate()
     {
-        $categories = ArticleCategory::where('site_id',auth()->user()->site_id)->pluck('category_name','category_slug')->toArray();
-        $reporter = User::where('site_id',auth()->user()->site_id)->pluck('name','id')->toArray();
-        
-        return view('backend.input.content',compact('categories','reporter'));
-    }
-
-    public function uploadCreate()
-    {
         $categories = ArticleCategory::where('site_id',auth()->user()->site_id)->pluck('category_name','id')->toArray();
         $reporter = User::where('site_id',auth()->user()->site_id)->pluck('name','id')->toArray();
         
-        return view('backend.input.upload',compact('categories','reporter'));
+        return view('backend.input.content',compact('categories','reporter'));
     }
 
     public function postStore(Request $request)
@@ -1301,9 +1293,7 @@ class ContentManagementController extends Controller
         $this->validate($request, [
             'id_title' => 'required',
             'en_title' => 'required',
-            'id_content' => 'required',
-            'en_content' => 'required',
-            'category_slug' => 'required',
+            'category_id' => 'required',
             'reporter_id' => 'required',
             'published_date' => 'required',
         ]);
@@ -1311,141 +1301,212 @@ class ContentManagementController extends Controller
         if($request->hasFile('lampiran')) {
             $uploadedFile = $request->file('lampiran');
             $path = $uploadedFile->store('public/database/konten_umum');
-
-            $idcontent = $request->input('id_content');
-            $encontent = $request->input('en_content');
-    
-            $dom = new\DomDocument();
-            $dom->loadHtml($idcontent, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-            $images = $dom->getElementsByTagName('img');
-            foreach($images as $k => $img){
-                $isi = $img->getAttribute('src');
-                list($type, $data) = explode(';', $isi);
-                list(, $isi) = explode(',', $isi);
-                $isi = base64_decode($isi);
-                $image_name = "/database/konten_umum/post" . time().$k.'.png';
-                $path = public_path() . $image_name;
-                file_put_contents($path, $isi);
-                $img->removeAttribute('src');
-                $img->setAttribute('src', $image_name);
-            }
-            $idcontent = $dom->saveHtml();
-    
-            $dom = new\DomDocument();
-            $dom->loadHtml($encontent, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-            $images = $dom->getElementsByTagName('img');
-            foreach($images as $k => $img){
-                $isi = $img->getAttribute('src');
-                list($type, $data) = explode(';', $isi);
-                list(, $isi) = explode(',', $isi);
-                $isi = base64_decode($isi);
-                $image_name = "/database/konten_umum/post" . time().$k.'.png';
-                $path = public_path() . $image_name;
-                file_put_contents($path, $isi);
-                $img->removeAttribute('src');
-                $img->setAttribute('src', $image_name);
-            }
-            $encontent = $dom->saveHtml();
-    
-            $data = [
-                'id' => [
-                    'title'     => $request->input('id_title'),
-                    'content' => $idcontent
-                ],
-                'en' => [
-                    'title'     => $request->input('en_title'),
-                    'content' => $encontent
-                ],
-                'category_slug' => $request->input('category_slug'),
-                'reporter_id' => $request->input('reporter_id'),
-                'source' => $request->input('source'),
-                'file' => $path,
-                'peraturan_id' => $request->input('peraturan_id'),
-                'created_by' => auth()->user()->id,
-                'site_id' => auth()->user()->site_id,
-                'status_id' => '3bc97e4a-5e86-4d7c-86d5-7ee450a247ee',
-                'published_date' => $request->input('published_date'),
-                'keywords' => $request->input('keywords'),
-                'description' => $request->input('description'),
-            ];
-    
-            $posts = Post::create($data);
-            $log = 'Artikel '.($posts->title).' Berhasil Disimpan';
-            \LogActivity::addToLog($log);
-            $notification = array (
-                'message' => 'Artikel '.($posts->title).' Berhasil Disimpan',
-                'alert-type' => 'success'
-            );
-
-            return redirect()->route('post.index')->with($notification);
-        } else {
-            $idcontent = $request->input('id_content');
-            $encontent = $request->input('en_content');
-    
-            $dom = new\DomDocument();
-            $dom->loadHtml($idcontent, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-            $images = $dom->getElementsByTagName('img');
-            foreach($images as $k => $img){
-                $isi = $img->getAttribute('src');
-                list($type, $data) = explode(';', $isi);
-                list(, $isi) = explode(',', $isi);
-                $isi = base64_decode($isi);
-                $image_name = "/database/konten_umum/post" . time().$k.'.png';
-                $path = public_path() . $image_name;
-                file_put_contents($path, $isi);
-                $img->removeAttribute('src');
-                $img->setAttribute('src', $image_name);
-            }
-            $idcontent = $dom->saveHtml();
-    
-            $dom = new\DomDocument();
-            $dom->loadHtml($encontent, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-            $images = $dom->getElementsByTagName('img');
-            foreach($images as $k => $img){
-                $isi = $img->getAttribute('src');
-                list($type, $data) = explode(';', $isi);
-                list(, $isi) = explode(',', $isi);
-                $isi = base64_decode($isi);
-                $image_name = "/database/konten_umum/post" . time().$k.'.png';
-                $path = public_path() . $image_name;
-                file_put_contents($path, $isi);
-                $img->removeAttribute('src');
-                $img->setAttribute('src', $image_name);
-            }
-            $encontent = $dom->saveHtml();
-    
-            $data = [
-                'id' => [
-                    'title'     => $request->input('id_title'),
-                    'content' => $idcontent
-                ],
-                'en' => [
-                    'title'     => $request->input('en_title'),
-                    'content' => $encontent
-                ],
-                'category_slug' => $request->input('category_slug'),
-                'reporter_id' => $request->input('reporter_id'),
-                'source' => $request->input('source'),
-                'peraturan_id' => $request->input('peraturan_id'),
-                'created_by' => auth()->user()->id,
-                'site_id' => auth()->user()->site_id,
-                'status_id' => '3bc97e4a-5e86-4d7c-86d5-7ee450a247ee',
-                'published_date' => $request->input('published_date'),
-                'keywords' => $request->input('keywords'),
-                'description' => $request->input('description'),
-            ];
-    
-            $posts = Post::create($data);
-            $log = 'Artikel '.($posts->title).' Berhasil Disimpan';
-            \LogActivity::addToLog($log);
-            $notification = array (
-                'message' => 'Artikel '.($posts->title).' Berhasil Disimpan',
-                'alert-type' => 'success'
-            );
-
-            return redirect()->route('post.index')->with($notification);
-        }
+            if(($request->input('id_content') && $request->input('en_content')) == null) {
+                $data = [
+                    'id' => [
+                        'title'     => $request->input('id_title'),
+                    ],
+                    'en' => [
+                        'title'     => $request->input('en_title'),
+                    ],
+                    'category_id' => $request->input('category_id'),
+                    'reporter_id' => $request->input('reporter_id'),
+                    'source' => $request->input('source'),
+                    'file' => $path,
+                    'peraturan_id' => $request->input('peraturan_id'),
+                    'bppp_post_year' => $request->input('bppp_year'),
+                    'created_by' => auth()->user()->id,
+                    'site_id' => auth()->user()->site_id,
+                    'status_id' => '3bc97e4a-5e86-4d7c-86d5-7ee450a247ee',
+                    'published_date' => $request->input('published_date'),
+                    'keywords' => $request->input('keywords'),
+                    'description' => $request->input('description'),
+                    'type_id' => '2',
+                    'oiml_ref' => $request->input('oiml_ref')
+                ];
         
+                $posts = Post::create($data);
+                $log = 'Konten '.($posts->title).' Berhasil Disimpan';
+                \LogActivity::addToLog($log);
+                $notification = array (
+                    'message' => 'Konten '.($posts->title).' Berhasil Disimpan',
+                    'alert-type' => 'success'
+                );
+
+                return redirect()->route('post.index')->with($notification);
+            } else {
+                $idcontent = $request->input('id_content');
+                $encontent = $request->input('en_content');
+        
+                $dom = new\DomDocument();
+                $dom->loadHtml($idcontent, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+                $images = $dom->getElementsByTagName('img');
+                foreach($images as $k => $img){
+                    $isi = $img->getAttribute('src');
+                    list($type, $data) = explode(';', $isi);
+                    list(, $isi) = explode(',', $isi);
+                    $isi = base64_decode($isi);
+                    $image_name = "/database/konten_umum/post" . time().$k.'.png';
+                    $path = public_path() . $image_name;
+                    file_put_contents($path, $isi);
+                    $img->removeAttribute('src');
+                    $img->setAttribute('src', $image_name);
+                }
+                $idcontent = $dom->saveHtml();
+        
+                $dom = new\DomDocument();
+                $dom->loadHtml($encontent, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+                $images = $dom->getElementsByTagName('img');
+                foreach($images as $k => $img){
+                    $isi = $img->getAttribute('src');
+                    list($type, $data) = explode(';', $isi);
+                    list(, $isi) = explode(',', $isi);
+                    $isi = base64_decode($isi);
+                    $image_name = "/database/konten_umum/post" . time().$k.'.png';
+                    $path = public_path() . $image_name;
+                    file_put_contents($path, $isi);
+                    $img->removeAttribute('src');
+                    $img->setAttribute('src', $image_name);
+                }
+                $encontent = $dom->saveHtml();
+        
+                $data = [
+                    'id' => [
+                        'title'     => $request->input('id_title'),
+                        'content' => $idcontent
+                    ],
+                    'en' => [
+                        'title'     => $request->input('en_title'),
+                        'content' => $encontent
+                    ],
+                    'category_id' => $request->input('category_id'),
+                    'reporter_id' => $request->input('reporter_id'),
+                    'source' => $request->input('source'),
+                    'file' => $path,
+                    'peraturan_id' => $request->input('peraturan_id'),
+                    'bppp_post_year' => $request->input('bppp_year'),
+                    'created_by' => auth()->user()->id,
+                    'site_id' => auth()->user()->site_id,
+                    'status_id' => '3bc97e4a-5e86-4d7c-86d5-7ee450a247ee',
+                    'published_date' => $request->input('published_date'),
+                    'keywords' => $request->input('keywords'),
+                    'description' => $request->input('description'),
+                    'type_id' => '2',
+                    'oiml_ref' => $request->input('oiml_ref')
+                ];
+        
+                $posts = Post::create($data);
+                $log = 'Konten '.($posts->title).' Berhasil Disimpan';
+                \LogActivity::addToLog($log);
+                $notification = array (
+                    'message' => 'Konten '.($posts->title).' Berhasil Disimpan',
+                    'alert-type' => 'success'
+                );
+
+                return redirect()->route('post.index')->with($notification);
+            }
+        } else {
+            if($request->input('id_content') && $request->input('en_content') == null) {
+                $data = [
+                    'id' => [
+                        'title'     => $request->input('id_title'),
+                    ],
+                    'en' => [
+                        'title'     => $request->input('en_title'),
+                    ],
+                    'category_id' => $request->input('category_id'),
+                    'reporter_id' => $request->input('reporter_id'),
+                    'source' => $request->input('source'),
+                    'peraturan_id' => $request->input('peraturan_id'),
+                    'bppp_post_year' => $request->input('bppp_year'),
+                    'created_by' => auth()->user()->id,
+                    'site_id' => auth()->user()->site_id,
+                    'status_id' => '3bc97e4a-5e86-4d7c-86d5-7ee450a247ee',
+                    'published_date' => $request->input('published_date'),
+                    'keywords' => $request->input('keywords'),
+                    'description' => $request->input('description'),
+                    'type_id' => '1'
+                ];
+        
+                $posts = Post::create($data);
+                $log = 'Konten '.($posts->title).' Berhasil Disimpan';
+                \LogActivity::addToLog($log);
+                $notification = array (
+                    'message' => 'Konten '.($posts->title).' Berhasil Disimpan',
+                    'alert-type' => 'success'
+                );
+
+                return redirect()->route('post.index')->with($notification);
+            } else {
+                $idcontent = $request->input('id_content');
+                $encontent = $request->input('en_content');
+        
+                $dom = new\DomDocument();
+                $dom->loadHtml($idcontent, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+                $images = $dom->getElementsByTagName('img');
+                foreach($images as $k => $img){
+                    $isi = $img->getAttribute('src');
+                    list($type, $data) = explode(';', $isi);
+                    list(, $isi) = explode(',', $isi);
+                    $isi = base64_decode($isi);
+                    $image_name = "/database/konten_umum/post" . time().$k.'.png';
+                    $path = public_path() . $image_name;
+                    file_put_contents($path, $isi);
+                    $img->removeAttribute('src');
+                    $img->setAttribute('src', $image_name);
+                }
+                $idcontent = $dom->saveHtml();
+        
+                $dom = new\DomDocument();
+                $dom->loadHtml($encontent, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+                $images = $dom->getElementsByTagName('img');
+                foreach($images as $k => $img){
+                    $isi = $img->getAttribute('src');
+                    list($type, $data) = explode(';', $isi);
+                    list(, $isi) = explode(',', $isi);
+                    $isi = base64_decode($isi);
+                    $image_name = "/database/konten_umum/post" . time().$k.'.png';
+                    $path = public_path() . $image_name;
+                    file_put_contents($path, $isi);
+                    $img->removeAttribute('src');
+                    $img->setAttribute('src', $image_name);
+                }
+                $encontent = $dom->saveHtml();
+        
+                $data = [
+                    'id' => [
+                        'title'     => $request->input('id_title'),
+                        'content' => $idcontent
+                    ],
+                    'en' => [
+                        'title'     => $request->input('en_title'),
+                        'content' => $encontent
+                    ],
+                    'category_id' => $request->input('category_id'),
+                    'reporter_id' => $request->input('reporter_id'),
+                    'source' => $request->input('source'),
+                    'peraturan_id' => $request->input('peraturan_id'),
+                    'bppp_post_year' => $request->input('bppp_year'),
+                    'created_by' => auth()->user()->id,
+                    'site_id' => auth()->user()->site_id,
+                    'status_id' => '3bc97e4a-5e86-4d7c-86d5-7ee450a247ee',
+                    'published_date' => $request->input('published_date'),
+                    'keywords' => $request->input('keywords'),
+                    'description' => $request->input('description'),
+                    'type_id' => '1'
+                ];
+        
+                $posts = Post::create($data);
+                $log = 'Artikel '.($posts->title).' Berhasil Disimpan';
+                \LogActivity::addToLog($log);
+                $notification = array (
+                    'message' => 'Artikel '.($posts->title).' Berhasil Disimpan',
+                    'alert-type' => 'success'
+                );
+
+                return redirect()->route('post.index')->with($notification);
+            } 
+        }
     }
 
     public function postEdit($id)
@@ -1454,118 +1515,439 @@ class ContentManagementController extends Controller
         $categories = ArticleCategory::where('site_id',auth()->user()->site_id)->pluck('category_name','id')->toArray();
         $reporter = User::where('site_id',auth()->user()->site_id)->pluck('name','id')->toArray();
 
-        return view('backend.edit.post',compact('data','categories','reporter'));
+        return view('backend.edit.content',compact('data','categories','reporter'));
     }
 
     public function postUpdate(Request $request,$id)
     {
-        if($request->input('type') == 'write') {
-            $this->validate($request, [
-                'id_title' => 'required',
-                'en_title' => 'required',
-                'id_content' => 'required',
-                'en_content' => 'required',
-            ]);
-    
-            $idcontent = $request->input('id_content');
-            $encontent = $request->input('en_content');
-    
-            $dom = new\DomDocument();
-            $dom->loadHtml($idcontent, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-            $images = $dom->getElementsByTagName('img');
-            foreach($images as $k => $img){
-                $isi = $img->getAttribute('src');
-                list($type, $data) = explode(';', $isi);
-                list(, $isi) = explode(',', $isi);
-                $isi = base64_decode($isi);
-                $image_name = "/upload" . time().$k.'.png';
-                $path = public_path() . $image_name;
-                file_put_contents($path, $isi);
-                $img->removeAttribute('src');
-                $img->setAttribute('src', $image_name);
-            }
-            $idcontent = $dom->saveHtml();
-    
-            $dom = new\DomDocument();
-            $dom->loadHtml($encontent, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-            $images = $dom->getElementsByTagName('img');
-            foreach($images as $k => $img){
-                $isi = $img->getAttribute('src');
-                list($type, $data) = explode(';', $isi);
-                list(, $isi) = explode(',', $isi);
-                $isi = base64_decode($isi);
-                $image_name = "/upload" . time().$k.'.png';
-                $path = public_path() . $image_name;
-                file_put_contents($path, $isi);
-                $img->removeAttribute('src');
-                $img->setAttribute('src', $image_name);
-            }
-            $encontent = $dom->saveHtml();
-    
-            $data = [
-                'id' => [
-                    'title'     => $request->input('id_title'),
-                    'content' => $idcontent
-                ],
-                'en' => [
-                    'title'     => $request->input('en_title'),
-                    'content' => $encontent
-                ],
-                'type' => $request->input('type'),
-                'category_id' => $request->input('category_id'),
-                'reporter_id' => $request->input('reporter_id'),
-                'source' => $request->input('source'),
-                'updated_by' => auth()->user()->id,
-            ];
-            
-            $changes = Post::withTranslation()->where('posts.id',$id)->first();
-            $changes->update($data);
-            $log = 'Artikel '.($changes->title).' Berhasil diubah';
-            \LogActivity::addToLog($log);
-            $notification = array (
-                'message' => 'Artikel '.($changes->title).' Berhasil diubah',
-                'alert-type' => 'success'
-            );
+        $this->validate($request, [
+            'id_title' => 'required',
+            'en_title' => 'required',
+            'category_id' => 'required',
+            'reporter_id' => 'required',
+        ]);
 
-            return redirect()->route('post.index')->with($notification);
+        if($request->hasFile('lampiran')) {
+            $uploadedFile = $request->file('lampiran');
+            $path = $uploadedFile->store('public/database/konten');
+            if($request->input('published_date') == null) {
+                if(($request->input('id_content') && $request->input('en_content')) == null) {
+                    $data = [
+                        'id' => [
+                            'title'     => $request->input('id_title'),
+                        ],
+                        'en' => [
+                            'title'     => $request->input('en_title'),
+                        ],
+                        'category_id' => $request->input('category_id'),
+                        'reporter_id' => $request->input('reporter_id'),
+                        'source' => $request->input('source'),
+                        'file' => $path,
+                        'peraturan_id' => $request->input('peraturan_id'),
+                        'bppp_post_year' => $request->input('bppp_year'),
+                        'updated_by' => auth()->user()->id,
+                        'site_id' => auth()->user()->site_id,
+                        'status_id' => '97081d35-d4b2-4582-b88f-edd0c66adcb4',
+                        'keywords' => $request->input('keywords'),
+                        'description' => $request->input('description'),
+                        'oiml_ref' => $request->input('oiml_ref')
+                    ];
+                    
+                    $changes = Post::withTranslation()->where('posts.id',$id)->first();
+                    $changes->update($data);
+                    $log = 'Artikel '.($changes->title).' Berhasil diubah';
+                    \LogActivity::addToLog($log);
+                    $notification = array (
+                        'message' => 'Artikel '.($changes->title).' Berhasil diubah',
+                        'alert-type' => 'success'
+                    );
+    
+                    return redirect()->route('post.index')->with($notification);
+                } else {
+                    $idcontent = $request->input('id_content');
+                    $encontent = $request->input('en_content');
+            
+                    $dom = new\DomDocument();
+                    $dom->loadHtml($idcontent, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+                    $images = $dom->getElementsByTagName('img');
+                    foreach($images as $k => $img){
+                        $isi = $img->getAttribute('src');
+                        list($type, $data) = explode(';', $isi);
+                        list(, $isi) = explode(',', $isi);
+                        $isi = base64_decode($isi);
+                        $image_name = "/upload" . time().$k.'.png';
+                        $path = public_path() . $image_name;
+                        file_put_contents($path, $isi);
+                        $img->removeAttribute('src');
+                        $img->setAttribute('src', $image_name);
+                    }
+                    $idcontent = $dom->saveHtml();
+            
+                    $dom = new\DomDocument();
+                    $dom->loadHtml($encontent, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+                    $images = $dom->getElementsByTagName('img');
+                    foreach($images as $k => $img){
+                        $isi = $img->getAttribute('src');
+                        list($type, $data) = explode(';', $isi);
+                        list(, $isi) = explode(',', $isi);
+                        $isi = base64_decode($isi);
+                        $image_name = "/upload" . time().$k.'.png';
+                        $path = public_path() . $image_name;
+                        file_put_contents($path, $isi);
+                        $img->removeAttribute('src');
+                        $img->setAttribute('src', $image_name);
+                    }
+                    $encontent = $dom->saveHtml();
+            
+                    $data = [
+                        'id' => [
+                            'title'     => $request->input('id_title'),
+                            'content'   => $idcontent,
+                        ],
+                        'en' => [
+                            'title'     => $request->input('en_title'),
+                            'content'   => $encontent,
+                        ],
+                        'category_id' => $request->input('category_id'),
+                        'reporter_id' => $request->input('reporter_id'),
+                        'source' => $request->input('source'),
+                        'file' => $path,
+                        'peraturan_id' => $request->input('peraturan_id'),
+                        'bppp_post_year' => $request->input('bppp_year'),
+                        'updated_by' => auth()->user()->id,
+                        'site_id' => auth()->user()->site_id,
+                        'status_id' => '97081d35-d4b2-4582-b88f-edd0c66adcb4',
+                        'keywords' => $request->input('keywords'),
+                        'description' => $request->input('description'),
+                        'oiml_ref' => $request->input('oiml_ref')
+                    ];
+                    
+                    $changes = Post::withTranslation()->where('posts.id',$id)->first();
+                    $changes->update($data);
+                    $log = 'Artikel '.($changes->title).' Berhasil diubah';
+                    \LogActivity::addToLog($log);
+                    $notification = array (
+                        'message' => 'Artikel '.($changes->title).' Berhasil diubah',
+                        'alert-type' => 'success'
+                    );
+    
+                    return redirect()->route('post.index')->with($notification);
+                }
+            } else {
+                if(($request->input('id_content') && $request->input('en_content')) == null) {
+                    $data = [
+                        'id' => [
+                            'title'     => $request->input('id_title'),
+                        ],
+                        'en' => [
+                            'title'     => $request->input('en_title'),
+                        ],
+                        'category_id' => $request->input('category_id'),
+                        'reporter_id' => $request->input('reporter_id'),
+                        'source' => $request->input('source'),
+                        'file' => $path,
+                        'peraturan_id' => $request->input('peraturan_id'),
+                        'bppp_post_year' => $request->input('bppp_year'),
+                        'updated_by' => auth()->user()->id,
+                        'site_id' => auth()->user()->site_id,
+                        'status_id' => '97081d35-d4b2-4582-b88f-edd0c66adcb4',
+                        'published_date' => $request->input('published_date'),
+                        'keywords' => $request->input('keywords'),
+                        'description' => $request->input('description'),
+                    ];
+                    
+                    $changes = Post::withTranslation()->where('posts.id',$id)->first();
+                    $changes->update($data);
+                    $log = 'Artikel '.($changes->title).' Berhasil diubah';
+                    \LogActivity::addToLog($log);
+                    $notification = array (
+                        'message' => 'Artikel '.($changes->title).' Berhasil diubah',
+                        'alert-type' => 'success'
+                    );
+    
+                    return redirect()->route('post.index')->with($notification);
+                } else {
+                    $idcontent = $request->input('id_content');
+                    $encontent = $request->input('en_content');
+            
+                    $dom = new\DomDocument();
+                    $dom->loadHtml($idcontent, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+                    $images = $dom->getElementsByTagName('img');
+                    foreach($images as $k => $img){
+                        $isi = $img->getAttribute('src');
+                        list($type, $data) = explode(';', $isi);
+                        list(, $isi) = explode(',', $isi);
+                        $isi = base64_decode($isi);
+                        $image_name = "/upload" . time().$k.'.png';
+                        $path = public_path() . $image_name;
+                        file_put_contents($path, $isi);
+                        $img->removeAttribute('src');
+                        $img->setAttribute('src', $image_name);
+                    }
+                    $idcontent = $dom->saveHtml();
+            
+                    $dom = new\DomDocument();
+                    $dom->loadHtml($encontent, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+                    $images = $dom->getElementsByTagName('img');
+                    foreach($images as $k => $img){
+                        $isi = $img->getAttribute('src');
+                        list($type, $data) = explode(';', $isi);
+                        list(, $isi) = explode(',', $isi);
+                        $isi = base64_decode($isi);
+                        $image_name = "/upload" . time().$k.'.png';
+                        $path = public_path() . $image_name;
+                        file_put_contents($path, $isi);
+                        $img->removeAttribute('src');
+                        $img->setAttribute('src', $image_name);
+                    }
+                    $encontent = $dom->saveHtml();
+            
+                    $data = [
+                        'id' => [
+                            'title'     => $request->input('id_title'),
+                            'content'   => $idcontent,
+                        ],
+                        'en' => [
+                            'title'     => $request->input('en_title'),
+                            'content'   => $encontent,
+                        ],
+                        'category_id' => $request->input('category_id'),
+                        'reporter_id' => $request->input('reporter_id'),
+                        'source' => $request->input('source'),
+                        'file' => $path,
+                        'peraturan_id' => $request->input('peraturan_id'),
+                        'bppp_post_year' => $request->input('bppp_year'),
+                        'updated_by' => auth()->user()->id,
+                        'site_id' => auth()->user()->site_id,
+                        'status_id' => '97081d35-d4b2-4582-b88f-edd0c66adcb4',
+                        'published_date' => $request->input('published_date'),
+                        'keywords' => $request->input('keywords'),
+                        'description' => $request->input('description'),
+                    ];
+                    
+                    $changes = Post::withTranslation()->where('posts.id',$id)->first();
+                    $changes->update($data);
+                    $log = 'Artikel '.($changes->title).' Berhasil diubah';
+                    \LogActivity::addToLog($log);
+                    $notification = array (
+                        'message' => 'Artikel '.($changes->title).' Berhasil diubah',
+                        'alert-type' => 'success'
+                    );
+    
+                    return redirect()->route('post.index')->with($notification);
+                }
+            }
             
         } else {
-            $this->validate($request, [
-                'id_title' => 'required',
-                'en_title' => 'required',
-            ]);
-    
-            $uploadedFile = $request->file('file');
-            $path = $uploadedFile->store('public/files');
-            $data = [
-                'en' => [
-                    'title' => $request->input('en_title'),
-                    'content' => $request->input('en_content')
-                ],
-                'id' => [
-                    'title' => $request->input('id_title'),
-                    'content' => $request->input('id_content')
-                ],
-                'category_id' => $request->input('category_id'),
-                'reporter_id' => $request->input('reporter_id'),
-                'file' => $path,
-                'created_by' => auth()->user()->id,
-                'type' => $request->input('type'),
-                'site_id' => auth()->user()->site_id,
-                'status_id' => '3bc97e4a-5e86-4d7c-86d5-7ee450a247ee'
-            ];
-            
-            $changes = Post::withTranslation()->where('posts.id',$id)->first();
-            $changes->update($data);
-            $log = 'Artikel '.($changes->title).' berhasil diubah';
-             \LogActivity::addToLog($log);
-            $notification = array (
-                'message' => 'Artikel '.($changes->title).' berhasil diubah',
-                'alert-type' => 'success'
-            );
+            if($request->input('published_date') == null) {
+                if(($request->input('id_content') && $request->input('en_content')) == null) {
+                    $data = [
+                        'id' => [
+                            'title'     => $request->input('id_title'),
+                        ],
+                        'en' => [
+                            'title'     => $request->input('en_title'),
+                        ],
+                        'category_id' => $request->input('category_id'),
+                        'reporter_id' => $request->input('reporter_id'),
+                        'source' => $request->input('source'),
+                        'peraturan_id' => $request->input('peraturan_id'),
+                        'bppp_post_year' => $request->input('bppp_year'),
+                        'updated_by' => auth()->user()->id,
+                        'site_id' => auth()->user()->site_id,
+                        'status_id' => '97081d35-d4b2-4582-b88f-edd0c66adcb4',
+                        'keywords' => $request->input('keywords'),
+                        'description' => $request->input('description'),
+                    ];
+                    
+                    $changes = Post::withTranslation()->where('posts.id',$id)->first();
+                    $changes->update($data);
+                    $log = 'Artikel '.($changes->title).' Berhasil diubah';
+                    \LogActivity::addToLog($log);
+                    $notification = array (
+                        'message' => 'Artikel '.($changes->title).' Berhasil diubah',
+                        'alert-type' => 'success'
+                    );
 
-            return redirect()->route('post.index')->with($notification);
+                    return redirect()->route('post.index')->with($notification);
+                } else {
+                    $idcontent = $request->input('id_content');
+                    $encontent = $request->input('en_content');
+            
+                    $dom = new\DomDocument();
+                    $dom->loadHtml($idcontent, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+                    $images = $dom->getElementsByTagName('img');
+                    foreach($images as $k => $img){
+                        $isi = $img->getAttribute('src');
+                        list($type, $data) = explode(';', $isi);
+                        list(, $isi) = explode(',', $isi);
+                        $isi = base64_decode($isi);
+                        $image_name = "/upload" . time().$k.'.png';
+                        $path = public_path() . $image_name;
+                        file_put_contents($path, $isi);
+                        $img->removeAttribute('src');
+                        $img->setAttribute('src', $image_name);
+                    }
+                    $idcontent = $dom->saveHtml();
+            
+                    $dom = new\DomDocument();
+                    $dom->loadHtml($encontent, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+                    $images = $dom->getElementsByTagName('img');
+                    foreach($images as $k => $img){
+                        $isi = $img->getAttribute('src');
+                        list($type, $data) = explode(';', $isi);
+                        list(, $isi) = explode(',', $isi);
+                        $isi = base64_decode($isi);
+                        $image_name = "/upload" . time().$k.'.png';
+                        $path = public_path() . $image_name;
+                        file_put_contents($path, $isi);
+                        $img->removeAttribute('src');
+                        $img->setAttribute('src', $image_name);
+                    }
+                    $encontent = $dom->saveHtml();
+            
+                    $data = [
+                        'id' => [
+                            'title'     => $request->input('id_title'),
+                            'content'   => $idcontent,
+                        ],
+                        'en' => [
+                            'title'     => $request->input('en_title'),
+                            'content'   => $encontent,
+                        ],
+                        'category_id' => $request->input('category_id'),
+                        'reporter_id' => $request->input('reporter_id'),
+                        'source' => $request->input('source'),
+                        'peraturan_id' => $request->input('peraturan_id'),
+                        'bppp_post_year' => $request->input('bppp_year'),
+                        'updated_by' => auth()->user()->id,
+                        'site_id' => auth()->user()->site_id,
+                        'status_id' => '97081d35-d4b2-4582-b88f-edd0c66adcb4',
+                        'keywords' => $request->input('keywords'),
+                        'description' => $request->input('description'),
+                    ];
+                    
+                    $changes = Post::withTranslation()->where('posts.id',$id)->first();
+                    $changes->update($data);
+                    $log = 'Artikel '.($changes->title).' Berhasil diubah';
+                    \LogActivity::addToLog($log);
+                    $notification = array (
+                        'message' => 'Artikel '.($changes->title).' Berhasil diubah',
+                        'alert-type' => 'success'
+                    );
+
+                    return redirect()->route('post.index')->with($notification);
+                }
+            } else {
+                if(($request->input('id_content') && $request->input('en_content')) == null) {
+                    $data = [
+                        'id' => [
+                            'title'     => $request->input('id_title'),
+                        ],
+                        'en' => [
+                            'title'     => $request->input('en_title'),
+                        ],
+                        'category_id' => $request->input('category_id'),
+                        'reporter_id' => $request->input('reporter_id'),
+                        'source' => $request->input('source'),
+                        'peraturan_id' => $request->input('peraturan_id'),
+                        'bppp_post_year' => $request->input('bppp_year'),
+                        'updated_by' => auth()->user()->id,
+                        'site_id' => auth()->user()->site_id,
+                        'status_id' => '97081d35-d4b2-4582-b88f-edd0c66adcb4',
+                        'published_date' => $request->input('published_date'),
+                        'keywords' => $request->input('keywords'),
+                        'description' => $request->input('description'),
+                    ];
+                    
+                    $changes = Post::withTranslation()->where('posts.id',$id)->first();
+                    $changes->update($data);
+                    $log = 'Artikel '.($changes->title).' Berhasil diubah';
+                    \LogActivity::addToLog($log);
+                    $notification = array (
+                        'message' => 'Artikel '.($changes->title).' Berhasil diubah',
+                        'alert-type' => 'success'
+                    );
+
+                    return redirect()->route('post.index')->with($notification);
+                } else {
+                    $idcontent = $request->input('id_content');
+                    $encontent = $request->input('en_content');
+            
+                    $dom = new\DomDocument();
+                    $dom->loadHtml($idcontent, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+                    $images = $dom->getElementsByTagName('img');
+                    foreach($images as $k => $img){
+                        $isi = $img->getAttribute('src');
+                        list($type, $data) = explode(';', $isi);
+                        list(, $isi) = explode(',', $isi);
+                        $isi = base64_decode($isi);
+                        $image_name = "/upload" . time().$k.'.png';
+                        $path = public_path() . $image_name;
+                        file_put_contents($path, $isi);
+                        $img->removeAttribute('src');
+                        $img->setAttribute('src', $image_name);
+                    }
+                    $idcontent = $dom->saveHtml();
+            
+                    $dom = new\DomDocument();
+                    $dom->loadHtml($encontent, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+                    $images = $dom->getElementsByTagName('img');
+                    foreach($images as $k => $img){
+                        $isi = $img->getAttribute('src');
+                        list($type, $data) = explode(';', $isi);
+                        list(, $isi) = explode(',', $isi);
+                        $isi = base64_decode($isi);
+                        $image_name = "/upload" . time().$k.'.png';
+                        $path = public_path() . $image_name;
+                        file_put_contents($path, $isi);
+                        $img->removeAttribute('src');
+                        $img->setAttribute('src', $image_name);
+                    }
+                    $encontent = $dom->saveHtml();
+            
+                    $data = [
+                        'id' => [
+                            'title'     => $request->input('id_title'),
+                            'content'   => $idcontent,
+                        ],
+                        'en' => [
+                            'title'     => $request->input('en_title'),
+                            'content'   => $encontent,
+                        ],
+                        'category_id' => $request->input('category_id'),
+                        'reporter_id' => $request->input('reporter_id'),
+                        'source' => $request->input('source'),
+                        'peraturan_id' => $request->input('peraturan_id'),
+                        'bppp_post_year' => $request->input('bppp_year'),
+                        'updated_by' => auth()->user()->id,
+                        'site_id' => auth()->user()->site_id,
+                        'status_id' => '97081d35-d4b2-4582-b88f-edd0c66adcb4',
+                        'published_date' => $request->input('published_date'),
+                        'keywords' => $request->input('keywords'),
+                        'description' => $request->input('description'),
+                    ];
+                    
+                    $changes = Post::withTranslation()->where('posts.id',$id)->first();
+                    $changes->update($data);
+                    $log = 'Artikel '.($changes->title).' Berhasil diubah';
+                    \LogActivity::addToLog($log);
+                    $notification = array (
+                        'message' => 'Artikel '.($changes->title).' Berhasil diubah',
+                        'alert-type' => 'success'
+                    );
+
+                    return redirect()->route('post.index')->with($notification);
+                }
+            }
         }
+    }
+
+    public function postReview($id)
+    {
+        $data = Post::withTranslation()->where('posts.id',$id)->first();
+
+        return view('backend.preview.post',compact('data'));
     }
 
     public function postPublish(Request $request,$id)

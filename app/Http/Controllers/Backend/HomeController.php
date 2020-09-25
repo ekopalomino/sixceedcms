@@ -41,4 +41,9 @@ class HomeController extends Controller
     {
         return view('backend.pages.pdn');
     }
+
+    public function bpppIndex()
+    {
+        return view('backend.pages.bppp');
+    }
 }

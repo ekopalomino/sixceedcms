@@ -24,4 +24,9 @@ class DashboardController extends Controller
     {
         return view('backend.dashboard.dagri');
     }
+
+    public function bppp()
+    {
+        return view('backend.dashboard.bppp');
+    }
 }

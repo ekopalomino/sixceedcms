@@ -1,6 +1,6 @@
 @extends('backend.layout.main')
 @section('header.title')
-Kementerian Perdagangan Republik Indonesia | Buat Konten
+Kementerian Perdagangan Republik Indonesia | Edit Konten
 @endsection
 @section('header.styles')
 <link rel="stylesheet" href="{{ asset('bower_components/admin-lte/plugins/summernote/summernote-bs4.css') }}">
@@ -11,7 +11,7 @@ Kementerian Perdagangan Republik Indonesia | Buat Konten
 	<div class="container-fluid">
       	<div class="row mb-2">
        		<div class="col-sm-6">
-          		<h1>Buat Konten</h1>
+          		<h1>Edit Konten</h1>
        		</div>
        	</div>
     </div>
@@ -30,7 +30,7 @@ Kementerian Perdagangan Republik Indonesia | Buat Konten
 				</ul>
 			</div>
 			@endif 
-			{!! Form::open(array('route' => 'post.store','method'=>'POST', 'class' => 'form-horizontal','files'=>'true')) !!}
+			{!! Form::model($data, ['method' => 'POST','route' => ['post.update', $data->id],'class'=>'form-horizontal','files'=>'true']) !!}
 			@csrf
 			<div class="row">
 				<div class="col-md-9">
@@ -39,29 +39,25 @@ Kementerian Perdagangan Republik Indonesia | Buat Konten
 							<div class="row">
 							  	<div class="col-12">
 									<label><strong>Judul (Indonesia)</strong></label>
-									{!! Form::text('id_title', null, array('placeholder' => 'Judul','class' => 'form-control')) !!}
+									{!! Form::text('id_title', old('title',$data->title), array('placeholder' => 'Judul','class' => 'form-control')) !!}
 							  	</div>
 							</div>
 							<br>
 							<div class="row">
 							  	<div class="col-12">
 									<label><strong>Judul (Inggris)</strong></label>
-									{!! Form::text('en_title', null, array('placeholder' => 'Title','class' => 'form-control')) !!}
+									{!! Form::text('en_title', old('title',$data->translations[0]->title), array('placeholder' => 'Title','class' => 'form-control')) !!}
 							  	</div>
 							</div>
 							<br>
 							<div class="row">
 								<div class="col-12">
 									<label><strong>Konten (Indonesia)</strong></label>
-									<textarea class="textarea" name="id_content" id="id_content" placeholder="Place some text here"
-										style="width: 100%; height: 100%; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">
-									</textarea>
+									{!! Form::textarea('id_content', old('content', $data->content), array('placeholder' => 'Konten','class' => 'form-control textarea summernote')) !!}
 								</div>
 								<div class="col-12">
 									<label><strong>Konten (Inggris)</strong></label>
-									<textarea class="textarea" name="en_content" id="en_content" placeholder="Place some text here"
-										style="width: 100%; height: 1000px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">
-									</textarea>
+									{!! Form::textarea('en_content', old('content', $data->translations[0]->content), array('placeholder' => 'Konten','class' => 'form-control textarea summernote')) !!}
 								</div>
 							</div>
 							<br>
@@ -77,16 +73,9 @@ Kementerian Perdagangan Republik Indonesia | Buat Konten
 								<div class="col-12">
 									<div class="form-group">
 										<label><strong>Kategori</strong></label>
-										{!! Form::select('category_id', [null=>'Please Select'] + $categories,[], array('class' => 'form-control','id'=>'category_id')) !!}
+										{!! Form::select('category_id', $categories,old('category_id'),array('class' => 'form-control','id'=>'category_id')) !!}
 									</div>
 								</div>
-								<div class="col-12">
-									<div class="form-group">
-										<label><strong>No Referensi OIML</strong></label>
-										{!! Form::text('oiml_ref', null, array('placeholder' => 'No Referensi OIML','class' => 'form-control')) !!}
-									</div>
-								</div>
-								@if((auth()->user()->site_id) == '92876445-2b7c-4e2f-bb43-d3b71b608e4e')
 								<div class="col-12" id="row_menteri">
 									<div class="form-group">
 										<label><strong>Jenis Peraturan</strong></label>
@@ -99,16 +88,23 @@ Kementerian Perdagangan Republik Indonesia | Buat Konten
 							                <option value="5">Kementerian Hukum dan Hak Asasi Manusia</option>
 							                <option value="6">Badan Kepegawaian Negara</option>
 							                <option value="7">Lembaga Administrasi Negara</option>
-							                <option value="8">Sekretariat Jenderal</option>
-                							<option value="9">Syarat Teknis</option>
 							            </select>
 									</div>
 								</div>
-								@endif
+								<div class="col-12" id="row_others">
+									<div class="form-group">
+										<label><strong>Jenis Peraturan</strong></label>
+										<select name="peraturan_id" class="form-control">
+							                <option value="">Please Select</option>
+							                <option value="8">Sekretariat Jenderal</option>
+                							<option value="9">Syarat Teknis</option>
+						              	</select>
+									</div>
+								</div>
 								<div class="col-12">
 									<div class="form-group">
 										<label><strong>Nama Reporter</strong></label>
-										{!! Form::select('reporter_id', [null=>'Please Select'] + $reporter,[], array('class' => 'form-control')) !!}
+										{!! Form::select('reporter_id', $reporter,old('reporter_id'),array('class' => 'form-control')) !!}
 									</div>
 								</div>
 								<div class="col-12">
@@ -117,6 +113,7 @@ Kementerian Perdagangan Republik Indonesia | Buat Konten
 										{!! Form::text('source', null, array('placeholder' => 'Sumber Berita','class' => 'form-control')) !!}
 									</div>
 								</div>
+								@if(($data->type_id) == '2')
 								<div class="col-12">
 									<div class="form-group">
 										<label><strong>Lampiran (Opsional)</strong></label>
@@ -128,6 +125,7 @@ Kementerian Perdagangan Republik Indonesia | Buat Konten
               							</div>
 									</div>
 								</div>
+								@endif
 								<div class="col-12">
 									<div class="form-group">
 										<label><strong>Tanggal Publish</strong></label>
@@ -180,7 +178,7 @@ Kementerian Perdagangan Republik Indonesia | Buat Konten
     $('.textarea').summernote()
   })
 </script>
-<!-- <script>
+<script>
   $(function() {
     $('#row_menteri').hide(); 
     $('#category_id').change(function(){
@@ -203,7 +201,7 @@ Kementerian Perdagangan Republik Indonesia | Buat Konten
         } 
     });
 });
-</script> -->
+</script>
 <script type="text/javascript">
 $(document).ready(function () {
   bsCustomFileInput.init();

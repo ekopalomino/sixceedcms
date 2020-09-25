@@ -73,7 +73,7 @@ Kementerian Perdagangan Republik Indonesia | Edit Artikel
 								<label><strong>Reporter</strong></label>
 								{!! Form::select('reporter_id', $reporter,old('reporter_id'),array('class' => 'form-control')) !!}
 							</div>
-							@if(($data->type) == 'upload')
+							@if(($data->type_id) == '2')
 							<div class="col-6">
               					<label><strong>File Artikel</strong></label>
               					{!! Form::file('file', null, array('placeholder' => 'Image','class' => 'form-control')) !!}

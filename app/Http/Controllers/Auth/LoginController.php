@@ -28,7 +28,7 @@ class LoginController extends Controller
      */
     /*protected $redirectTo = '/home';*/
 
-    protected function redirectTo()
+    protected function redirectTo() 
     {
         if(Auth::user()->site_id == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f') {
             return 'cms/config';
@@ -47,7 +47,7 @@ class LoginController extends Controller
         } elseif(Auth::user()->site_id == '92876445-2b7c-4e2f-bb43-d3b71b608e4e') {
             return '/cms/pusat-pengembangan-sumber-daya-kemetrologian';
         }elseif(Auth::user()->site_id == '2da488d4-a8e7-499a-b6e7-360ff17f9585') {
-            return 'cms/pengkajian-perdagangan';
+            return '/cms/badan-pengembangan-pengkajian-perdagangan';
         } elseif(Auth::user()->site_id == 'd59ba15e-5abf-4572-9992-64950d4f65ea') {
             return 'cms/pengamanan-perdagangan';
         } elseif(Auth::user()->site_id == 'ee5c63f5-58b4-4ca5-9acb-09de683f6549') {

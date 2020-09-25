@@ -17,7 +17,7 @@ Route::get('/', function () {
 
 Auth::routes(['register' => false]);
 Route::group(['prefix' => 'cms', 'middleware' => ['auth']], function() {
-    Route::get('/config','Backend\HomeController@adminIndex')->name('config.index');
+    Route::get('/config','Backend\HomeController@adminIndex')->name('config.index'); 
     Route::get('/main','Backend\HomeController@mainIndex')->name('main.index');
     Route::get('/pengembangan-ekspor-nasional','Backend\HomeController@penIndex')->name('pen.index');
     Route::get('/perundingan-perdagangan-internasional','Backend\HomeController@ppiIndex')->name('ppi.index');
@@ -25,6 +25,7 @@ Route::group(['prefix' => 'cms', 'middleware' => ['auth']], function() {
     Route::get('/perlindungan-konsumen-tertib-niaga','Backend\HomeController@pktnIndex')->name('pktn.index');
     Route::get('/perdagangan-dalam-negeri','Backend\DashboardController@dagri')->name('pdn.index');
     Route::get('/pusat-pengembangan-sumber-daya-kemetrologian','Backend\DashboardController@ppsdk')->name('ppsdk.index');
+    Route::get('/badan-pengembangan-pengkajian-perdagangan','Backend\DashboardController@bppp')->name('bppp.index');
 
     Route::get('/pengguna','Backend\UserManagementController@userIndex')->name('user.index');
     Route::get('/pengguna/menu-saya','Backend\UserManagementController@userMenu')->name('myMenu.index');
@@ -168,13 +169,13 @@ Route::group(['prefix' => 'cms', 'middleware' => ['auth']], function() {
     Route::get('/konten/artikel/cari','Backend\ContentManagementController@postSearchForm')->name('postSearch.index');
     Route::post('/konten/artikel/cari/proses','Backend\ContentManagementController@postQuery')->name('postQuery.index');
     Route::get('/konten/artikel/create','Backend\ContentManagementController@postCreate')->name('post.create');
-    Route::get('/konten/artikel/upload/create','Backend\ContentManagementController@uploadCreate')->name('upload.create');
     Route::post('/konten/artikel/store','Backend\ContentManagementController@postStore')->name('post.store');
     Route::get('/konten/artikel/edit/{id}','Backend\ContentManagementController@postEdit')->name('post.edit');
     Route::post('/konten/artikel/update/{id}','Backend\ContentManagementController@postUpdate')->name('post.update');
     Route::post('/konten/artikel/publish/{id}','Backend\ContentManagementController@postPublish')->name('post.publish');
     Route::post('/konten/artikel/archive/{id}','Backend\ContentManagementController@postArchive')->name('post.archive');
     Route::post('/konten/artikel/delete/{id}','Backend\ContentManagementController@postDestroy')->name('post.destroy');
+    Route::get('/konten/artikel/preview/{id}','Backend\ContentManagementController@postReview')->name('postReview.index');
 
     Route::get('/konten/pejabat','Backend\ContentManagementController@officialIndex')->name('official.index');
     Route::get('/konten/pejabat/create','Backend\ContentManagementController@officialCreate')->name('official.create');
@@ -194,5 +195,4 @@ Route::group(['prefix' => 'cms', 'middleware' => ['auth']], function() {
 
     
 });
-/*Route::get('/home', 'HomeController@index')->name('home');*/
 

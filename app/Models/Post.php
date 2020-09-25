@@ -12,11 +12,12 @@ class Post extends Model implements TranslatableContract
 
     public $translatedAttributes = ['slug', 'title','content'];
     protected $fillable = [
-        'slug', 
+        'slug',
+        'type_id', 
         'title',
         'content',
         'site_id',
-        'category_slug',
+        'category_id',
         'source',
         'file',
         'reporter_id',
@@ -26,7 +27,9 @@ class Post extends Model implements TranslatableContract
         'published_date',
         'regulation_id',
         'keywords',
-        'description'
+        'description',
+        'bppp_post_year',
+        'oiml_ref'
     ];
     
     public function author()
@@ -46,7 +49,7 @@ class Post extends Model implements TranslatableContract
 
     public function Categories()
     {
-        return $this->belongsTo(ArticleCategory::class,'category_slug','category_slug');
+        return $this->belongsTo(ArticleCategory::class,'category_id');
     }
 
     public function Statuses()
