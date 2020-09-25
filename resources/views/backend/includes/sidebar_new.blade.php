@@ -125,12 +125,14 @@
 							<p>Kategori</p>
 						</a>
 						<ul class="nav nav-treeview">
+							@can('disable')
 							<li class="nav-item">
 								<a href="{{ route('dutycat.index') }}" class="nav-link {{set_active('dutycat.index') }}">
 									<i class="far fa-circle nav-icon"></i>
 									<p>Tugas & Fungsi</p>
 								</a>
 							</li>
+							@endcan
 							<li class="nav-item">
 								<a href="{{ route('articlecat.index') }}" class="nav-link {{set_active('articlecat.index') }}">
 									<i class="far fa-circle nav-icon"></i>
@@ -214,53 +216,57 @@
 							<p>Publikasi</p>
 						</a>
 					</li>
-					<li class="nav-item {{set_open(['about.index','about.create','about.edit']) }}">
-						<a href="{{ route('about.index') }}" class="nav-link {{set_active(['about.index','about.create','about.edit']) }}">
-							<i class="right fas fa-angle-right"></i>
-							<p>Tentang Kami</p>
+					<li class="nav-item {{set_open(['about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index','official.index','official.create','official.edit','oiml.index','regDagri.index']) }}">
+						<a href="" class="nav-link {{set_active(['about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index','official.index','official.create','official.edit','oiml.index','regDagri.index']) }}">
+							<i class="right fas fa-angle-left"></i>
+							<p>Konten Khusus</p>
 						</a>
-					</li>
-					<li class="nav-item {{set_open(['duty.index','duty.create','duty.edit']) }}">
-						<a href="{{ route('duty.index') }}" class="nav-link {{set_active(['duty.index','duty.create','duty.edit']) }}">
-							<i class="right fas fa-angle-right"></i>
-							<p>Tugas & Fungsi</p>
-						</a>
-					</li>
-					<li class="nav-item {{set_open(['official.index','official.create','official.edit']) }}">
-						<a href="{{ route('official.index') }}" class="nav-link {{set_active(['official.index','official.create','official.edit']) }}">
-							<i class="right fas fa-angle-right"></i>
-							<p>Pejabat Kementerian</p>
-						</a>
-					</li>
-					<li class="nav-item">
-						<a href="" class="nav-link ">
-							<i class="right fas fa-angle-right"></i>
-							<p>FTA/PTA/CEPA</p>
-						</a>
-					</li>
-					<li class="nav-item {{set_open(['oiml.index']) }}">
-						<a href="{{ route ('oiml.index') }}" class="nav-link {{set_active(['oiml.index']) }}">
-							<i class="right fas fa-angle-right"></i>
-							<p>OIML</p>
-						</a>
-					</li>
-					<li class="nav-item {{set_open(['regDagri.index']) }}">
-						<a href="{{ route('regDagri.index') }}" class="nav-link {{set_active(['regDagri.index']) }}">
-							<i class="right fas fa-angle-right"></i>
-							<p>Regulasi Perdagangan</p>
-						</a>
-					</li>
-					<li class="nav-item {{set_open(['post.index','post.create','post.edit']) }}">
-						<a href="{{ route('post.index') }}" class="nav-link {{set_active(['post.index','post.create','post.edit']) }}">
-							<i class="right fas fa-angle-right"></i>
-							<p>Konten Baru</p>
-						</a>
-					</li>
-					<li class="nav-item {{set_open(['postSearch.index','postQuery.index']) }}">
-						<a href="{{ route('postSearch.index') }}" class="nav-link {{set_active(['postSearch.index','postQuery.index']) }}">
-							<i class="right fas fa-angle-right"></i>
-							<p>Cari Konten</p>
-						</a>
+						<ul class="nav nav-treeview">
+							@if((auth()->user()->site_id) == '8689caab-d1d0-4b99-a814-d6e2d0b56361')
+							<li class="nav-item">
+								<a href="{{ route('about.index') }}" class="nav-link {{set_active(['about.index','about.create','about.edit']) }}">
+									<i class="far fa-circle nav-icon"></i>
+									<p>Tentang Kami</p>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a href="{{ route('duty.index') }}" class="nav-link {{set_active(['duty.index','duty.create','duty.edit']) }}">
+									<i class="far fa-circle nav-icon"></i>
+									<p>Tugas & Fungsi</p>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a href="{{ route('official.index') }}" class="nav-link {{set_active(['official.index','official.create','official.edit']) }}">
+									<i class="far fa-circle nav-icon"></i>
+									<p>Pejabat Kementerian</p>
+								</a>
+							</li>
+							@endif
+							@if((auth()->user()->site_id) == '4c565b80-f7e9-4421-81be-a831ae48edf2')
+							<li class="nav-item">
+								<a href="" class="nav-link ">
+									<i class="far fa-circle nav-icon"></i>
+									<p>FTA/PTA/CEPA</p>
+								</a>
+							</li>
+							@endif
+							@if((auth()->user()->site_id) == '92876445-2b7c-4e2f-bb43-d3b71b608e4e')
+							<li class="nav-item">
+								<a href="{{ route ('oiml.index') }}" class="nav-link {{set_active(['oiml.index']) }}">
+									<i class="far fa-circle nav-icon"></i>
+									<p>OIML</p>
+								</a>
+							</li>
+							@endif
+							@if((auth()->user()->site_id) == '85cd37d3-e818-4e04-b294-3491feb60285')
+							<li class="nav-item">
+								<a href="{{ route('regDagri.index') }}" class="nav-link {{set_active(['regDagri.index']) }}">
+									<i class="far fa-circle nav-icon"></i>
+									<p>Regulasi Perdagangan</p>
+								</a>
+							</li>
+							@endif
+						</ul>
 					</li>
 					<li class="nav-item {{set_open(['faq.index','faq.create','faq.edit']) }}">
 						<a href="{{ route('faq.index') }}" class="nav-link {{set_active(['faq.index','faq.create','faq.edit']) }}">
@@ -273,6 +279,26 @@
 							<i class="right fas fa-angle-right"></i>
 							<p>Kegiatan</p>
 						</a>
+					</li>
+					<li class="nav-item {{set_open(['post.index','post.create','post.edit','postSearch.index','postQuery.index']) }}">
+						<a href="" class="nav-link {{set_active(['post.index','write.create','upload.create','post.edit','postSearch.index','postQuery.index']) }}">
+							<i class="right fas fa-angle-left"></i>
+							<p>Konten Umum</p>
+						</a>
+						<ul class="nav nav-treeview">
+							<li class="nav-item">
+								<a href="{{ route('post.index') }}" class="nav-link {{set_active(['post.index','post.create','post.edit']) }}">
+									<i class="far fa-circle nav-icon"></i>
+									<p>Konten Baru</p>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a href="{{ route('postSearch.index') }}" class="nav-link {{set_active(['postSearch.index','postQuery.index']) }}">
+									<i class="far fa-circle nav-icon"></i>
+									<p>Cari Konten</p>
+								</a>
+							</li>
+						</ul>
 					</li>
 					<li class="nav-item">
 						<a href="" class="nav-link ">

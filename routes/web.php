@@ -164,7 +164,6 @@ Route::group(['prefix' => 'cms', 'middleware' => ['auth']], function() {
     Route::post('/konten/kegiatan/update/{id}','Backend\ContentManagementController@eventUpdate')->name('event.update');
     Route::post('/konten/kegiatan/delete/{id}','Backend\ContentManagementController@eventDestroy')->name('event.destroy');
 
-
     Route::get('/konten/artikel','Backend\ContentManagementController@postIndex')->name('post.index');
     Route::get('/konten/artikel/cari','Backend\ContentManagementController@postSearchForm')->name('postSearch.index');
     Route::post('/konten/artikel/cari/proses','Backend\ContentManagementController@postQuery')->name('postQuery.index');

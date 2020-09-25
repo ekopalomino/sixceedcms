@@ -106,7 +106,7 @@ Kementerian Perdagangan Republik Indonesia | OIML
 								<td>{{ $pub->category }}</td>
 								<td>{{date("d F Y H:i",strtotime($pub->updated_at)) }}</td>
 								<td>
-									<a class="btn btn-xs btn-info modalLg" href="#" value="{{ action('Backend\ContentManagementController@oimlEdit',['id'=>$pub->id]) }}" data-toggle="modal" data-target="#modalLg" title="Ubah Data"><i class="far fa-edit"></i></a>
+									<a class="btn btn-xs btn-info modalLg" href="#" value="{{ action('Backend\CustomContentController@oimlEdit',['id'=>$pub->id]) }}" data-toggle="modal" data-target="#modalLg" title="Ubah Data"><i class="far fa-edit"></i></a>
 									{!! Form::open(['method' => 'POST','route' => ['oiml.destroy', $pub->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
 									{!! Form::button('<i class="fas fa-trash-alt"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger']) !!}
 									{!! Form::close() !!}
