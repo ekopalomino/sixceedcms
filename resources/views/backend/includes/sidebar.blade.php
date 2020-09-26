@@ -172,9 +172,9 @@
 				</ul>
 			</li>
 			<li class="nav-item has-treeview {{set_open(['foto.index','image.create','video.index','fnban.index','fnpub.index','about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index','post.index','post.create','post.edit',
-				'postSearch.index','postQuery.index','faq.index','faq.create','faq.edit','event.index','event.create','event.edit','official.index','official.create','official.edit','organization.index','organization.edit','oiml.index','regDagri.index']) }}">
+				'postSearch.index','postQuery.index','faq.index','faq.create','faq.edit','event.index','event.create','event.edit','eventDocs.create','official.index','official.create','official.edit','organization.index','organization.edit','oiml.index','regDagri.index']) }}">
 				<a href="#" class="nav-link {{set_active(['foto.index','image.create','video.index','fnban.index','fnpub.index','about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index','post.index','write.create','upload.create','post.edit',
-					'postSearch.index','postQuery.index','faq.index','faq.create','faq.edit','event.index','event.create','event.edit','official.index','official.create','official.edit','oiml.index','regDagri.index']) }}">
+					'postSearch.index','postQuery.index','faq.index','faq.create','faq.edit','event.index','event.create','event.edit','eventDocs.create','official.index','official.create','official.edit','oiml.index','regDagri.index']) }}">
 					<i class="nav-icon fas fa-newspaper"></i>
 					<p>
 						Konten
@@ -286,8 +286,8 @@
 							<p>FAQ</p>
 						</a>
 					</li>
-					<li class="nav-item {{set_active(['event.index','event.create','event.edit']) }}">
-						<a href="{{ route('event.index') }}" class="nav-link {{set_active(['event.index','event.create','event.edit']) }}">
+					<li class="nav-item {{set_active(['event.index','event.create','event.edit','eventDocs.create']) }}">
+						<a href="{{ route('event.index') }}" class="nav-link {{set_active(['event.index','event.create','event.edit','eventDocs.create']) }}">
 							<i class="right fas fa-angle-right"></i>
 							<p>Kegiatan</p>
 						</a>

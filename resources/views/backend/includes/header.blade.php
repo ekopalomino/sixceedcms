@@ -25,7 +25,8 @@
 		@endif
 		@if((auth()->user()->site_id) == '745572a6-c3a9-491a-b069-966d9cfa7054')
 		<li class="nav-item d-none d-sm-inline-block">
-			<a href="#" class="nav-link ">CMS Direktorat Jenderal Perdagangan Luar Negeri</a>
+			<a href="{{ route('pln.index') }}" class="nav-link {{set_active(['pln.index','myMenu.index','user.index','roles.index','roles.create','log.index','country.index','region.index','city.index','dutycat.index','articlecat.index','faqcat.index','unit.index','pubCat.index','ppsdk.index','foto.index','image.create','video.index','fnban.index','fnpub.index','about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index','post.index','post.create','post.edit',
+					'postSearch.index','postQuery.index','faq.index','faq.create','faq.edit','event.index','event.create','event.edit','eventDocs.create','official.index','official.create','official.edit','oiml.index','menu.index','regDagri.index']) }}">CMS Direktorat Jenderal Perdagangan Luar Negeri</a>
 		</li>
 		@endif
 		@if((auth()->user()->site_id) == 'e2fa0b3f-84e2-4046-ae68-fe5f987cbe7b')
@@ -37,11 +38,6 @@
 		<li class="nav-item d-none d-sm-inline-block">
 			<a href="{{ route('pdn.index') }}" class="nav-link {{set_active(['pdn.index','myMenu.index','user.index','roles.index','roles.create','log.index','country.index','region.index','city.index','dutycat.index','articlecat.index','faqcat.index','unit.index','pubCat.index','ppsdk.index','foto.index','image.create','video.index','fnban.index','fnpub.index','about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index','post.index','post.create','post.edit',
 					'postSearch.index','postQuery.index','faq.index','faq.create','faq.edit','event.index','event.create','event.edit','official.index','official.create','official.edit','oiml.index','menu.index','regDagri.index']) }}">CMS Direktorat Jenderal Perdagangan Dalam Negeri</a>
-		</li>
-		@endif
-		@if((auth()->user()->site_id) == '745572a6-c3a9-491a-b069-966d9cfa7054')
-		<li class="nav-item d-none d-sm-inline-block">
-			<a href="#" class="nav-link ">CMS Ditjen Daglu</a>
 		</li>
 		@endif
 		@if((auth()->user()->site_id) == '92876445-2b7c-4e2f-bb43-d3b71b608e4e')

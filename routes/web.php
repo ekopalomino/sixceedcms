@@ -21,7 +21,7 @@ Route::group(['prefix' => 'cms', 'middleware' => ['auth']], function() {
     Route::get('/main','Backend\HomeController@mainIndex')->name('main.index');
     Route::get('/pengembangan-ekspor-nasional','Backend\HomeController@penIndex')->name('pen.index');
     Route::get('/perundingan-perdagangan-internasional','Backend\HomeController@ppiIndex')->name('ppi.index');
-    Route::get('/perdagangan-luar-negeri','Backend\HomeController@plnIndex')->name('pln.index');
+    Route::get('/perdagangan-luar-negeri','Backend\DashboardController@daglu')->name('pln.index');
     Route::get('/perlindungan-konsumen-tertib-niaga','Backend\HomeController@pktnIndex')->name('pktn.index');
     Route::get('/perdagangan-dalam-negeri','Backend\DashboardController@dagri')->name('pdn.index');
     Route::get('/pusat-pengembangan-sumber-daya-kemetrologian','Backend\DashboardController@ppsdk')->name('ppsdk.index');
@@ -163,6 +163,9 @@ Route::group(['prefix' => 'cms', 'middleware' => ['auth']], function() {
     Route::post('/konten/kegiatan/store','Backend\ContentManagementController@eventStore')->name('event.store');
     Route::get('/konten/kegiatan/edit/{id}','Backend\ContentManagementController@eventEdit')->name('event.edit');
     Route::post('/konten/kegiatan/update/{id}','Backend\ContentManagementController@eventUpdate')->name('event.update');
+    Route::get('/konten/kegiatan/dokumentasi/{id}','Backend\ContentManagementController@eventDocumentation')->name('eventDocs.create');
+    Route::post('/konten/kegiatan/dokumentasi/store/{id}','Backend\ContentManagementController@eventDocumentationStore')->name('eventDocs.store');
+    Route::post('/konten/kegiatan/dokumentasi/delete/{id}','Backend\ContentManagementController@eventDocumentationDestroy')->name('eventDocs.destroy');
     Route::post('/konten/kegiatan/delete/{id}','Backend\ContentManagementController@eventDestroy')->name('event.destroy');
 
     Route::get('/konten/artikel','Backend\ContentManagementController@postIndex')->name('post.index');

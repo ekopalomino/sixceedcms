@@ -33,4 +33,9 @@ class Event extends Model implements TranslatableContract
     {
         return $this->belongsTo(Country::class, 'country_id');
     }
+
+    public function Child()
+    {
+        return $this->hasMany(EventDocumentation::class,'event_id');
+    }
 }

@@ -23,6 +23,7 @@ use Sixceed\Models\ArticleCategory;
 use Sixceed\Models\Faq;
 use Sixceed\Models\FaqCategory;
 use Sixceed\Models\Event;
+use Sixceed\Models\EventDocumentation;
 use Sixceed\Models\Official;
 use Sixceed\Models\OrganizationChart;
 use Sixceed\Models\ContactUs;
@@ -1254,6 +1255,78 @@ class ContentManagementController extends Controller
 
             return redirect()->route('event.index')->with($notification);
         }
+    }
+
+    public function eventDocumentation($id)
+    {
+        $data = Event::with('Child')->where('events.id',$id)->first();
+        
+        return view('backend.pages.eventDocumentation',compact('data'));
+    }
+
+    public function eventDocumentationStore(Request $request,$id)
+    {
+        $data = Event::withTranslation()->where('events.id',$id)->first();
+        
+        if($request->hasFile('lampiran')) {
+            $uploadedFile = $request->file('lampiran');
+            $path = $uploadedFile->store('public/database/konten_umum');
+            $video_id = $request->input('video_id');
+            $videos = Youtube::getVideoInfo($video_id);
+            
+            $documents = EventDocumentation::create ([
+                'event_id' => $data->id,
+                'file_title' => $request->input('file_title'),
+                'file' => $path,
+                'video_id' => $videos->id,
+                'video_title' => $videos->snippet->title,
+                'thumbnail' => $videos->snippet->thumbnails->standard->url,
+                'thumbnail_small' => $videos->snippet->thumbnails->high->url,
+                'player' => $videos->player->embedHtml,
+            ]);
+            
+            $log = 'Dokumen Kegiatan '.($data[0]->title).' Berhasil Disimpan';
+            \LogActivity::addToLog($log);
+            $notification = array (
+                'message' => 'Dokumen Kegiatan '.($data[0]->title).' Berhasil Disimpan',
+                'alert-type' => 'success'
+            );
+            return redirect()->back()->with($notification);
+        } else {
+            $video_id = $request->input('video_id');
+            $videos = Youtube::getVideoInfo($video_id);
+            
+            $documents = EventDocumentation::create ([
+                'event_id' => $data->id,
+                'video_id' => $videos->id,
+                'video_title' => $videos->snippet->title,
+                'thumbnail' => $videos->snippet->thumbnails->standard->url,
+                'thumbnail_small' => $videos->snippet->thumbnails->high->url,
+                'player' => $videos->player->embedHtml,
+            ]);
+            
+            $log = 'Dokumen Kegiatan '.($data[0]->title).' Berhasil Disimpan';
+            \LogActivity::addToLog($log);
+            $notification = array (
+                'message' => 'Dokumen Kegiatan '.($data[0]->title).' Berhasil Disimpan',
+                'alert-type' => 'success'
+            );
+            return redirect()->back()->with($notification);
+        }
+    }
+
+    public function eventDocumentationDestroy($id)
+    {
+        $data = Event::with('Child')->where('events.id',$id)->first();
+        $log = 'Dokumen Kegiatan Berhasil Dihapus';
+        \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Dokumen Kegiatan Berhasil Dihapus',
+            'alert-type' => 'success'
+        );
+        $data->delete();
+
+        return redirect()->back()->with($notification);
     }
 
     public function eventDestroy($id)

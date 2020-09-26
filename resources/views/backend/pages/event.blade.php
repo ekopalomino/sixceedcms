@@ -73,6 +73,9 @@ Kementerian Perdagangan Republik Indonesia | Kegiatan
 									<a button id="search" type="submit" class="btn btn-xs btn-info" href="{{ route('event.edit',$event->id) }}">
 										<i class="fa fa-edit"></i>
 									</a>
+									<a button id="search" type="submit" class="btn btn-xs btn-info" title="Tambah Dokumentasi" href="{{ route('eventDocs.create',$event->id) }}">
+										<i class="fa fa-edit"></i>
+									</a>
 									{!! Form::open(['method' => 'POST','route' => ['event.destroy', $event->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
 									{!! Form::button('<i class="fas fa-trash-alt"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger']) !!}
 									{!! Form::close() !!}
