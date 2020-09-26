@@ -80,13 +80,15 @@ Kementerian Perdagangan Republik Indonesia | Buat Konten
 										{!! Form::select('category_id', [null=>'Please Select'] + $categories,[], array('class' => 'form-control','id'=>'category_id')) !!}
 									</div>
 								</div>
+								@if((auth()->user()->site_id) == '92876445-2b7c-4e2f-bb43-d3b71b608e4e')
 								<div class="col-12">
 									<div class="form-group">
 										<label><strong>No Referensi OIML</strong></label>
 										{!! Form::text('oiml_ref', null, array('placeholder' => 'No Referensi OIML','class' => 'form-control')) !!}
 									</div>
 								</div>
-								@if((auth()->user()->site_id) == '92876445-2b7c-4e2f-bb43-d3b71b608e4e')
+								@endif
+								@if((auth()->user()->site_id) == '85cd37d3-e818-4e04-b294-3491feb60285')
 								<div class="col-12" id="row_menteri">
 									<div class="form-group">
 										<label><strong>Jenis Peraturan</strong></label>
@@ -104,6 +106,12 @@ Kementerian Perdagangan Republik Indonesia | Buat Konten
 							            </select>
 									</div>
 								</div>
+								<div class="col-12" id="reg_dagri_year">
+									<div class="form-group">
+										<label><strong>Tahun Peraturan</strong></label>
+										{!! Form::number('reg_dagri_year', null, array('placeholder' => 'Tahun Peraturan','class' => 'form-control')) !!}
+									</div>
+								</div>
 								@endif
 								<div class="col-12">
 									<div class="form-group">
@@ -119,7 +127,7 @@ Kementerian Perdagangan Republik Indonesia | Buat Konten
 								</div>
 								<div class="col-12">
 									<div class="form-group">
-										<label><strong>Lampiran (Opsional)</strong></label>
+										<label><strong>Lampiran</strong></label>
 										<div class="input-group">
                 							<div class="custom-file">
                   								<input type="file" class="custom-file-input" id="lampiran" name="lampiran">
@@ -180,30 +188,18 @@ Kementerian Perdagangan Republik Indonesia | Buat Konten
     $('.textarea').summernote()
   })
 </script>
-<!-- <script>
+<script>
   $(function() {
-    $('#row_menteri').hide(); 
-    $('#category_id').change(function(){
-        if($('#category_id').val() == '8') {
-            $('#row_menteri').show(); 
+    $('#reg_dagri_year').hide(); 
+    $('#row_menteri').change(function(){
+        if($('#category_id').val() != null) {
+            $('#reg_dagri_year').show(); 
         } else {
-            $('#row_menteri').hide(); 
+            $('#reg_dagri_year').hide(); 
         } 
     });
 });
 </script>
-<script>
-  $(function() {
-    $('#row_others').hide(); 
-    $('#category_id').change(function(){
-        if($('#category_id').val() == '9') {
-            $('#row_others').show(); 
-        } else {
-            $('#row_others').hide(); 
-        } 
-    });
-});
-</script> -->
 <script type="text/javascript">
 $(document).ready(function () {
   bsCustomFileInput.init();

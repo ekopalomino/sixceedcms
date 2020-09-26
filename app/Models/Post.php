@@ -29,7 +29,8 @@ class Post extends Model implements TranslatableContract
         'keywords',
         'description',
         'bppp_post_year',
-        'oiml_ref'
+        'oiml_ref',
+        'reg_dagri_year',
     ];
     
     public function author()

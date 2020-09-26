@@ -26,6 +26,7 @@ class CreatePostsTable extends Migration
             $table->string('description')->nullable();
             $table->smallInteger('peraturan_id')->nullable();
             $table->integer('bppp_post_year')->nullable();
+            $table->integer('reg_dagri_year')->nullable();
             $table->uuid('created_by');
             $table->uuid('updated_by')->nullable();
             $table->dateTime('published_date')->nullable(); 

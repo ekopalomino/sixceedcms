@@ -1545,12 +1545,14 @@ class ContentManagementController extends Controller
                         'file' => $path,
                         'peraturan_id' => $request->input('peraturan_id'),
                         'bppp_post_year' => $request->input('bppp_year'),
+                        'oiml_ref' => $request->input('oiml_ref'),
+                        'reg_dagri_year' => $request->input('reg_dagri_year'),
                         'updated_by' => auth()->user()->id,
                         'site_id' => auth()->user()->site_id,
                         'status_id' => '97081d35-d4b2-4582-b88f-edd0c66adcb4',
                         'keywords' => $request->input('keywords'),
                         'description' => $request->input('description'),
-                        'oiml_ref' => $request->input('oiml_ref')
+                        
                     ];
                     
                     $changes = Post::withTranslation()->where('posts.id',$id)->first();
@@ -1614,12 +1616,13 @@ class ContentManagementController extends Controller
                         'file' => $path,
                         'peraturan_id' => $request->input('peraturan_id'),
                         'bppp_post_year' => $request->input('bppp_year'),
+                        'oiml_ref' => $request->input('oiml_ref'),
+                        'reg_dagri_year' => $request->input('reg_dagri_year'),
                         'updated_by' => auth()->user()->id,
                         'site_id' => auth()->user()->site_id,
                         'status_id' => '97081d35-d4b2-4582-b88f-edd0c66adcb4',
                         'keywords' => $request->input('keywords'),
                         'description' => $request->input('description'),
-                        'oiml_ref' => $request->input('oiml_ref')
                     ];
                     
                     $changes = Post::withTranslation()->where('posts.id',$id)->first();
@@ -1648,6 +1651,8 @@ class ContentManagementController extends Controller
                         'file' => $path,
                         'peraturan_id' => $request->input('peraturan_id'),
                         'bppp_post_year' => $request->input('bppp_year'),
+                        'oiml_ref' => $request->input('oiml_ref'),
+                        'reg_dagri_year' => $request->input('reg_dagri_year'),
                         'updated_by' => auth()->user()->id,
                         'site_id' => auth()->user()->site_id,
                         'status_id' => '97081d35-d4b2-4582-b88f-edd0c66adcb4',
@@ -1717,6 +1722,8 @@ class ContentManagementController extends Controller
                         'file' => $path,
                         'peraturan_id' => $request->input('peraturan_id'),
                         'bppp_post_year' => $request->input('bppp_year'),
+                        'oiml_ref' => $request->input('oiml_ref'),
+                        'reg_dagri_year' => $request->input('reg_dagri_year'),
                         'updated_by' => auth()->user()->id,
                         'site_id' => auth()->user()->site_id,
                         'status_id' => '97081d35-d4b2-4582-b88f-edd0c66adcb4',
@@ -1753,6 +1760,8 @@ class ContentManagementController extends Controller
                         'source' => $request->input('source'),
                         'peraturan_id' => $request->input('peraturan_id'),
                         'bppp_post_year' => $request->input('bppp_year'),
+                        'oiml_ref' => $request->input('oiml_ref'),
+                        'reg_dagri_year' => $request->input('reg_dagri_year'),
                         'updated_by' => auth()->user()->id,
                         'site_id' => auth()->user()->site_id,
                         'status_id' => '97081d35-d4b2-4582-b88f-edd0c66adcb4',
@@ -1820,6 +1829,8 @@ class ContentManagementController extends Controller
                         'source' => $request->input('source'),
                         'peraturan_id' => $request->input('peraturan_id'),
                         'bppp_post_year' => $request->input('bppp_year'),
+                        'oiml_ref' => $request->input('oiml_ref'),
+                        'reg_dagri_year' => $request->input('reg_dagri_year'),
                         'updated_by' => auth()->user()->id,
                         'site_id' => auth()->user()->site_id,
                         'status_id' => '97081d35-d4b2-4582-b88f-edd0c66adcb4',
@@ -1852,6 +1863,8 @@ class ContentManagementController extends Controller
                         'source' => $request->input('source'),
                         'peraturan_id' => $request->input('peraturan_id'),
                         'bppp_post_year' => $request->input('bppp_year'),
+                        'oiml_ref' => $request->input('oiml_ref'),
+                        'reg_dagri_year' => $request->input('reg_dagri_year'),
                         'updated_by' => auth()->user()->id,
                         'site_id' => auth()->user()->site_id,
                         'status_id' => '97081d35-d4b2-4582-b88f-edd0c66adcb4',
@@ -1920,6 +1933,8 @@ class ContentManagementController extends Controller
                         'source' => $request->input('source'),
                         'peraturan_id' => $request->input('peraturan_id'),
                         'bppp_post_year' => $request->input('bppp_year'),
+                        'oiml_ref' => $request->input('oiml_ref'),
+                        'reg_dagri_year' => $request->input('reg_dagri_year'),
                         'updated_by' => auth()->user()->id,
                         'site_id' => auth()->user()->site_id,
                         'status_id' => '97081d35-d4b2-4582-b88f-edd0c66adcb4',
