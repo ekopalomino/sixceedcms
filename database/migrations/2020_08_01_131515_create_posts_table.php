@@ -16,7 +16,7 @@ class CreatePostsTable extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('site_id');
-            $table->string('type');
+            $table->smallInteger('type_id');
             $table->bigInteger('category_id');
             $table->string('source')->nullable();
             $table->string('file')->nullable();
@@ -27,6 +27,7 @@ class CreatePostsTable extends Migration
             $table->smallInteger('peraturan_id')->nullable();
             $table->integer('bppp_post_year')->nullable();
             $table->integer('reg_dagri_year')->nullable();
+            $table->string('oiml_ref')->nullable();
             $table->uuid('created_by');
             $table->uuid('updated_by')->nullable();
             $table->dateTime('published_date')->nullable(); 

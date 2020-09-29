@@ -10,6 +10,7 @@ use Sixceed\Models\City;
 use Sixceed\Models\DutyCategory;
 use Sixceed\Models\DutyCategoryTranslation;
 use Sixceed\Models\ArticleCategory;
+use Sixceed\Models\Site;
 use Sixceed\Models\FaqCategory;
 use Sixceed\Models\Unit;
 use Sixceed\Models\PublicationCategory;
@@ -246,9 +247,16 @@ class MasterDataController extends Controller
 
     public function dutyCatIndex()
     {
-        $categories = DutyCategory::withTranslation()->where('site_id',auth()->user()->site_id)->get();
-        
-    	return view('backend.pages.dutyCategory',compact('categories'));
+        if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f') {
+            $categories = DutyCategory::withTranslation()->orderBy('id','ASC')->get();
+            $sites = Site::pluck('site_name','id')->toArray();
+
+            return view('backend.pages.dutyCategory',compact('categories','sites'));
+        } else {
+            $categories = DutyCategory::withTranslation()->where('site_id',auth()->user()->site_id)->get();
+
+            return view('backend.pages.dutyCategory',compact('categories'));
+        }
     }
 
     public function dutyCatStore(Request $request)
@@ -257,27 +265,51 @@ class MasterDataController extends Controller
     		'en_category' => 'required',
     		'id_category' => 'required',
     	]);
+        
+        if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f') {
+            $data = [
+                'en' => [
+                    'category_name' => $request->input('en_category')
+                ],
+                'id' => [
+                    'category_name' => $request->input('id_category')
+                ],
+                'created_by' => auth()->user()->id,
+                'site_id' => $request->input('site_id')
+            ];
+    
+            $categories = DutyCategory::create($data);
+            $data = 'Kategori berhasil disimpan';
+             \LogActivity::addToLog($data);
+            $notification = array (
+                'message' => 'Kategori berhasil disimpan',
+                'alert-type' => 'success'
+            );
+    
+            return redirect()->route('dutycat.index')->with($notification);
+        } else {
+            $data = [
+                'en' => [
+                    'category_name' => $request->input('en_category')
+                ],
+                'id' => [
+                    'category_name' => $request->input('id_category')
+                ],
+                'created_by' => auth()->user()->id,
+                'site_id' => auth()->user()->site_id
+            ];
+    
+            $categories = DutyCategory::create($data);
+            $data = 'Kategori berhasil disimpan';
+             \LogActivity::addToLog($data);
+            $notification = array (
+                'message' => 'Kategori berhasil disimpan',
+                'alert-type' => 'success'
+            );
+    
+            return redirect()->route('dutycat.index')->with($notification);
+        }
     	
-    	$data = [
-    		'en' => [
-    			'category_name' => $request->input('en_category')
-    		],
-    		'id' => [
-    			'category_name' => $request->input('id_category')
-    		],
-            'created_by' => auth()->user()->id,
-            'site_id' => auth()->user()->site_id
-    	];
-
-        $categories = DutyCategory::create($data);
-        $data = 'Kategori berhasil disimpan';
-         \LogActivity::addToLog($data);
-        $notification = array (
-            'message' => 'Kategori berhasil disimpan',
-            'alert-type' => 'success'
-        );
-
-        return redirect()->route('dutycat.index')->with($notification);
     }
 
     public function dutyCatEdit($id)
@@ -333,11 +365,14 @@ class MasterDataController extends Controller
     {
         if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f') {
             $source = ArticleCategory::orderBy('id','ASC')->get();
+            $sites = Site::pluck('site_name','id')->toArray();
+
+            return view('backend.pages.articleCategory',compact('source','sites'));
         } else {
             $source = ArticleCategory::where('site_id',auth()->user()->site_id)->orderBy('id','ASC')->get();
+
+            return view('backend.pages.articleCategory',compact('source'));
         }
-        
-        return view('backend.pages.articleCategory',compact('source'));
     }
 
     public function articleCategoryStore(Request $request)
@@ -346,22 +381,42 @@ class MasterDataController extends Controller
     		'category_name' => 'required'
         ]); 
         
-        $input = [
-            'category_name' => $request->input('category_name'),
-            'site_id' => auth()->user()->site_id,
-            'created_by' => auth()->user()->id,
-        ];
-
-        $data = ArticleCategory::create($input);
+        if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f') {
+            $input = [
+                'category_name' => $request->input('category_name'),
+                'site_id' => $request->input('site_id'),
+                'created_by' => auth()->user()->id,
+            ];
+    
+            $data = ArticleCategory::create($input);
+            
+            $log = 'Kategori Artikel '.($data->category_name).' Berhasil Disimpan';
+             \LogActivity::addToLog($log);
+            $notification = array (
+                'message' => 'Kategori Artikel '.($data->category_name).' Berhasil Disimpan',
+                'alert-type' => 'success'
+            );
+    
+            return redirect()->route('articlecat.index')->with($notification);
+        } else {
+            $input = [
+                'category_name' => $request->input('category_name'),
+                'site_id' => auth()->user()->site_id,
+                'created_by' => auth()->user()->id,
+            ];
+    
+            $data = ArticleCategory::create($input);
+            
+            $log = 'Kategori Artikel '.($data->category_name).' Berhasil Disimpan';
+             \LogActivity::addToLog($log);
+            $notification = array (
+                'message' => 'Kategori Artikel '.($data->category_name).' Berhasil Disimpan',
+                'alert-type' => 'success'
+            );
+    
+            return redirect()->route('articlecat.index')->with($notification);
+        }
         
-        $log = 'Kategori Artikel '.($data->category_name).' Berhasil Disimpan';
-         \LogActivity::addToLog($log);
-        $notification = array (
-            'message' => 'Kategori Artikel '.($data->category_name).' Berhasil Disimpan',
-            'alert-type' => 'success'
-        );
-
-    	return redirect()->route('articlecat.index')->with($notification);
     }
 
     public function articleCategoryEdit($id)

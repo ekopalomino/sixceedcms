@@ -47,6 +47,14 @@ Kementerian Perdagangan Republik Indonesia | Kategori Tugas dan Fungsi
 											{!! Form::text('en_category', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
 										</div>
 									</div>
+									@if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f')
+									<div class="form-group row">
+										<label for="inputEmail" class="col-sm-2 col-form-label">Nama Kategori</label>
+										<div class="col-sm-10">
+											{!! Form::select('site_id', [null=>'Please Select'] + $sites,[], array('class' => 'form-control')) !!}
+										</div>
+									</div>
+									@endif
 								</div>
 				            	<div class="modal-footer ">
 				              		<button type="close" class="btn btn-default" data-dismiss="modal">Close</button>

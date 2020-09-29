@@ -88,7 +88,6 @@ Kementerian Perdagangan Republik Indonesia | Buat Konten
 									</div>
 								</div>
 								@endif
-								@if((auth()->user()->site_id) == '85cd37d3-e818-4e04-b294-3491feb60285')
 								<div class="col-12" id="row_menteri">
 									<div class="form-group">
 										<label><strong>Jenis Peraturan</strong></label>
@@ -112,7 +111,7 @@ Kementerian Perdagangan Republik Indonesia | Buat Konten
 										{!! Form::number('reg_dagri_year', null, array('placeholder' => 'Tahun Peraturan','class' => 'form-control')) !!}
 									</div>
 								</div>
-								@endif
+								
 								<div class="col-12">
 									<div class="form-group">
 										<label><strong>Nama Reporter</strong></label>
@@ -190,9 +189,21 @@ Kementerian Perdagangan Republik Indonesia | Buat Konten
 </script>
 <script>
   $(function() {
+    $('#row_menteri').hide(); 
+    $('#category_id').change(function(){
+        if($('#category_id').val() == '14') {
+            $('#row_menteri').show(); 
+        } else {
+            $('#row_menteri').hide(); 
+        } 
+    });
+});
+</script>
+<script>
+  $(function() {
     $('#reg_dagri_year').hide(); 
-    $('#row_menteri').change(function(){
-        if($('#category_id').val() != null) {
+    $('#category_id').change(function(){
+        if($('#category_id').val() == '4') {
             $('#reg_dagri_year').show(); 
         } else {
             $('#reg_dagri_year').hide(); 

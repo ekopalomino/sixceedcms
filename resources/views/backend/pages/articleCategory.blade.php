@@ -20,9 +20,11 @@ Kementerian Perdagangan Republik Indonesia | Kategori Konten
 		<div class="col-12">
 			<div class="card card-info card-outline">
 				<div class="card-header">
+					@if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f')
 					<button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modal-lg">
 						Tambah
 					</button>
+					@endif
 					<div class="modal fade" id="modal-lg">
 						<div class="modal-dialog modal-lg">
 							<div class="modal-content">
@@ -41,6 +43,14 @@ Kementerian Perdagangan Republik Indonesia | Kategori Konten
 											{!! Form::text('category_name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
 										</div>
 									</div>
+									@if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f')
+									<div class="form-group row">
+										<label for="inputEmail" class="col-sm-2 col-form-label">Nama Kategori</label>
+										<div class="col-sm-10">
+											{!! Form::select('site_id', [null=>'Please Select'] + $sites,[], array('class' => 'form-control')) !!}
+										</div>
+									</div>
+									@endif
 								</div>
 				            	<div class="modal-footer ">
 				              		<button type="close" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -71,7 +81,9 @@ Kementerian Perdagangan Republik Indonesia | Kategori Konten
 								<th>Situs</th>
 								<th>Tgl Input</th>
 								<th>Tgl Ubah</th>
+								@if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f')
 								<th></th>
+								@endif
 							</tr>
 						</thead>
 						<tbody>
@@ -86,12 +98,14 @@ Kementerian Perdagangan Republik Indonesia | Kategori Konten
 									{{date("d F Y H:i",strtotime($data->updated_at)) }}
 									@endif
 								</td>
+								@if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f')
 								<td>
 									<a class="btn btn-xs btn-info modalLg" href="#" value="{{ action('Backend\MasterDataController@articleCategoryEdit',['id'=>$data->id]) }}" data-toggle="modal" data-target="#modalLg" title="Ubah Data"><i class="far fa-edit"></i></a>
 									{!! Form::open(['method' => 'POST','route' => ['articlecat.destroy', $data->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
 									{!! Form::button('<i class="fas fa-trash-alt"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger']) !!}
 									{!! Form::close() !!}
 								</td>
+								@endif
             				</tr>
 							@endforeach
             			</tbody>

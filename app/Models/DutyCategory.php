@@ -28,4 +28,9 @@ class DutyCategory extends Model implements TranslatableContract
     {
         return $this->belongsTo(Site::class, 'site_id');
     }
+
+    public function Child()
+    {
+        return $this->hasMany(DutyCategoryTranslation::class,'duty_category_id');
+    }
 }

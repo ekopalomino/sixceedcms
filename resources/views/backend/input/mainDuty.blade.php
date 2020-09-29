@@ -34,7 +34,7 @@ Kementerian Perdagangan Republik Indonesia | Create Main Duty
 				@csrf
 				<div class="card-body">
 					<div class="row">
-            <div class="col-3">
+            <div class="col-6">
               <label><strong>Kategori</strong></label>
               {!! Form::select('category', [null=>'Please Select'] + $categories,[], array('class' => 'form-control')) !!}
             </div>
