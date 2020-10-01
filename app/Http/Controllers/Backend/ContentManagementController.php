@@ -1591,7 +1591,8 @@ class ContentManagementController extends Controller
                     'keywords' => $request->input('keywords'),
                     'description' => $request->input('description'),
                     'type_id' => '2',
-                    'oiml_ref' => $request->input('oiml_ref')
+                    'oiml_ref' => $request->input('oiml_ref'),
+                    'reg_dagri_year' => $request->input('reg_dagri_year')
                 ];
         
                 $posts = Post::create($data);
@@ -1661,7 +1662,8 @@ class ContentManagementController extends Controller
                     'keywords' => $request->input('keywords'),
                     'description' => $request->input('description'),
                     'type_id' => '2',
-                    'oiml_ref' => $request->input('oiml_ref')
+                    'oiml_ref' => $request->input('oiml_ref'),
+                    'reg_dagri_year' => $request->input('reg_dagri_year')
                 ];
         
                 $posts = Post::create($data);
@@ -1675,7 +1677,7 @@ class ContentManagementController extends Controller
                 return redirect()->route('post.index')->with($notification);
             }
         } else {
-            if($request->input('id_content') && $request->input('en_content') == null) {
+            if(($request->input('id_content') && $request->input('en_content')) == null) {
                 $data = [
                     'id' => [
                         'title'     => $request->input('id_title'),
@@ -1694,7 +1696,9 @@ class ContentManagementController extends Controller
                     'published_date' => $request->input('published_date'),
                     'keywords' => $request->input('keywords'),
                     'description' => $request->input('description'),
-                    'type_id' => '1'
+                    'type_id' => '1',
+                    'oiml_ref' => $request->input('oiml_ref'),
+                    'reg_dagri_year' => $request->input('reg_dagri_year')
                 ];
         
                 $posts = Post::create($data);
@@ -1762,7 +1766,9 @@ class ContentManagementController extends Controller
                     'published_date' => $request->input('published_date'),
                     'keywords' => $request->input('keywords'),
                     'description' => $request->input('description'),
-                    'type_id' => '1'
+                    'type_id' => '1',
+                    'oiml_ref' => $request->input('oiml_ref'),
+                    'reg_dagri_year' => $request->input('reg_dagri_year')
                 ];
         
                 $posts = Post::create($data);
