@@ -44,7 +44,7 @@ Kementerian Perdagangan Republik Indonesia | Banner Depan
 									<div class="form-group row">
 										<label for="inputEmail" class="col-sm-2 col-form-label">Letak Banner</label>
 										<div class="col-sm-10">
-											{!! Form::select('type', array('0'=>'Please Select','1'=>'Kolom 1','2'=>'Kolom 2','3'=>'Kolom 3', '4'=>'Kolom 4', '5'=>'Pop Up'),[], array('class' => 'form-control')) !!}
+											{!! Form::select('type', array('0'=>'Please Select','1'=>'Kolom 1','2'=>'Kolom 2','3'=>'Kolom 3', '4'=>'Kolom 4', '5'=>'Pop Up','6'=>'Logo Statis'),[], array('class' => 'form-control')) !!}
 										</div>
 									</div>
 									<div class="form-group row">

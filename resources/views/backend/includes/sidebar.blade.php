@@ -166,9 +166,9 @@
 				</ul>
 			</li>
 			<li class="nav-item has-treeview {{set_open(['foto.index','image.create','video.index','fnban.index','fnpub.index','about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index','post.index','post.create','post.edit',
-				'postSearch.index','postQuery.index','faq.index','faq.create','faq.edit','event.index','event.create','event.edit','eventDocs.create','official.index','official.create','official.edit','organization.index','organization.edit']) }}">
+				'postSearch.index','postQuery.index','faq.index','faq.create','faq.edit','event.index','event.create','event.edit','eventDocs.create','official.index','official.create','official.edit','organization.index','organization.edit','regionalOffice.index','regionalOffice.create','regionalOffice.edit']) }}">
 				<a href="#" class="nav-link {{set_active(['foto.index','image.create','video.index','fnban.index','fnpub.index','about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index','post.index','write.create','upload.create','post.edit',
-					'postSearch.index','postQuery.index','faq.index','faq.create','faq.edit','event.index','event.create','event.edit','eventDocs.create','official.index','official.create','official.edit']) }}">
+					'postSearch.index','postQuery.index','faq.index','faq.create','faq.edit','event.index','event.create','event.edit','eventDocs.create','official.index','official.create','official.edit','regionalOffice.index','regionalOffice.create','regionalOffice.edit']) }}">
 					<i class="nav-icon fas fa-newspaper"></i>
 					<p>
 						Konten
@@ -265,20 +265,14 @@
 						</a>
 					</li>
 					@if((auth()->user()->site_id)=='8689caab-d1d0-4b99-a814-d6e2d0b56361' or (auth()->user()->site_id)=='85cd37d3-e818-4e04-b294-3491feb60285')
-					<li class="nav-item">
-						<a href="" class="nav-link ">
+					<li class="nav-item {{set_open(['regionalOffice.index','regionalOffice.create','regionalOffice.edit']) }}">
+						<a href="" class="nav-link {{set_active(['regionalOffice.index','regionalOffice.create','regionalOffice.edit']) }}">
 							<i class="right fas fa-angle-left"></i>
 							<p>Perwakilan Dagang</p>
 						</a>
-						<ul class="nav nav-treeview">
-							<li class="nav-item">
-								<a href="" class="nav-link ">
-									<i class="far fa-circle nav-icon"></i>
-									<p>Pejabat</p>
-								</a>
-							</li>
-							<li class="nav-item">
-								<a href="" class="nav-link ">
+						<ul class="nav nav-treeview {{set_open(['regionalOffice.index','regionalOffice.create','regionalOffice.edit']) }}">
+							<li class="nav-item ">
+								<a href="{{ route('regionalOffice.index') }}" class="nav-link {{set_active(['regionalOffice.index','regionalOffice.create','regionalOffice.edit']) }}">
 									<i class="far fa-circle nav-icon"></i>
 									<p>Kantor</p>
 								</a>

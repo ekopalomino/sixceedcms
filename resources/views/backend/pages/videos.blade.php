@@ -91,7 +91,7 @@ Kementerian Perdagangan Republik Indonesia | Berita Video
 								@if(auth()->user()->site_id == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f')
 								<td>{{ $video->Sites->site_name }}</td>
 								@endif
-								<td>{{ $video->description }}</td>
+								<td>{{ str_limit(strip_tags($video->description), 100) }}</td>
 								<td><img src="{{ $video->thumbnail_small }}" width="100" height="100" /></td>
             					<td>{{date("d F Y H:i",strtotime($video->created_at)) }}</td>
 								<td>

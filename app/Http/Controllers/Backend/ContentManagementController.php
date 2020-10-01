@@ -7,6 +7,7 @@ use Sixceed\Http\Controllers\Controller;
 use Alaouy\Youtube\Facades\Youtube;
 use Sixceed\Models\User;
 use Sixceed\Models\Country;
+use Sixceed\Models\City;
 use Sixceed\Models\Unit;
 use Sixceed\Models\Status;
 use Sixceed\Models\Video;
@@ -32,6 +33,7 @@ use Sixceed\Models\ContactUsProcess;
 use Sixceed\Models\PublicationCategory;
 use Sixceed\Models\Oiml;
 use Sixceed\Models\RegulasiDagri;
+use Sixceed\Models\RegionalTradeOffice;
 use File;
 use Carbon\Carbon;
 
@@ -2481,6 +2483,96 @@ class ContentManagementController extends Controller
                          ->get();
         
         return view('backend.pages.kontakKami',compact('data'));
+    }
+
+    public function regionalOffice()
+    {
+        $data = RegionalTradeOffice::orderBy('city_id','ASC')->get();
+
+        return view('backend.pages.regionalOffice',compact('data'));
+    }
+
+    public function regionalOfficeCreate()
+    {
+        $official = Official::where('site_id',auth()->user()->site_id)->pluck('name','id')->toArray();
+        $cities = City::pluck('city_name','id')->toArray();
+
+        return view('backend.input.regionalOffice',compact('official','cities'));
+    }
+
+    public function regionalOfficeStore(Request $request)
+    {
+        $request->validate([
+            'city_id' => 'required',
+            'address' => 'required',
+            'phone' => 'required',
+            'email' => 'required|email',
+            'official1' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required',
+        ]);
+
+        $input = $request->all();
+        $office = RegionalTradeOffice::create($input);
+        $log = 'Kantor Perwakilan '.($office->Cities->city_name).' Berhasil Disimpan';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Kantor Perwakilan '.($office->Cities->city_name).' Berhasil Disimpan',
+            'alert-type' => 'success'
+        ); 
+        
+        return redirect()->route('regionalOffice.index')->with($notification);
+    }
+
+    public function regionalOfficeEdit($id)
+    {
+        $data = RegionalTradeOffice::find($id);
+        $official = Official::where('site_id',auth()->user()->site_id)->pluck('name','id')->toArray();
+        $cities = City::pluck('city_name','id')->toArray();
+
+        return view('backend.edit.regionalOffice',compact('data','official','cities'));
+    }
+
+    public function regionalOfficeUpdate(Request $request,$id)
+    {
+        $request->validate([
+            'city_id' => 'required',
+            'address' => 'required',
+            'phone' => 'required',
+            'email' => 'required|email',
+            'official1' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required',
+        ]);
+
+
+        $input = $request->all();
+        
+        $location = RegionalTradeOffice::find($id);
+        $location->update($input);
+        $log = 'Kantor Perwakilan '.($location->Cities->city_name).' Berhasil Diubah';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Kantor Perwakilan '.($location->Cities->city_name).' Berhasil Diubah',
+            'alert-type' => 'success'
+        );
+        
+        return redirect()->route('regionalOffice.index')->with($notification);
+    }
+
+    public function regionalOfficeDelete($id)
+    {
+        $data = RegionalTradeOffice::find($id);
+        $log = 'Kantor Perwakilan '.($data->Cities->city_name).' Berhasil Dihapus';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Kantor Perwakilan '.($data->Cities->city_name).' Berhasil Dihapus',
+            'alert-type' => 'success'
+        );
+
+        $delete = $data->delete();
+        
+        return redirect()->route('regionalOffice.index')->with($notification);
     }
 
     

@@ -175,6 +175,13 @@ Route::group(['prefix' => 'cms', 'middleware' => ['auth']], function() {
     Route::post('/konten/pejabat/update/{id}','Backend\ContentManagementController@officialUpdate')->name('official.update');
     Route::post('/konten/pejabat/delete/{id}','Backend\ContentManagementController@officialDestroy')->name('official.destroy');
 
+    Route::get('/konten/kantor-perdagangan','Backend\ContentManagementController@regionalOffice')->name('regionalOffice.index');
+    Route::get('/konten/kantor-perdagangan/create','Backend\ContentManagementController@regionalOfficeCreate')->name('regionalOffice.create');
+    Route::post('/konten/kantor-perdagangan/store','Backend\ContentManagementController@regionalOfficeStore')->name('regionalOffice.store');
+    Route::get('/konten/kantor-perdagangan/edit/{id}','Backend\ContentManagementController@regionalOfficeEdit')->name('regionalOffice.edit');
+    Route::post('/konten/kantor-perdagangan/update/{id}','Backend\ContentManagementController@regionalOfficeUpdate')->name('regionalOffice.update');
+    Route::post('/konten/kantor-perdagangan/delete/{id}','Backend\ContentManagementController@regionalOfficeDelete')->name('regionalOffice.destroy');
+
 
 
     Route::get('/kontak-kami','Backend\ContentManagementController@messageIndex')->name('messageNew.index');
