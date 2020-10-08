@@ -17,7 +17,7 @@ class CreateAboutUsTranslationsTable extends Migration
             $table->increments('id');
             $table->integer('about_us_id')->unsigned();
             $table->string('locale')->index();
-            $table->string('welcome_message');
+            $table->string('about_content');
             $table->unique(['about_us_id', 'locale']);
             $table->foreign('about_us_id')->references('id')->on('about_us')->onDelete('cascade');
             $table->timestamps();

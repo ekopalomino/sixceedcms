@@ -175,9 +175,9 @@
 						<i class="right fas fa-angle-left"></i>
 					</p>
 				</a>
-				<ul class="nav nav-treeview {{set_open(['foto.index','video.index']) }}">
-					<li class="nav-item {{set_open(['foto.index','video.index']) }}">
-						<a href="" class="nav-link {{set_active(['foto.index','video.index']) }}">
+				<ul class="nav nav-treeview {{set_open(['foto.index','video.index','image.create']) }}">
+					<li class="nav-item {{set_open(['foto.index','video.index','image.create']) }}">
+						<a href="" class="nav-link {{set_active(['foto.index','video.index','image.create']) }}">
 							<i class="right fas fa-angle-left"></i>
 							<p>Media</p>
 						</a>

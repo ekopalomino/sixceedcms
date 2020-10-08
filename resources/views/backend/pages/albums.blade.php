@@ -95,15 +95,18 @@ Kementerian Perdagangan Republik Indonesia | Berita Foto
 								@if(auth()->user()->site_id == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f')
 								<td>{{ $album->Sites->site_name }}</td>
 								@endif
-								<td><img src="/albums/{{$album->cover_image}}" width="100" height="100"></td>
+								<td><img src="/database/berita_foto/{{$album->cover_image}}" width="100" height="100"></td>
 								<td>{{ $album->name }}</td>
 								<td>{{date("d F Y H:i",strtotime($album->updated_at)) }}</td>
 								<td>
-									<a button id="search" type="submit" class="btn btn-xs btn-info" href="{{ route('album.show',$album->id) }}" target="_blank">
+									<a button id="add" type="submit" class="btn btn-xs btn-warning" href="{{ route('image.create',$album->id) }}" title="Tambah Foto">
+										<i class="fas fa-plus-square"></i>
+									</a>
+									<a button id="search" type="submit" class="btn btn-xs btn-info" href="{{ route('album.show',$album->id) }}" target="_blank" title="Preview Berita">
 										<i class="fa fa-search"></i>
 									</a>
 									{!! Form::open(['method' => 'POST','route' => ['album.destroy', $album->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
-									{!! Form::button('<i class="fas fa-trash-alt"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger']) !!}
+									{!! Form::button('<i class="fas fa-trash-alt"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Hapus Data']) !!}
 									{!! Form::close() !!}
 								</td>
             				</tr>

@@ -23,6 +23,7 @@ Kementerian Perdagangan Republik Indonesia | Konten Berita Foto
 					<button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modal-lg">
 						Tambah
 					</button>
+					<a button type="close" class="btn btn-sm btn-success" href="{{ route('foto.index') }}">Selesai</a>
 					<div class="modal fade" id="modal-lg">
 						<div class="modal-dialog modal-lg">
 							<div class="modal-content">
@@ -81,7 +82,7 @@ Kementerian Perdagangan Republik Indonesia | Konten Berita Foto
 						<tbody>
 							@foreach($album->Photos as $key=>$image) 
 							<tr>
-								<td><img src="/albums/{{$image->image}}" width="100" height="100"></td>
+								<td><img src="/database/berita_foto/{{$image->image}}" width="100" height="100"></td>
 								<td>{{date("d F Y H:i",strtotime($album->updated_at)) }}</td>
 								<td>
 									{!! Form::open(['method' => 'POST','route' => ['image.destroy', $image->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}

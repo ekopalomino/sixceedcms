@@ -32,7 +32,6 @@ use Sixceed\Models\ContactUs;
 use Sixceed\Models\ContactUsProcess;
 use Sixceed\Models\PublicationCategory;
 use Sixceed\Models\Oiml;
-use Sixceed\Models\RegulasiDagri;
 use Sixceed\Models\RegionalTradeOffice;
 use File;
 use Carbon\Carbon;
@@ -82,7 +81,7 @@ class ContentManagementController extends Controller
             list($type, $data) = explode(';', $isi);
             list(, $isi) = explode(',', $isi);
             $isi = base64_decode($isi);
-            $image_name = "/public/mainduties" . time().$k.'.png';
+            $image_name = "/database/mainduty/" . time().$k.'.png';
             $path = public_path() . $image_name;
             file_put_contents($path, $isi);
             $img->removeAttribute('src');
@@ -98,7 +97,7 @@ class ContentManagementController extends Controller
             list($type, $data) = explode(';', $isi);
             list(, $isi) = explode(',', $isi);
             $isi = base64_decode($isi);
-            $image_name = "/public/mainduties" . time().$k.'.png';
+            $image_name = "/database/mainduty/" . time().$k.'.png';
             $path = public_path() . $image_name;
             file_put_contents($path, $isi);
             $img->removeAttribute('src');
@@ -166,7 +165,7 @@ class ContentManagementController extends Controller
             list($type, $data) = explode(';', $isi);
             list(, $isi) = explode(',', $isi);
             $isi = base64_decode($isi);
-            $image_name = "/public/mainduties" . time().$k.'.png';
+            $image_name = "/database/mainduty/" . time().$k.'.png';
             $path = public_path() . $image_name;
             file_put_contents($path, $isi);
             $img->removeAttribute('src');
@@ -182,7 +181,7 @@ class ContentManagementController extends Controller
             list($type, $data) = explode(';', $isi);
             list(, $isi) = explode(',', $isi);
             $isi = base64_decode($isi);
-            $image_name = "/public/mainduties" . time().$k.'.png';
+            $image_name = "/database/mainduty/" . time().$k.'.png';
             $path = public_path() . $image_name;
             file_put_contents($path, $isi);
             $img->removeAttribute('src');
@@ -363,14 +362,12 @@ class ContentManagementController extends Controller
                 'name' => 'required',
                 'cover_image'=>'required|image',
             ]);
-
         $file = $request->file('cover_image');
         $random_name = str_random(8);
-        $destinationPath = 'albums/';
+        $destinationPath = 'database/berita_foto/';
         $extension = $file->getClientOriginalExtension();
         $filename=$random_name.'_cover.'.$extension;
-        $uploadSuccess = $request->file('cover_image')
-        ->move($destinationPath, $filename);
+        $uploadSuccess = $request->file('cover_image')->move($destinationPath, $filename);
         $album = Album::create(array(
             'name' => $request->name,
             'description' => $request->description,
@@ -394,11 +391,11 @@ class ContentManagementController extends Controller
         $file = $album->cover_image;
         $images = Image::where('album_id',$id)->get('image');
         
-        $album->delete();
-        \File::delete(public_path('albums/' . $file));
+        \File::delete(public_path('database/berita_foto/' . $file));
         foreach($images as $image) {
-            \File::delete(public_path('albums/' . $image->image));
+            \File::delete(public_path('database/berita_foto/' . $image->image));
         }
+        $album->delete();
         $data = 'Berita Foto '.($album->name).' Berhasil Dihapus';
             \LogActivity::addToLog($data);
             $notification = array (
@@ -426,9 +423,9 @@ class ContentManagementController extends Controller
     
         $file = $request->file('image');
         $random_name = str_random(8);
-        $destinationPath = 'albums/';
+        $destinationPath = 'database/berita_foto/';
         $extension = $file->getClientOriginalExtension();
-        $filename=$random_name.'_album_image.'.$extension;
+        $filename=$random_name.'_foto_content.'.$extension;
         $uploadSuccess = $request->file('image')->move($destinationPath, $filename);
         $images = Image::create(array(
         'description' => $request->description,
@@ -449,7 +446,7 @@ class ContentManagementController extends Controller
         $image = Image::find($id);
         $berkas = Image::where('id', $id)
                 ->get('image');
-        \File::delete(public_path('albums/' . $image->image));
+        \File::delete(public_path('database/berita_foto/' . $image->image));
         $image->delete();
         $data = 'Foto '.($image->image).' Berhasil Dihapus';
         \LogActivity::addToLog($data);
@@ -480,16 +477,13 @@ class ContentManagementController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg,JPG,gif,svg',
             'link' => 'required',
         ]);
-
+        
         $file = $request->file('image');
-	    $file_name = $file->getClientOriginalName();
-        $size = $file->getSize();
-        $ext = $file->getClientOriginalExtension();
-	    $destinationPath = 'public/banner';
-	    $extension = $file->getClientOriginalExtension();
-	    $filename=$file_name.'_banner.'.$extension;
-	    $uploadSuccess = $request->file('image')
-	    ->move($destinationPath, $filename);
+        $random_name = str_random(8);
+        $destinationPath = 'database/banner/';
+        $extension = $file->getClientOriginalExtension();
+        $filename=$random_name.'banner.'.$extension;
+        $uploadSuccess = $request->file('image')->move($destinationPath, $filename);
 
         $input = [
             'title' => $request->input('title'),
@@ -498,8 +492,6 @@ class ContentManagementController extends Controller
             'position' => $request->input('position'),
             'image' => $filename,
             'link'	=> $request->input('link'),
-            'ukuran' => $size,
-            'ekstensi' => $ext,
             'description' => $request->input('description'),
             'status_id' => 'f13c7f2e-4723-47a7-b75c-fbec0aaca411',
             'created_by' => auth()->user()->id,
@@ -533,15 +525,15 @@ class ContentManagementController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
+            $old = FrontBanner::find($id);
+            \File::delete(public_path('database/banner/' . $old->image));
+
             $file = $request->file('image');
-            $file_name = $file->getClientOriginalName();
-            $size = $file->getSize();
-            $ext = $file->getClientOriginalExtension();
-            $destinationPath = 'public/banner';
+            $random_name = str_random(8);
+            $destinationPath = 'database/banner/';
             $extension = $file->getClientOriginalExtension();
-            $filename=$file_name.'_banner.'.$extension;
-            $uploadSuccess = $request->file('image')
-            ->move($destinationPath, $filename);
+            $filename=$random_name.'banner.'.$extension;
+            $uploadSuccess = $request->file('image')->move($destinationPath, $filename);
 
             $input = [
             'title' => $request->input('title'),
@@ -604,7 +596,7 @@ class ContentManagementController extends Controller
             'message' => 'Banner '.($data->title).' berhasil dihapus',
             'alert-type' => 'success'
         );
-        $images = File::delete(public_path('public/banner/' . $file));
+        $images = File::delete(public_path('database/banner/' . $file));
         FrontBanner::find($id)->delete();
         
         return redirect()->route('fnban.index')->with($notification);
@@ -635,24 +627,28 @@ class ContentManagementController extends Controller
             'file' => 'file|mimes:pdf,PDF',
             'publish_year' => 'required',
         ]);
-
-        $file = $request->file('cover'); 
-        $random_name = str_random(8);
-        $destinationPath = 'publikasi';
-        $extension = $file->getClientOriginalExtension();
-        $filename=$random_name.'.'.$extension;
-        $uploadSuccess = $request->file('cover')->move($destinationPath, $filename);
         
+        $file = $request->file('cover');
+        $random_name = str_random(8);
+        $destinationPath = 'database/publikasi/cover/';
+        $extension = $file->getClientOriginalExtension();
+        $filename=$random_name.'publication.'.$extension;
+        $uploadSuccess = $request->file('cover')->move($destinationPath, $filename);
+
         if($request->hasFile('file')) {
-            $uploadedFile = $request->file('file');
-            $path = $uploadedFile->store('publication');
+            $file = $request->file('file');
+            $random_name = str_random(8);
+            $destinationPath = 'database/publikasi/';
+            $extension = $file->getClientOriginalExtension();
+            $filename=$random_name.'lampiran.'.$extension;
+            $uploadSuccess = $request->file('file')->move($destinationPath, $filename);
 
             $input = [
                 'title' => $request->input('title'),
                 'cover_image' => $filename,
                 'link' => $request->input('link'),
                 'category_id' => $request->input('category_id'),
-                'file' => $path,
+                'file' => $filename,
                 'publish_year' => $request->input('publish_year'),
                 'site_id' => auth()->user()->site_id,
                 'created_by' => auth()->user()->id
@@ -704,52 +700,133 @@ class ContentManagementController extends Controller
         ]);
 
     	if ($request->hasFile('cover')) {
-            $file = $request->file('cover'); 
-            $random_name = str_random(8);
-            $destinationPath = 'publikasi';
-            $extension = $file->getClientOriginalExtension();
-            $filename=$random_name.'.'.$extension;
-            $uploadSuccess = $request->file('cover')->move($destinationPath, $filename);
+            if ($request->hasFile('file')) {
+                $old_data = Publication::find($id);
+                \File::delete(public_path('database/publikasi/cover/' . $old_data->cover_image));
+                \File::delete(public_path('database/publikasi/' . $old_data->file));
 
-            $input = [
-                'title' => $request->input('title'),
-                'cover_image' => $filename,
-                'link' => $request->input('link'),
-                'category_id' => $request->input('category_id'),
-                'updated_by' => auth()->user()->id
-            ];
+                $file = $request->file('cover');
+                $random_name = str_random(8);
+                $destinationPath = 'database/publikasi/cover/';
+                $extension = $file->getClientOriginalExtension();
+                $cover=$random_name.'publication.'.$extension;
+                $uploadSuccess = $request->file('cover')->move($destinationPath, $cover);
+
+                $file = $request->file('file');
+                $random_name = str_random(8);
+                $destinationPath = 'database/publikasi/';
+                $extension = $file->getClientOriginalExtension();
+                $filename=$random_name.'lampiran.'.$extension;
+                $uploadSuccess = $request->file('file')->move($destinationPath, $filename);
+
+                $input = [
+                    'title' => $request->input('title'),
+                    'cover_image' => $cover,
+                    'file' => $filename,
+                    'category_id' => $request->input('category_id'),
+                    'updated_by' => auth()->user()->id
+                ];
+
+                $pubs = Publication::find($id);
+                $pubs->update($input);
+                $log = 'Publikasi Berhasil Diubah';
+                \LogActivity::addToLog($log);
+                $notification = array (
+                    'message' => 'Publikasi Berhasil Diubah',
+                    'alert-type' => 'success'
+                );
+
+                return redirect()->route('fnpub.index')->with($notification);
+            } else {
+                $old_data = Publication::find($id);
+                \File::delete(public_path('database/publikasi/cover/' . $old_data->cover_image));
+
+                $file = $request->file('cover');
+                $random_name = str_random(8);
+                $destinationPath = 'database/publikasi/cover/';
+                $extension = $file->getClientOriginalExtension();
+                $cover=$random_name.'publication.'.$extension;
+                $uploadSuccess = $request->file('cover')->move($destinationPath, $cover);
+
+                $input = [
+                    'title' => $request->input('title'),
+                    'cover_image' => $cover,
+                    'category_id' => $request->input('category_id'),
+                    'updated_by' => auth()->user()->id
+                ];
+
+                $pubs = Publication::find($id);
+                $pubs->update($input);
+                $log = 'Publikasi Berhasil Diubah';
+                \LogActivity::addToLog($log);
+                $notification = array (
+                    'message' => 'Publikasi Berhasil Diubah',
+                    'alert-type' => 'success'
+                );
+
+                return redirect()->route('fnpub.index')->with($notification);
+            }
         } else {
-            $input = [
-                'title' => $request->input('title'),
-                'link' => $request->input('link'),
-                'category_id' => $request->input('category_id'),
-                'updated_by' => auth()->user()->id
-            ];
+            if ($request->hasFile('file')) {
+                $old_data = Publication::find($id);
+                \File::delete(public_path('database/publikasi/' . $old_data->file));
+
+                $file = $request->file('file');
+                $random_name = str_random(8);
+                $destinationPath = 'database/publikasi/';
+                $extension = $file->getClientOriginalExtension();
+                $filename=$random_name.'lampiran.'.$extension;
+                $uploadSuccess = $request->file('file')->move($destinationPath, $filename);
+
+                $input = [
+                    'title' => $request->input('title'),
+                    'file' => $filename,
+                    'category_id' => $request->input('category_id'),
+                    'updated_by' => auth()->user()->id
+                ];
+
+                $pubs = Publication::find($id);
+                $pubs->update($input);
+                $log = 'Publikasi Berhasil Diubah';
+                \LogActivity::addToLog($log);
+                $notification = array (
+                    'message' => 'Publikasi Berhasil Diubah',
+                    'alert-type' => 'success'
+                );
+
+                return redirect()->route('fnpub.index')->with($notification);
+            } else {
+                $input = [
+                    'title' => $request->input('title'),
+                    'category_id' => $request->input('category_id'),
+                    'updated_by' => auth()->user()->id
+                ];
+
+                $pubs = Publication::find($id);
+                $pubs->update($input);
+                $log = 'Publikasi Berhasil Diubah';
+                \LogActivity::addToLog($log);
+                $notification = array (
+                    'message' => 'Publikasi Berhasil Diubah',
+                    'alert-type' => 'success'
+                );
+
+                return redirect()->route('fnpub.index')->with($notification);
+            }
         }
-
-		$pubs = Publication::find($id);
-        $pubs->update($input);
-        $log = 'Publikasi Berhasil Diubah';
-         \LogActivity::addToLog($log);
-        $notification = array (
-            'message' => 'Publikasi Berhasil Diubah',
-            'alert-type' => 'success'
-        );
-
-        return redirect()->route('fnpub.index')->with($notification);
     }
 
     public function frontPubDestroy($id)
     {
         $data = Publication::find($id)->first();
-        $file = $data->cover_image;
         $log = 'Publikasi Berhasil Dihapus';
          \LogActivity::addToLog($log);
         $notification = array (
             'message' => 'Publikasi Berhasil Dihapus',
             'alert-type' => 'success'
         );
-        $images = File::delete(public_path('public/publikasi/' . $file));
+        \File::delete(public_path('database/publikasi/' . $data->file));
+        \File::delete(public_path('database/publikasi/cover/' . $data->cover_image));
         Publication::find($id)->delete();
         
         return redirect()->route('fnpub.index')->with($notification);
@@ -789,7 +866,7 @@ class ContentManagementController extends Controller
             list($type, $data) = explode(';', $isi);
             list(, $isi) = explode(',', $isi);
             $isi = base64_decode($isi);
-            $image_name = "/public/aboutus" . time().$k.'.png';
+            $image_name = "/database/about_us/" . time().$k.'.png';
             $path = public_path() . $image_name;
             file_put_contents($path, $isi);
             $img->removeAttribute('src');
@@ -805,7 +882,7 @@ class ContentManagementController extends Controller
             list($type, $data) = explode(';', $isi);
             list(, $isi) = explode(',', $isi);
             $isi = base64_decode($isi);
-            $image_name = "/public/aboutus" . time().$k.'.png';
+            $image_name = "/database/about_us/" . time().$k.'.png';
             $path = public_path() . $image_name;
             file_put_contents($path, $isi);
             $img->removeAttribute('src');
@@ -855,7 +932,7 @@ class ContentManagementController extends Controller
             list($type, $data) = explode(';', $isi);
             list(, $isi) = explode(',', $isi);
             $isi = base64_decode($isi);
-            $image_name = "/public/aboutus" . time().$k.'.png';
+            $image_name = "/database/about_us/" . time().$k.'.png';
             $path = public_path() . $image_name;
             file_put_contents($path, $isi);
             $img->removeAttribute('src');
@@ -871,7 +948,7 @@ class ContentManagementController extends Controller
             list($type, $data) = explode(';', $isi);
             list(, $isi) = explode(',', $isi);
             $isi = base64_decode($isi);
-            $image_name = "/public/aboutus" . time().$k.'.png';
+            $image_name = "/database/about_us/" . time().$k.'.png';
             $path = public_path() . $image_name;
             file_put_contents($path, $isi);
             $img->removeAttribute('src');
@@ -972,7 +1049,7 @@ class ContentManagementController extends Controller
             list($type, $data) = explode(';', $isi);
             list(, $isi) = explode(',', $isi);
             $isi = base64_decode($isi);
-            $image_name = "/public/faq" . time().$k.'.png';
+            $image_name = "/database/faq/" . time().$k.'.png';
             $path = public_path() . $image_name;
             file_put_contents($path, $isi);
             $img->removeAttribute('src');
@@ -988,7 +1065,7 @@ class ContentManagementController extends Controller
             list($type, $data) = explode(';', $isi);
             list(, $isi) = explode(',', $isi);
             $isi = base64_decode($isi);
-            $image_name = "/public/faq" . time().$k.'.png';
+            $image_name = "/database/faq/" . time().$k.'.png';
             $path = public_path() . $image_name;
             file_put_contents($path, $isi);
             $img->removeAttribute('src');
@@ -1041,7 +1118,7 @@ class ContentManagementController extends Controller
             list($type, $data) = explode(';', $isi);
             list(, $isi) = explode(',', $isi);
             $isi = base64_decode($isi);
-            $image_name = "/public/faq" . time().$k.'.png';
+            $image_name = "/database/faq/" . time().$k.'.png';
             $path = public_path() . $image_name;
             file_put_contents($path, $isi);
             $img->removeAttribute('src');
@@ -1057,7 +1134,7 @@ class ContentManagementController extends Controller
             list($type, $data) = explode(';', $isi);
             list(, $isi) = explode(',', $isi);
             $isi = base64_decode($isi);
-            $image_name = "/public/faq" . time().$k.'.png';
+            $image_name = "/database/faq/" . time().$k.'.png';
             $path = public_path() . $image_name;
             file_put_contents($path, $isi);
             $img->removeAttribute('src');
@@ -1155,7 +1232,7 @@ class ContentManagementController extends Controller
                 list($type, $data) = explode(';', $isi);
                 list(, $isi) = explode(',', $isi);
                 $isi = base64_decode($isi);
-                $image_name = "/public/faq" . time().$k.'.png';
+                $image_name = "/database/events/" . time().$k.'.png';
                 $path = public_path() . $image_name;
                 file_put_contents($path, $isi);
                 $img->removeAttribute('src');
@@ -1171,7 +1248,7 @@ class ContentManagementController extends Controller
                 list($type, $data) = explode(';', $isi);
                 list(, $isi) = explode(',', $isi);
                 $isi = base64_decode($isi);
-                $image_name = "/public/faq" . time().$k.'.png';
+                $image_name = "/database/events/" . time().$k.'.png';
                 $path = public_path() . $image_name;
                 file_put_contents($path, $isi);
                 $img->removeAttribute('src');
@@ -1223,7 +1300,7 @@ class ContentManagementController extends Controller
                 list($type, $data) = explode(';', $isi);
                 list(, $isi) = explode(',', $isi);
                 $isi = base64_decode($isi);
-                $image_name = "/public/faq" . time().$k.'.png';
+                $image_name = "/database/events/" . time().$k.'.png';
                 $path = public_path() . $image_name;
                 file_put_contents($path, $isi);
                 $img->removeAttribute('src');
@@ -1239,7 +1316,7 @@ class ContentManagementController extends Controller
                 list($type, $data) = explode(';', $isi);
                 list(, $isi) = explode(',', $isi);
                 $isi = base64_decode($isi);
-                $image_name = "/public/faq" . time().$k.'.png';
+                $image_name = "/database/events/" . time().$k.'.png';
                 $path = public_path() . $image_name;
                 file_put_contents($path, $isi);
                 $img->removeAttribute('src');
@@ -1327,7 +1404,7 @@ class ContentManagementController extends Controller
                 list($type, $data) = explode(';', $isi);
                 list(, $isi) = explode(',', $isi);
                 $isi = base64_decode($isi);
-                $image_name = "/public/faq" . time().$k.'.png';
+                $image_name = "/database/events/" . time().$k.'.png';
                 $path = public_path() . $image_name;
                 file_put_contents($path, $isi);
                 $img->removeAttribute('src');
@@ -1343,7 +1420,7 @@ class ContentManagementController extends Controller
                 list($type, $data) = explode(';', $isi);
                 list(, $isi) = explode(',', $isi);
                 $isi = base64_decode($isi);
-                $image_name = "/public/faq" . time().$k.'.png';
+                $image_name = "/database/events/" . time().$k.'.png';
                 $path = public_path() . $image_name;
                 file_put_contents($path, $isi);
                 $img->removeAttribute('src');
@@ -1398,7 +1475,7 @@ class ContentManagementController extends Controller
                 list($type, $data) = explode(';', $isi);
                 list(, $isi) = explode(',', $isi);
                 $isi = base64_decode($isi);
-                $image_name = "/public/faq" . time().$k.'.png';
+                $image_name = "/database/events/" . time().$k.'.png';
                 $path = public_path() . $image_name;
                 file_put_contents($path, $isi);
                 $img->removeAttribute('src');
@@ -1414,7 +1491,7 @@ class ContentManagementController extends Controller
                 list($type, $data) = explode(';', $isi);
                 list(, $isi) = explode(',', $isi);
                 $isi = base64_decode($isi);
-                $image_name = "/public/faq" . time().$k.'.png';
+                $image_name = "/database/events/" . time().$k.'.png';
                 $path = public_path() . $image_name;
                 file_put_contents($path, $isi);
                 $img->removeAttribute('src');
@@ -1570,8 +1647,12 @@ class ContentManagementController extends Controller
         ]);
 
         if($request->hasFile('lampiran')) {
-            $uploadedFile = $request->file('lampiran');
-            $path = $uploadedFile->store('public/database/konten_umum');
+            $file = $request->file('lampiran');
+            $random_name = str_random(8);
+            $destinationPath = 'database/general_content/lampiran/';
+            $extension = $file->getClientOriginalExtension();
+            $filename=$random_name.'lampiran.'.$extension;
+            $uploadSuccess = $request->file('lampiran')->move($destinationPath, $filename);
             if(($request->input('id_content') && $request->input('en_content')) == null) {
                 $data = [
                     'id' => [
@@ -1583,7 +1664,7 @@ class ContentManagementController extends Controller
                     'category_id' => $request->input('category_id'),
                     'reporter_id' => $request->input('reporter_id'),
                     'source' => $request->input('source'),
-                    'file' => $path,
+                    'file' => $filename,
                     'peraturan_id' => $request->input('peraturan_id'),
                     'bppp_post_year' => $request->input('bppp_year'),
                     'created_by' => auth()->user()->id,
@@ -1618,7 +1699,7 @@ class ContentManagementController extends Controller
                     list($type, $data) = explode(';', $isi);
                     list(, $isi) = explode(',', $isi);
                     $isi = base64_decode($isi);
-                    $image_name = "/database/konten_umum/post" . time().$k.'.png';
+                    $image_name = "/database/general_content/" . time().$k.'.png';
                     $path = public_path() . $image_name;
                     file_put_contents($path, $isi);
                     $img->removeAttribute('src');
@@ -1634,7 +1715,7 @@ class ContentManagementController extends Controller
                     list($type, $data) = explode(';', $isi);
                     list(, $isi) = explode(',', $isi);
                     $isi = base64_decode($isi);
-                    $image_name = "/database/konten_umum/post" . time().$k.'.png';
+                    $image_name = "/database/general_content/" . time().$k.'.png';
                     $path = public_path() . $image_name;
                     file_put_contents($path, $isi);
                     $img->removeAttribute('src');
@@ -1724,7 +1805,7 @@ class ContentManagementController extends Controller
                     list($type, $data) = explode(';', $isi);
                     list(, $isi) = explode(',', $isi);
                     $isi = base64_decode($isi);
-                    $image_name = "/database/konten_umum/post" . time().$k.'.png';
+                    $image_name = "/database/general_content/" . time().$k.'.png';
                     $path = public_path() . $image_name;
                     file_put_contents($path, $isi);
                     $img->removeAttribute('src');
@@ -1740,7 +1821,7 @@ class ContentManagementController extends Controller
                     list($type, $data) = explode(';', $isi);
                     list(, $isi) = explode(',', $isi);
                     $isi = base64_decode($isi);
-                    $image_name = "/database/konten_umum/post" . time().$k.'.png';
+                    $image_name = "/database/general_content/" . time().$k.'.png';
                     $path = public_path() . $image_name;
                     file_put_contents($path, $isi);
                     $img->removeAttribute('src');
@@ -1805,8 +1886,12 @@ class ContentManagementController extends Controller
         ]);
 
         if($request->hasFile('lampiran')) {
-            $uploadedFile = $request->file('lampiran');
-            $path = $uploadedFile->store('public/database/konten');
+            $file = $request->file('lampiran');
+            $random_name = str_random(8);
+            $destinationPath = 'database/general_content/lampiran/';
+            $extension = $file->getClientOriginalExtension();
+            $filename=$random_name.'lampiran.'.$extension;
+            $uploadSuccess = $request->file('lampiran')->move($destinationPath, $filename);
             if($request->input('published_date') == null) {
                 if(($request->input('id_content') && $request->input('en_content')) == null) {
                     $data = [
@@ -1819,7 +1904,7 @@ class ContentManagementController extends Controller
                         'category_id' => $request->input('category_id'),
                         'reporter_id' => $request->input('reporter_id'),
                         'source' => $request->input('source'),
-                        'file' => $path,
+                        'file' => $filename,
                         'peraturan_id' => $request->input('peraturan_id'),
                         'bppp_post_year' => $request->input('bppp_year'),
                         'oiml_ref' => $request->input('oiml_ref'),
@@ -1854,7 +1939,7 @@ class ContentManagementController extends Controller
                         list($type, $data) = explode(';', $isi);
                         list(, $isi) = explode(',', $isi);
                         $isi = base64_decode($isi);
-                        $image_name = "/upload" . time().$k.'.png';
+                        $image_name = "/database/general_content/" . time().$k.'.png';
                         $path = public_path() . $image_name;
                         file_put_contents($path, $isi);
                         $img->removeAttribute('src');
@@ -1870,7 +1955,7 @@ class ContentManagementController extends Controller
                         list($type, $data) = explode(';', $isi);
                         list(, $isi) = explode(',', $isi);
                         $isi = base64_decode($isi);
-                        $image_name = "/upload" . time().$k.'.png';
+                        $image_name = "/database/general_content/" . time().$k.'.png';
                         $path = public_path() . $image_name;
                         file_put_contents($path, $isi);
                         $img->removeAttribute('src');
@@ -1960,7 +2045,7 @@ class ContentManagementController extends Controller
                         list($type, $data) = explode(';', $isi);
                         list(, $isi) = explode(',', $isi);
                         $isi = base64_decode($isi);
-                        $image_name = "/upload" . time().$k.'.png';
+                        $image_name = "/database/general_content/" . time().$k.'.png';
                         $path = public_path() . $image_name;
                         file_put_contents($path, $isi);
                         $img->removeAttribute('src');
@@ -1976,7 +2061,7 @@ class ContentManagementController extends Controller
                         list($type, $data) = explode(';', $isi);
                         list(, $isi) = explode(',', $isi);
                         $isi = base64_decode($isi);
-                        $image_name = "/upload" . time().$k.'.png';
+                        $image_name = "/database/general_content/" . time().$k.'.png';
                         $path = public_path() . $image_name;
                         file_put_contents($path, $isi);
                         $img->removeAttribute('src');
@@ -2068,7 +2153,7 @@ class ContentManagementController extends Controller
                         list($type, $data) = explode(';', $isi);
                         list(, $isi) = explode(',', $isi);
                         $isi = base64_decode($isi);
-                        $image_name = "/upload" . time().$k.'.png';
+                        $image_name = "/database/general_content/" . time().$k.'.png';
                         $path = public_path() . $image_name;
                         file_put_contents($path, $isi);
                         $img->removeAttribute('src');
@@ -2084,7 +2169,7 @@ class ContentManagementController extends Controller
                         list($type, $data) = explode(';', $isi);
                         list(, $isi) = explode(',', $isi);
                         $isi = base64_decode($isi);
-                        $image_name = "/upload" . time().$k.'.png';
+                        $image_name = "/database/general_content/" . time().$k.'.png';
                         $path = public_path() . $image_name;
                         file_put_contents($path, $isi);
                         $img->removeAttribute('src');
@@ -2172,7 +2257,7 @@ class ContentManagementController extends Controller
                         list($type, $data) = explode(';', $isi);
                         list(, $isi) = explode(',', $isi);
                         $isi = base64_decode($isi);
-                        $image_name = "/upload" . time().$k.'.png';
+                        $image_name = "/database/general_content/" . time().$k.'.png';
                         $path = public_path() . $image_name;
                         file_put_contents($path, $isi);
                         $img->removeAttribute('src');
@@ -2188,7 +2273,7 @@ class ContentManagementController extends Controller
                         list($type, $data) = explode(';', $isi);
                         list(, $isi) = explode(',', $isi);
                         $isi = base64_decode($isi);
-                        $image_name = "/upload" . time().$k.'.png';
+                        $image_name = "/database/general_content/" . time().$k.'.png';
                         $path = public_path() . $image_name;
                         file_put_contents($path, $isi);
                         $img->removeAttribute('src');
@@ -2280,6 +2365,8 @@ class ContentManagementController extends Controller
     {
         $data = Post::withTranslation()->where('posts.id',$id)->first();
         $log = 'Artikel '.($data->title).' berhasil dihapus';
+        
+        \File::delete(public_path('database/general_content/lampiran/' . $data->file));
         $data->delete();
 
         \LogActivity::addToLog($log);

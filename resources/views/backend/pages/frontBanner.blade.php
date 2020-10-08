@@ -116,7 +116,7 @@ Kementerian Perdagangan Republik Indonesia | Banner Depan
 								@if(auth()->user()->site_id == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f')
 								<td>{{ $banner->Sites->site_name }}</td>
 								@endif
-								<td><img src="/public/banner/{{$banner->image}}" width="150" height="150"></td>
+								<td><img src="/database/banner/{{$banner->image}}" width="150" height="150"></td>
 								<td>{{ $banner->title }}</td>
 								<td>
 									@if(($banner->type) == '1')
@@ -135,10 +135,10 @@ Kementerian Perdagangan Republik Indonesia | Banner Depan
 								<td>
 									<a class="btn btn-xs btn-info modalLg" href="#" value="{{ action('Backend\ContentManagementController@frontBannerEdit',['id'=>$banner->id]) }}" data-toggle="modal" data-target="#modalLg" title="Ubah Data"><i class="far fa-edit"></i></a>
 									{!! Form::open(['method' => 'POST','route' => ['fnban.disable', $banner->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDisable()']) !!}
-									{!! Form::button('<i class="fas fa-window-close"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger']) !!}
+									{!! Form::button('<i class="fas fa-window-close"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Disable Banner']) !!}
 									{!! Form::close() !!}
 									{!! Form::open(['method' => 'POST','route' => ['fnban.destroy', $banner->id],'style'=>'display:inline','onsubmit' => 'return ConfirmSuspend()']) !!}
-									{!! Form::button('<i class="fas fa-trash-alt"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger']) !!}
+									{!! Form::button('<i class="fas fa-trash-alt"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Hapus Data']) !!}
 									{!! Form::close() !!}
 								</td>
             				</tr>

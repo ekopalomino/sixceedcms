@@ -12,8 +12,23 @@
                 <div class="text-center margin-bottom-50">
                     <h2 class="title-v2 title-center">{{ $data->title}}</h2>
                 </div>
-                <p>{{$data->title}}</p>
-                
+                <h2>{{$data->title}}</h2>
+                <label>{{ Date::parse($data->updated_at)->format('l, d F Y') }}</label>
+                <br>
+                <p>
+                    {!!html_entity_decode($data->content)!!}
+                </p>
+                @if(!empty($data->file))
+                <embed
+                    src="/database/general_content/lampiran/{{$data->file}}"
+                    style="width:100%; height:800px;"
+                    frameborder="0"
+                    type="application/pdf"
+                >
+                @endif
+                <br>
+                <p>{{ trans('pages.sumber') }} : {{$data->source}}</p>
+                <p>{{$data->author->name}}</p>
             </div>
             
         </div>

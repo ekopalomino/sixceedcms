@@ -369,7 +369,7 @@ class MasterDataController extends Controller
 
             return view('backend.pages.articleCategory',compact('source','sites'));
         } else {
-            $source = ArticleCategory::where('site_id',auth()->user()->site_id)->orderBy('id','ASC')->get();
+            $source = ArticleCategory::where('site_id',auth()->user()->site_id)->orWhere('site_id','35991cce-ca61-4d89-a3e3-d9e938dc4b2f')->orderBy('id','ASC')->get();
 
             return view('backend.pages.articleCategory',compact('source'));
         }
