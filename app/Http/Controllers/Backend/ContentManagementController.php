@@ -1630,7 +1630,7 @@ class ContentManagementController extends Controller
 
     public function postCreate()
     {
-        $categories = ArticleCategory::where('site_id',auth()->user()->site_id)->pluck('category_name','id')->toArray();
+        $categories = ArticleCategory::where('site_id',auth()->user()->site_id)->orWhere('site_id','35991cce-ca61-4d89-a3e3-d9e938dc4b2f')->pluck('category_name','id')->toArray();
         $reporter = User::where('site_id',auth()->user()->site_id)->pluck('name','id')->toArray();
         
         return view('backend.input.content',compact('categories','reporter'));
