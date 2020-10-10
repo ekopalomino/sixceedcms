@@ -648,6 +648,7 @@ class ContentManagementController extends Controller
                 'cover_image' => $filename,
                 'link' => $request->input('link'),
                 'category_id' => $request->input('category_id'),
+                'section_id' => $request->input('section_id'),
                 'file' => $filename,
                 'publish_year' => $request->input('publish_year'),
                 'site_id' => auth()->user()->site_id,
@@ -667,6 +668,7 @@ class ContentManagementController extends Controller
                 'cover_image' => $filename,
                 'link' => $request->input('link'),
                 'category_id' => $request->input('category_id'),
+                'section_id' => $request->input('section_id'),
                 'publish_year' => $request->input('publish_year'),
                 'site_id' => auth()->user()->site_id,
                 'created_by' => auth()->user()->id
@@ -724,6 +726,7 @@ class ContentManagementController extends Controller
                     'cover_image' => $cover,
                     'file' => $filename,
                     'category_id' => $request->input('category_id'),
+                    'section_id' => $request->input('section_id'),
                     'updated_by' => auth()->user()->id
                 ];
 
@@ -752,6 +755,7 @@ class ContentManagementController extends Controller
                     'title' => $request->input('title'),
                     'cover_image' => $cover,
                     'category_id' => $request->input('category_id'),
+                    'section_id' => $request->input('section_id'),
                     'updated_by' => auth()->user()->id
                 ];
 

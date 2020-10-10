@@ -54,7 +54,18 @@ Kementerian Perdagangan Republik Indonesia | Publikasi
 									<div class="form-group row">
 										<label for="inputEmail" class="col-sm-2 col-form-label">Kategori</label>
 										<div class="col-sm-10">
-											{!! Form::select('category_id', [null=>'Please Select'] + $category,[], array('class' => 'form-control')) !!}
+											{!! Form::select('category_id', [null=>'Please Select'] + $category,[], array('class' => 'form-control','id'=>'category_id')) !!}
+										</div>
+									</div>
+									<div class="form-group row" id="row_oiml">
+										<label for="inputEmail" class="col-sm-2 col-form-label">Kategori OIML</label>
+										<div class="col-sm-10">
+											<select name="oiml_id" class="form-control">
+							                	<option value="">Please Select</option>
+							                	<option value="1">Kamus</option>
+                								<option value="2">Rekomendasi</option>
+                								<option value="3">Dokumen</option>
+							            	</select>
 										</div>
 									</div>
 									<div class="form-group row">
@@ -152,6 +163,18 @@ Kementerian Perdagangan Republik Indonesia | Publikasi
       "autoWidth": false,
     });
   });
+</script>
+<script>
+  $(function() {
+    $('#row_oiml').hide(); 
+    $('#category_id').change(function(){
+        if($('#category_id').val() == '2') {
+            $('#row_oiml').show(); 
+        } else {
+            $('#row_oiml').hide(); 
+        } 
+    });
+});
 </script>
 <script>
     function ConfirmDelete()

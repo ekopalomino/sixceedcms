@@ -7,15 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 class Publication extends Model
 {
     protected $fillable = [
+        'site_id',
+        'category_id',
+        'section_id',
+        'publish_year',
         'cover_image',
         'title',
-        'category_id',
         'link',
-        'site_id',
         'file',
         'created_by',
         'updated_by',
-        'publish_year',
     ];
 
     public function Creator()

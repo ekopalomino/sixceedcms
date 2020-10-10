@@ -100,6 +100,14 @@ Kementerian Perdagangan Republik Indonesia | Buat Konten
 							                <option value="5">Kementerian Hukum dan Hak Asasi Manusia</option>
 							                <option value="6">Badan Kepegawaian Negara</option>
 							                <option value="7">Lembaga Administrasi Negara</option>
+							            </select>
+									</div>
+								</div>
+								<div class="col-12" id="row_lain">
+									<div class="form-group">
+										<label><strong>Jenis Peraturan</strong></label>
+										<select name="peraturan_id" class="form-control">
+							                <option value="">Please Select</option>
 							                <option value="8">Sekretariat Jenderal</option>
                 							<option value="9">Syarat Teknis</option>
 							            </select>
@@ -191,10 +199,22 @@ Kementerian Perdagangan Republik Indonesia | Buat Konten
   $(function() {
     $('#row_menteri').hide(); 
     $('#category_id').change(function(){
-        if($('#category_id').val() == '14') {
+        if($('#category_id').val() == '13') {
             $('#row_menteri').show(); 
         } else {
             $('#row_menteri').hide(); 
+        } 
+    });
+});
+</script>
+<script>
+  $(function() {
+    $('#row_lain').hide(); 
+    $('#category_id').change(function(){
+        if($('#category_id').val() == '14') {
+            $('#row_lain').show(); 
+        } else {
+            $('#row_lain').hide(); 
         } 
     });
 });
