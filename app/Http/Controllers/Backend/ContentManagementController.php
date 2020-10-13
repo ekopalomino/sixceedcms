@@ -609,7 +609,7 @@ class ContentManagementController extends Controller
             $category = PublicationCategory::orderBy('category_name','ASC')->pluck('category_name','id')->toArray();
         } else {
             $data = Publication::where('site_id',auth()->user()->site_id)->orderBy('updated_at','DESC')->get();
-            $category = PublicationCategory::orderBy('category_name','ASC')->pluck('category_name','id')->toArray();
+            $category = PublicationCategory::where('site_id',auth()->user()->site_id)->orderBy('category_name','ASC')->pluck('category_name','id')->toArray();
         }
 
         $yearArray = range(1990, 2100);
@@ -622,7 +622,6 @@ class ContentManagementController extends Controller
         $request->validate([
             'title' => 'required',
             'cover' => 'required|image',
-            'category_id' => 'required',
             'link' => 'required',
             'file' => 'file|mimes:pdf,PDF',
             'publish_year' => 'required',
@@ -697,7 +696,6 @@ class ContentManagementController extends Controller
         $request->validate([
             'title' => 'required',
             'cover' => 'image',
-            'category_id' => 'required',
             'link' => 'required',
         ]);
 
