@@ -9,7 +9,6 @@
     "license": "MIT",
     "require": {
         "php": "^7.1.3",
-        "   ": "^3.1",
         "alaouy/youtube": "^2.2",
         "astrotomic/laravel-translatable": "^11.8",
         "consoletvs/charts": "^6.5",
@@ -20,7 +19,6 @@
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",
         "laravelcollective/html": "5.8",
-        "spatie/laravel-image-optimizer": "^1.6",
         "spatie/laravel-permission": "^3.13"
     },
     "require-dev": {
