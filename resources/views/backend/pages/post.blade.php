@@ -1,6 +1,6 @@
 @extends('backend.layout.main')
 @section('header.title')
-Kementerian Perdagangan Republik Indonesia | Buat Artikel
+Kementerian Perdagangan Republik Indonesia | Buat Konten
 @endsection
 @section('header.plugins')
 <link rel="stylesheet" href="{{ asset('bower_components/admin-lte/plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
@@ -10,7 +10,7 @@ Kementerian Perdagangan Republik Indonesia | Buat Artikel
 	<div class="container-fluid">
       	<div class="row mb-2">
        		<div class="col-sm-6">
-          		<h1>Data Artikel Terbaru</h1>
+          		<h1>Data Konten Terbaru</h1>
        		</div>
        	</div>
     </div>

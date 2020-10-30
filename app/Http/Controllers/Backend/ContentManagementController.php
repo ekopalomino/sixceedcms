@@ -621,8 +621,6 @@ class ContentManagementController extends Controller
     {
         $request->validate([
             'title' => 'required',
-            'cover' => 'required|image',
-            'link' => 'required',
             'file' => 'file|mimes:pdf,PDF',
             'publish_year' => 'required',
         ]);
@@ -1640,6 +1638,8 @@ class ContentManagementController extends Controller
 
     public function postStore(Request $request)
     {
+        $post = $request->all();
+        dd($post);
         $this->validate($request, [
             'id_title' => 'required',
             'en_title' => 'required',
@@ -1647,7 +1647,8 @@ class ContentManagementController extends Controller
             'reporter_id' => 'required',
             'published_date' => 'required',
         ]);
-
+        $post = $request->all();
+        dd($post);
         if($request->hasFile('lampiran')) {
             $file = $request->file('lampiran');
             $random_name = str_random(8);
@@ -1677,7 +1678,8 @@ class ContentManagementController extends Controller
                     'description' => $request->input('description'),
                     'type_id' => '2',
                     'oiml_ref' => $request->input('oiml_ref'),
-                    'reg_dagri_year' => $request->input('reg_dagri_year')
+                    'reg_dagri_year' => $request->input('reg_dagri_year'),
+                    'publish_year' => $request->input('publish_year')
                 ];
         
                 $posts = Post::create($data);
@@ -1748,7 +1750,8 @@ class ContentManagementController extends Controller
                     'description' => $request->input('description'),
                     'type_id' => '2',
                     'oiml_ref' => $request->input('oiml_ref'),
-                    'reg_dagri_year' => $request->input('reg_dagri_year')
+                    'reg_dagri_year' => $request->input('reg_dagri_year'),
+                    'publish_year' => $request->input('publish_year')
                 ];
         
                 $posts = Post::create($data);
@@ -1783,7 +1786,8 @@ class ContentManagementController extends Controller
                     'description' => $request->input('description'),
                     'type_id' => '1',
                     'oiml_ref' => $request->input('oiml_ref'),
-                    'reg_dagri_year' => $request->input('reg_dagri_year')
+                    'reg_dagri_year' => $request->input('reg_dagri_year'),
+                    'publish_year' => $request->input('publish_year')
                 ];
         
                 $posts = Post::create($data);
@@ -1853,7 +1857,8 @@ class ContentManagementController extends Controller
                     'description' => $request->input('description'),
                     'type_id' => '1',
                     'oiml_ref' => $request->input('oiml_ref'),
-                    'reg_dagri_year' => $request->input('reg_dagri_year')
+                    'reg_dagri_year' => $request->input('reg_dagri_year'),
+                    'publish_year' => $request->input('publish_year')
                 ];
         
                 $posts = Post::create($data);
@@ -1916,6 +1921,7 @@ class ContentManagementController extends Controller
                         'status_id' => '97081d35-d4b2-4582-b88f-edd0c66adcb4',
                         'keywords' => $request->input('keywords'),
                         'description' => $request->input('description'),
+                        'publish_year' => $request->input('publish_year')
                         
                     ];
                     
@@ -1987,6 +1993,7 @@ class ContentManagementController extends Controller
                         'status_id' => '97081d35-d4b2-4582-b88f-edd0c66adcb4',
                         'keywords' => $request->input('keywords'),
                         'description' => $request->input('description'),
+                        'publish_year' => $request->input('publish_year')
                     ];
                     
                     $changes = Post::withTranslation()->where('posts.id',$id)->first();
@@ -2023,6 +2030,7 @@ class ContentManagementController extends Controller
                         'published_date' => $request->input('published_date'),
                         'keywords' => $request->input('keywords'),
                         'description' => $request->input('description'),
+                        'publish_year' => $request->input('publish_year')
                     ];
                     
                     $changes = Post::withTranslation()->where('posts.id',$id)->first();
@@ -2094,6 +2102,7 @@ class ContentManagementController extends Controller
                         'published_date' => $request->input('published_date'),
                         'keywords' => $request->input('keywords'),
                         'description' => $request->input('description'),
+                        'publish_year' => $request->input('publish_year')
                     ];
                     
                     $changes = Post::withTranslation()->where('posts.id',$id)->first();
@@ -2131,6 +2140,7 @@ class ContentManagementController extends Controller
                         'status_id' => '97081d35-d4b2-4582-b88f-edd0c66adcb4',
                         'keywords' => $request->input('keywords'),
                         'description' => $request->input('description'),
+                        'publish_year' => $request->input('publish_year')
                     ];
                     
                     $changes = Post::withTranslation()->where('posts.id',$id)->first();
@@ -2200,6 +2210,7 @@ class ContentManagementController extends Controller
                         'status_id' => '97081d35-d4b2-4582-b88f-edd0c66adcb4',
                         'keywords' => $request->input('keywords'),
                         'description' => $request->input('description'),
+                        'publish_year' => $request->input('publish_year')
                     ];
                     
                     $changes = Post::withTranslation()->where('posts.id',$id)->first();
@@ -2235,6 +2246,7 @@ class ContentManagementController extends Controller
                         'published_date' => $request->input('published_date'),
                         'keywords' => $request->input('keywords'),
                         'description' => $request->input('description'),
+                        'publish_year' => $request->input('publish_year')
                     ];
                     
                     $changes = Post::withTranslation()->where('posts.id',$id)->first();
@@ -2305,6 +2317,7 @@ class ContentManagementController extends Controller
                         'published_date' => $request->input('published_date'),
                         'keywords' => $request->input('keywords'),
                         'description' => $request->input('description'),
+                        'publish_year' => $request->input('publish_year')
                     ];
                     
                     $changes = Post::withTranslation()->where('posts.id',$id)->first();

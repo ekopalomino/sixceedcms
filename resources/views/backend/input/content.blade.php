@@ -73,11 +73,12 @@ Kementerian Perdagangan Republik Indonesia | Buat Konten
 				<div class="col-md-3">
 					<div class="card card-outline card-info">
 						<div class="card-body">
+							<!--Site Specific Marker-->
 							<div class="row">
 								<div class="col-12">
 									<div class="form-group">
-										<label><strong>Kategori</strong></label>
-										{!! Form::select('category_id', [null=>'Please Select'] + $categories,[], array('class' => 'form-control','id'=>'category_id')) !!}
+										<label><strong>Jenis Konten</strong></label>
+										{!! Form::select('category_id', [null=>'Please Select'] + $categories,[], array('class' => 'form-control')) !!}
 									</div>
 								</div>
 								@if((auth()->user()->site_id) == '92876445-2b7c-4e2f-bb43-d3b71b608e4e')
@@ -85,6 +86,14 @@ Kementerian Perdagangan Republik Indonesia | Buat Konten
 									<div class="form-group">
 										<label><strong>No Referensi OIML</strong></label>
 										{!! Form::text('oiml_ref', null, array('placeholder' => 'No Referensi OIML','class' => 'form-control')) !!}
+									</div>
+								</div>
+								@endif
+								@if((auth()->user()->site_id) == '2da488d4-a8e7-499a-b6e7-360ff17f9585')
+								<div class="col-12">
+									<div class="form-group">
+										<label><strong>Tahun Kajian</strong></label>
+										{!! Form::number('publish_year', null, array('placeholder' => 'Tahun Kajian','class' => 'form-control')) !!}
 									</div>
 								</div>
 								@endif

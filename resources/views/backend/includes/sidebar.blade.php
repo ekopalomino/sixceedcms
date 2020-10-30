@@ -305,6 +305,7 @@
 				</ul>
 			</li>
 			@endif
+			@can('disable')
 			<li class="nav-item ">
 				<a href="" class="nav-link ">
 					<i class="nav-icon far fa-comments"></i>
@@ -326,6 +327,7 @@
 					</li>
 				</ul>
 			</li>
+			@endcan
 		</nav>
     </div>
 </aside>

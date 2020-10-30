@@ -76,6 +76,22 @@ Kementerian Perdagangan Republik Indonesia | Edit Konten
 										{!! Form::select('category_id', $categories,old('category_id'),array('class' => 'form-control','id'=>'category_id')) !!}
 									</div>
 								</div>
+								@if((auth()->user()->site_id) == '92876445-2b7c-4e2f-bb43-d3b71b608e4e')
+								<div class="col-12">
+									<div class="form-group">
+										<label><strong>No Referensi OIML</strong></label>
+										{!! Form::text('oiml_ref', null, array('placeholder' => 'No Referensi OIML','class' => 'form-control')) !!}
+									</div>
+								</div>
+								@endif
+								@if((auth()->user()->site_id) == '2da488d4-a8e7-499a-b6e7-360ff17f9585')
+								<div class="col-12">
+									<div class="form-group">
+										<label><strong>Tahun Kajian</strong></label>
+										{!! Form::number('publish_year', null, array('placeholder' => 'Tahun Kajian','class' => 'form-control')) !!}
+									</div>
+								</div>
+								@endif
 								<div class="col-12" id="row_menteri">
 									<div class="form-group">
 										<label><strong>Jenis Peraturan</strong></label>
