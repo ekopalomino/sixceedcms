@@ -26,6 +26,7 @@ Route::group(['prefix' => 'cms', 'middleware' => ['auth']], function() {
     Route::get('/perdagangan-dalam-negeri','Backend\DashboardController@dagri')->name('pdn.index');
     Route::get('/pusat-pengembangan-sumber-daya-kemetrologian','Backend\DashboardController@ppsdk')->name('ppsdk.index');
     Route::get('/badan-pengembangan-pengkajian-perdagangan','Backend\DashboardController@bppp')->name('bppp.index');
+    Route::get('/inspektorat-jenderal','Backend\DashboardController@itjen')->name('itjen.index');
 
     Route::get('/pengguna','Backend\UserManagementController@userIndex')->name('user.index');
     Route::get('/pengguna/menu-saya','Backend\UserManagementController@userMenu')->name('myMenu.index');

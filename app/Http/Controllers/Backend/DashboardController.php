@@ -34,4 +34,9 @@ class DashboardController extends Controller
     {
         return view('backend.dashboard.daglu');
     }
+
+    public function itjen()
+    {
+        return view('backend.dashboard.itjen');
+    }
 }
