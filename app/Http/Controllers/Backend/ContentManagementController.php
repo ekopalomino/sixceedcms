@@ -1638,8 +1638,6 @@ class ContentManagementController extends Controller
 
     public function postStore(Request $request)
     {
-        $post = $request->all();
-        dd($post);
         $this->validate($request, [
             'id_title' => 'required',
             'en_title' => 'required',
@@ -1647,8 +1645,7 @@ class ContentManagementController extends Controller
             'reporter_id' => 'required',
             'published_date' => 'required',
         ]);
-        $post = $request->all();
-        dd($post);
+        
         if($request->hasFile('lampiran')) {
             $file = $request->file('lampiran');
             $random_name = str_random(8);
