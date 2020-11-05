@@ -158,9 +158,9 @@
 						</a>
 					</li>
 					<li class="nav-item">
-						<a href="{{ route('unit.index') }}" class="nav-link {{set_active('unit.index') }}">
+						<a href="{{ route('menu.index') }}" class="nav-link {{set_active('menu.index') }}">
 							<i class="right fas fa-angle-right"></i>
-							<p>Footer Link</p>
+							<p>Manajemen Menu</p>
 						</a>
 					</li>
 				</ul>

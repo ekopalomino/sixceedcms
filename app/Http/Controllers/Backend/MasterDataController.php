@@ -14,6 +14,7 @@ use Sixceed\Models\Site;
 use Sixceed\Models\FaqCategory;
 use Sixceed\Models\Unit;
 use Sixceed\Models\PublicationCategory;
+use Sixceed\Models\Menu;
 use Auth;
 
 class MasterDataController extends Controller
