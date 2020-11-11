@@ -14,7 +14,8 @@ class CreateDutyCategoriesTable extends Migration
     public function up()
     {
         Schema::create('duty_categories', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
+            $table->uuid('site_id');
             $table->uuid('created_by');
             $table->uuid('updated_by')->nullable();
             $table->timestamps();

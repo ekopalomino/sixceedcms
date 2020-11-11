@@ -4,9 +4,11 @@ namespace Sixceed\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Country extends Model
+class Footer extends Model
 {
     protected $fillable = [
-        'country_name',
+        'site_id',
+        'urutan',
+        'url'
     ];
 }

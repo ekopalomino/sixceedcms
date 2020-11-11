@@ -78,29 +78,21 @@ Kementerian Perdagangan Republik Indonesia | Buat Konten
 								<div class="col-12">
 									<div class="form-group">
 										<label><strong>Jenis Konten</strong></label>
-										{!! Form::select('category_id', [null=>'Please Select'] + $categories,[], array('class' => 'form-control')) !!}
+										{!! Form::select('category_id', [null=>'Please Select'] + $categories,[], array('class' => 'form-control', 'id' => 'category_id')) !!}
 									</div>
 								</div>
-								@if((auth()->user()->site_id) == '92876445-2b7c-4e2f-bb43-d3b71b608e4e')
-								<div class="col-12">
+								@if((auth()->user()->site_id) == '46d017eb-f7aa-450e-80f6-d565f424ce24')
+								<div class="col-12" id="row_dagri">
 									<div class="form-group">
-										<label><strong>No Referensi OIML</strong></label>
-										{!! Form::text('oiml_ref', null, array('placeholder' => 'No Referensi OIML','class' => 'form-control')) !!}
-									</div>
-								</div>
-								@endif
-								@if((auth()->user()->site_id) == '2da488d4-a8e7-499a-b6e7-360ff17f9585')
-								<div class="col-12">
-									<div class="form-group">
-										<label><strong>Tahun Kajian</strong></label>
-										{!! Form::number('publish_year', null, array('placeholder' => 'Tahun Kajian','class' => 'form-control')) !!}
+										<label><strong>No Regulasi</strong></label>
+										{!! Form::text('category_child_id', null, array('placeholder' => 'No Regulasi','class' => 'form-control')) !!}
 									</div>
 								</div>
 								@endif
 								<div class="col-12" id="row_menteri">
 									<div class="form-group">
-										<label><strong>Jenis Peraturan</strong></label>
-										<select name="peraturan_id" class="form-control">
+										<label><strong>Peraturan Menteri</strong></label>
+										<select name="category_child_id" class="form-control">
 							                <option value="">Please Select</option>
 							                <option value="1">Kementerian Perdagangan</option>
 							                <option value="2">Kementerian Pemberdayaan Aparatur Negara dan Reformasi Birokrasi</option>
@@ -114,18 +106,18 @@ Kementerian Perdagangan Republik Indonesia | Buat Konten
 								</div>
 								<div class="col-12" id="row_lain">
 									<div class="form-group">
-										<label><strong>Jenis Peraturan</strong></label>
-										<select name="peraturan_id" class="form-control">
+										<label><strong>Peraturan Lainnya</strong></label>
+										<select name="category_child_id" class="form-control">
 							                <option value="">Please Select</option>
 							                <option value="8">Sekretariat Jenderal</option>
                 							<option value="9">Syarat Teknis</option>
 							            </select>
 									</div>
 								</div>
-								<div class="col-12" id="reg_dagri_year">
+								<div class="col-12" id="row_dagri">
 									<div class="form-group">
-										<label><strong>Tahun Peraturan</strong></label>
-										{!! Form::number('reg_dagri_year', null, array('placeholder' => 'Tahun Peraturan','class' => 'form-control')) !!}
+										<label><strong>Tahun Regulasi</strong></label>
+										{!! Form::number('years', null, array('placeholder' => 'Tahun Regulasi','class' => 'form-control')) !!}
 									</div>
 								</div>
 								
@@ -208,7 +200,7 @@ Kementerian Perdagangan Republik Indonesia | Buat Konten
   $(function() {
     $('#row_menteri').hide(); 
     $('#category_id').change(function(){
-        if($('#category_id').val() == '13') {
+        if($('#category_id').val() == '11') {
             $('#row_menteri').show(); 
         } else {
             $('#row_menteri').hide(); 
@@ -220,7 +212,7 @@ Kementerian Perdagangan Republik Indonesia | Buat Konten
   $(function() {
     $('#row_lain').hide(); 
     $('#category_id').change(function(){
-        if($('#category_id').val() == '14') {
+        if($('#category_id').val() == '12') {
             $('#row_lain').show(); 
         } else {
             $('#row_lain').hide(); 
@@ -230,12 +222,12 @@ Kementerian Perdagangan Republik Indonesia | Buat Konten
 </script>
 <script>
   $(function() {
-    $('#reg_dagri_year').hide(); 
+    $('#row_dagri').hide(); 
     $('#category_id').change(function(){
-        if($('#category_id').val() == '4') {
-            $('#reg_dagri_year').show(); 
+        if($('#category_id').val() == '15') {
+            $('#row_dagri').show(); 
         } else {
-            $('#reg_dagri_year').hide(); 
+            $('#row_dagri').hide(); 
         } 
     });
 });

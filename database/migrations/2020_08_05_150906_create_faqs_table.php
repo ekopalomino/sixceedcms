@@ -17,8 +17,8 @@ class CreateFaqsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('faq_category_id');
             $table->uuid('site_id');
-            $table->text('pertanyaan');
-            $table->text('jawaban');
+            $table->text('question');
+            $table->text('answer');
             $table->uuid('created_by');
             $table->uuid('updated_by')->nullable();
             $table->timestamps();

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCountriesTable extends Migration
+class CreateDefinasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,14 @@ class CreateCountriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('countries', function (Blueprint $table) {
+        Schema::create('definas', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->uuid('site_id');
-            $table->string('country_name');
+            $table->bigInteger('country_id');
+            $table->bigInteger('hs_code');
+            $table->string('uraian');
+            $table->string('tarif');
+            $table->uuid('created_by');
+            $table->uuid('updated_by')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +32,6 @@ class CreateCountriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('countries');
+        Schema::dropIfExists('definas');
     }
 }

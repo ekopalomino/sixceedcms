@@ -17,10 +17,10 @@ class UserManagementController extends Controller
 {
     public function userIndex()
     {
-        if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f') {
+        if((auth()->user()->site_id) == '48887f82-bea4-47b3-a9de-4c27fdc6b85a') {
             $roles = Role::pluck('name','name')->all();
             $sites = Site::pluck('site_name','id')->toArray();
-            $data = User::where('status_id','f13c7f2e-4723-47a7-b75c-fbec0aaca411')->get();
+            $data = User::orderBy('name','ASC')->get();
 
             return view('backend.pages.users',compact('data','roles','sites'));
         } else {

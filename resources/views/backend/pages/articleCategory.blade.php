@@ -20,7 +20,7 @@ Kementerian Perdagangan Republik Indonesia | Kategori Konten
 		<div class="col-12">
 			<div class="card card-info card-outline">
 				<div class="card-header">
-					@if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f')
+					@if((auth()->user()->site_id) == '48887f82-bea4-47b3-a9de-4c27fdc6b85a')
 					<button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modal-lg">
 						Tambah
 					</button>
@@ -43,14 +43,18 @@ Kementerian Perdagangan Republik Indonesia | Kategori Konten
 											{!! Form::text('category_name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
 										</div>
 									</div>
-									@if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f')
 									<div class="form-group row">
-										<label for="inputEmail" class="col-sm-2 col-form-label">Nama Kategori</label>
+										<label for="inputEmail" class="col-sm-2 col-form-label">Parent Kategori</label>
+										<div class="col-sm-10">
+											{!! Form::select('parent_id', [null=>'Please Select'] + $parents,[], array('class' => 'form-control')) !!}
+										</div>
+									</div>
+									<div class="form-group row">
+										<label for="inputEmail" class="col-sm-2 col-form-label">Situs</label>
 										<div class="col-sm-10">
 											{!! Form::select('site_id', [null=>'Please Select'] + $sites,[], array('class' => 'form-control')) !!}
 										</div>
 									</div>
-									@endif
 								</div>
 				            	<div class="modal-footer ">
 				              		<button type="close" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -78,10 +82,11 @@ Kementerian Perdagangan Republik Indonesia | Kategori Konten
 							<tr>
 								<th>No</th>
 								<th>Nama Kategori</th>
+								<th>Parent Kategori</th>
 								<th>Situs</th>
 								<th>Tgl Input</th>
-								<th>Tgl Ubah</th>
-								@if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f')
+								<th>Tgl Edit</th>
+								@if((auth()->user()->site_id) == '48887f82-bea4-47b3-a9de-4c27fdc6b85a')
 								<th></th>
 								@endif
 							</tr>
@@ -91,6 +96,7 @@ Kementerian Perdagangan Republik Indonesia | Kategori Konten
 							<tr>
 								<td>{{ $key+1 }}</td>
 								<td>{{ $data->category_name }}</td>
+								<td>{{ $data->category_name }}</td>
 								<td>{{ $data->Sites->site_name }}</td>
 								<td>{{date("d F Y H:i",strtotime($data->created_at)) }}</td>
 								<td>
@@ -98,7 +104,7 @@ Kementerian Perdagangan Republik Indonesia | Kategori Konten
 									{{date("d F Y H:i",strtotime($data->updated_at)) }}
 									@endif
 								</td>
-								@if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f')
+								@if((auth()->user()->site_id) == '48887f82-bea4-47b3-a9de-4c27fdc6b85a')
 								<td>
 									<a class="btn btn-xs btn-info modalLg" href="#" value="{{ action('Backend\MasterDataController@articleCategoryEdit',['id'=>$data->id]) }}" data-toggle="modal" data-target="#modalLg" title="Ubah Data"><i class="far fa-edit"></i></a>
 									{!! Form::open(['method' => 'POST','route' => ['articlecat.destroy', $data->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}

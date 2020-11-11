@@ -39,4 +39,9 @@ class DashboardController extends Controller
     {
         return view('backend.dashboard.itjen');
     }
+
+    public function ppi()
+    {
+        return view('backend.dashboard.ppi');
+    }
 }

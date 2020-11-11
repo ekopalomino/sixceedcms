@@ -18,8 +18,6 @@ class CreateCitiesTable extends Migration
             $table->bigInteger('country_id');
             $table->bigInteger('region_id')->unsigned()->index();
             $table->string('city_name');
-            $table->uuid('created_by');
-            $table->uuid('updated_by')->nullable();
             $table->foreign('region_id')->references('id')->on('regions')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });

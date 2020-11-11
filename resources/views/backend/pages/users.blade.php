@@ -65,7 +65,7 @@ Kementerian Perdagangan Republik Indonesia | User Database
 											{!! Form::select('roles[]', [null=>'Please Select'] + $roles,[], array('class' => 'form-control')) !!}
 										</div>
 									</div>
-									@if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f')
+									@if((auth()->user()->site_id) == '48887f82-bea4-47b3-a9de-4c27fdc6b85a')
 									<div class="form-group row">
 										<label for="inputEmail" class="col-sm-2 col-form-label">Site Access</label>
 										<div class="col-sm-10">
@@ -75,7 +75,7 @@ Kementerian Perdagangan Republik Indonesia | User Database
 									@else
 									{!! Form::hidden('site_id', auth()->user()->site_id, array('class' => 'form-control','readonly')) !!}
 									@endif
-									{!! Form::hidden('status_id', 'f13c7f2e-4723-47a7-b75c-fbec0aaca411', array('class' => 'form-control','readonly')) !!}
+									{!! Form::hidden('status_id', '5d90784e-ecac-4baa-b7fc-b5a4f13c9a50', array('class' => 'form-control','readonly')) !!}
 								</div>
 				            	<div class="modal-footer ">
 				              		<button type="close" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -132,7 +132,7 @@ Kementerian Perdagangan Republik Indonesia | User Database
 								@endif
 								</td>
             					<td>
-									@if(($user->status_id) == 'f13c7f2e-4723-47a7-b75c-fbec0aaca411' )
+									@if(($user->status_id) == '5d90784e-ecac-4baa-b7fc-b5a4f13c9a50' )
 										<span class="badge badge-info">{{ $user->status->status_name }}</span>
 									@else
 										<span class="badge badge-danger">{{ $user->status->status_name }}</span>

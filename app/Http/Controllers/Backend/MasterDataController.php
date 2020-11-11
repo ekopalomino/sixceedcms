@@ -10,6 +10,7 @@ use Sixceed\Models\City;
 use Sixceed\Models\DutyCategory;
 use Sixceed\Models\DutyCategoryTranslation;
 use Sixceed\Models\ArticleCategory;
+use Sixceed\Models\ArticleCategoryChild;
 use Sixceed\Models\Site;
 use Sixceed\Models\FaqCategory;
 use Sixceed\Models\Unit;
@@ -33,7 +34,6 @@ class MasterDataController extends Controller
         
         $input = [
             'country_name' => $request->input('country_name'),
-            'created_by' => auth()->user()->id,
         ];
 
         $country = Country::create($input);
@@ -59,7 +59,6 @@ class MasterDataController extends Controller
     {
         $input = [
             'country_name' => $request->input('country_name'),
-            'updated_by' => auth()->user()->id
         ];
         
         $country = Country::find($id);
@@ -248,7 +247,7 @@ class MasterDataController extends Controller
 
     public function dutyCatIndex()
     {
-        if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f') {
+        if((auth()->user()->site_id) == '48887f82-bea4-47b3-a9de-4c27fdc6b85a') {
             $categories = DutyCategory::withTranslation()->orderBy('id','ASC')->get();
             $sites = Site::pluck('site_name','id')->toArray();
 
@@ -267,50 +266,26 @@ class MasterDataController extends Controller
     		'id_category' => 'required',
     	]);
         
-        if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f') {
-            $data = [
-                'en' => [
-                    'category_name' => $request->input('en_category')
-                ],
-                'id' => [
-                    'category_name' => $request->input('id_category')
-                ],
-                'created_by' => auth()->user()->id,
-                'site_id' => $request->input('site_id')
-            ];
+        $data = [
+            'en' => [
+                'category_name' => $request->input('en_category')
+            ],
+            'id' => [
+                'category_name' => $request->input('id_category')
+            ],
+            'created_by' => auth()->user()->id,
+            'site_id' => $request->input('site_id')
+        ];
     
-            $categories = DutyCategory::create($data);
-            $data = 'Kategori berhasil disimpan';
-             \LogActivity::addToLog($data);
+        $categories = DutyCategory::create($data);
+        $data = 'Kategori berhasil disimpan';
+        \LogActivity::addToLog($data);
             $notification = array (
                 'message' => 'Kategori berhasil disimpan',
                 'alert-type' => 'success'
-            );
+        );
     
-            return redirect()->route('dutycat.index')->with($notification);
-        } else {
-            $data = [
-                'en' => [
-                    'category_name' => $request->input('en_category')
-                ],
-                'id' => [
-                    'category_name' => $request->input('id_category')
-                ],
-                'created_by' => auth()->user()->id,
-                'site_id' => auth()->user()->site_id
-            ];
-    
-            $categories = DutyCategory::create($data);
-            $data = 'Kategori berhasil disimpan';
-             \LogActivity::addToLog($data);
-            $notification = array (
-                'message' => 'Kategori berhasil disimpan',
-                'alert-type' => 'success'
-            );
-    
-            return redirect()->route('dutycat.index')->with($notification);
-        }
-    	
+        return redirect()->route('dutycat.index')->with($notification);
     }
 
     public function dutyCatEdit($id)
@@ -364,11 +339,12 @@ class MasterDataController extends Controller
 
     public function articleCategoryIndex()
     {
-        if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f') {
+        if((auth()->user()->site_id) == '48887f82-bea4-47b3-a9de-4c27fdc6b85a') {
             $source = ArticleCategory::orderBy('id','ASC')->get();
             $sites = Site::pluck('site_name','id')->toArray();
-
-            return view('backend.pages.articleCategory',compact('source','sites'));
+            $parents = ArticleCategory::pluck('category_name','id')->toArray();
+            
+            return view('backend.pages.articleCategory',compact('source','sites','parents'));
         } else {
             $source = ArticleCategory::where('site_id',auth()->user()->site_id)->orWhere('site_id','35991cce-ca61-4d89-a3e3-d9e938dc4b2f')->orderBy('id','ASC')->get();
 
@@ -382,10 +358,11 @@ class MasterDataController extends Controller
     		'category_name' => 'required'
         ]); 
         
-        if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f') {
+        if((auth()->user()->site_id) == '48887f82-bea4-47b3-a9de-4c27fdc6b85a') {
             $input = [
                 'category_name' => $request->input('category_name'),
                 'site_id' => $request->input('site_id'),
+                'parent_id' => $request->input('parent_id'),
                 'created_by' => auth()->user()->id,
             ];
     
@@ -617,10 +594,11 @@ class MasterDataController extends Controller
 
     public function pubIndex()
     {
-        if((auth()->user()->site_id) == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f') {
+        if((auth()->user()->site_id) == '48887f82-bea4-47b3-a9de-4c27fdc6b85a') {
             $data = PublicationCategory::orderBy('id','ASC')->get();
+            $sites = Site::pluck('site_name','id')->toArray();
 
-            return view('backend.pages.publicationCategory',compact('data'));
+            return view('backend.pages.publicationCategory',compact('data','sites'));
         } else {
             $data = PublicationCategory::where('site_id',auth()->user()->site_id)->orderBy('id','ASC')->get();
 
@@ -635,7 +613,7 @@ class MasterDataController extends Controller
         ]);
 
         $input = [
-            'site_id' => auth()->user()->site_id,
+            'site_id' => $request->input('site_id'),
             'category_name' => $request->input('category_name'),
             'created_by' => auth()->user()->id,
         ];

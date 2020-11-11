@@ -14,8 +14,8 @@ class CreateDutyCategoryTranslationsTable extends Migration
     public function up()
     {
         Schema::create('duty_category_translations', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('duty_category_id')->unsigned();
+            $table->bigIncrements('id');
+            $table->bigInteger('duty_category_id')->unsigned();
             $table->string('locale')->index();
             $table->string('category_name');
             $table->string('slug');

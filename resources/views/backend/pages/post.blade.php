@@ -39,7 +39,7 @@ Kementerian Perdagangan Republik Indonesia | Buat Konten
 							<tr>
 								<th>No</th>
 								<th>Judul</th>
-								@if(auth()->user()->site_id == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f')
+								@if(auth()->user()->site_id == '48887f82-bea4-47b3-a9de-4c27fdc6b85a')
 								<th>Situs</th>
 								@endif
 								<th>Kategori</th>
@@ -55,7 +55,7 @@ Kementerian Perdagangan Republik Indonesia | Buat Konten
 							<tr>
 								<td>{{ $key+1 }}</td>
 								<td>{{ $post->title }}</td>
-								@if(auth()->user()->site_id == '35991cce-ca61-4d89-a3e3-d9e938dc4b2f')
+								@if(auth()->user()->site_id == '48887f82-bea4-47b3-a9de-4c27fdc6b85a')
 								<td>{{ $post->Sites->site_name }}</td>
 								@endif
 								<td>{{ $post->Categories->category_name }}</td>
@@ -67,9 +67,9 @@ Kementerian Perdagangan Republik Indonesia | Buat Konten
 									@endif
 								</td>
 								<td>
-									@if(($post->status_id) == '3bc97e4a-5e86-4d7c-86d5-7ee450a247ee')
+									@if(($post->status_id) == '928ebe55-2520-491e-86e4-7498df664a32')
 									<span class="badge badge-warning">{{ $post->Statuses->status_name }}</span>
-									@elseif(($post->status_id) == '2872ac69-2f76-438b-8b83-31c52787027d')
+									@elseif(($post->status_id) == 'c152e129-1852-40c0-b98e-ade0567cab0a')
 									<span class="badge badge-success">{{ $post->Statuses->status_name }}</span>
 									@else
 									<span class="badge badge-danger">{{ $post->Statuses->status_name }}</span>
@@ -84,12 +84,12 @@ Kementerian Perdagangan Republik Indonesia | Buat Konten
 									<a button id="search" type="submit" class="btn btn-xs btn-info" href="{{ route('postReview.index',$post->id) }}" target="blank" title="Preview Konten">
 										<i class="fa fa-search"></i>
 									</a>
-									@if(($post->status_id) == '3bc97e4a-5e86-4d7c-86d5-7ee450a247ee' || ($post->status_id) == '97081d35-d4b2-4582-b88f-edd0c66adcb4')
+									@if(($post->status_id) == '928ebe55-2520-491e-86e4-7498df664a32' || ($post->status_id) == '7ed618b5-8e61-4483-91c7-0fa191a3a55a')
 									{!! Form::open(['method' => 'POST','route' => ['post.publish', $post->id],'style'=>'display:inline','onsubmit' => 'return ConfirmPublish()']) !!}
 									{!! Form::button('<i class="fas fa-check-square"></i>',['type'=>'submit','class' => 'btn btn-xs btn-success', 'title'=>'Publish Konten']) !!}
 									{!! Form::close() !!}
 									@endif
-									@if(($post->status_id) == '2872ac69-2f76-438b-8b83-31c52787027d')
+									@if(($post->status_id) == 'c152e129-1852-40c0-b98e-ade0567cab0a')
 									{!! Form::open(['method' => 'POST','route' => ['post.archive', $post->id],'style'=>'display:inline','onsubmit' => 'return ConfirmArchive()']) !!}
 									{!! Form::button('<i class="fas fa-check-square"></i>',['type'=>'submit','class' => 'btn btn-xs btn-success','title'=>'Arsip Konten']) !!}
 									{!! Form::close() !!}

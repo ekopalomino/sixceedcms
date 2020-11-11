@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDagluAgreementsTable extends Migration
+class CreateModelsInvestigationCategoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,9 @@ class CreateDagluAgreementsTable extends Migration
      */
     public function up()
     {
-        Schema::create('daglu_agreements', function (Blueprint $table) {
+        Schema::create('investigation_categories', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('title');
-            $table->string('progress');
-            $table->uuid('status_id');
-            $table->uuid('created_by');
-            $table->uuid('updated_by')->nullable();
+            $table->string('category_name');
             $table->timestamps();
         });
     }
@@ -31,6 +27,6 @@ class CreateDagluAgreementsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('daglu_agreements');
+        Schema::dropIfExists('models_investigation_categories');
     }
 }

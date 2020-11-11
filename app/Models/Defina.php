@@ -4,15 +4,21 @@ namespace Sixceed\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ArticleCategory extends Model
+class Defina extends Model
 {
     protected $fillable = [
-        'category_name',
-        'site_id',
-        'parent_id',
+        'country_id',
+        'hs_code',
+        'uraian',
+        'tarif',
         'created_by',
-        'updated_by',
+        'updated_by'
     ];
+
+    public function Countries()
+    {
+        return $this->belongsTo(Country::class,'country_id');
+    }
 
     public function Creator()
     {
@@ -22,15 +28,5 @@ class ArticleCategory extends Model
     public function Updater()
     {
         return $this->belongsTo(User::class,'updated_by');
-    }
-
-    public function Sites()
-    {
-        return $this->belongsTo(Site::class,'site_id');
-    }
-
-    public function Child()
-    {
-        return $this->hasMany(ArticleCategory::class,'parent_id');
     }
 }

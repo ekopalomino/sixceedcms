@@ -1,6 +1,6 @@
 @extends('backend.layout.main')
 @section('header.title')
-Kementerian Perdagangan Republik Indonesia | Kategori Tugas dan Fungsi
+Kementerian Perdagangan Republik Indonesia | DEFINA
 @endsection
 @section('header.plugins')
 <link rel="stylesheet" href="{{ asset('bower_components/admin-lte/plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
@@ -10,7 +10,7 @@ Kementerian Perdagangan Republik Indonesia | Kategori Tugas dan Fungsi
 	<div class="container-fluid">
       	<div class="row mb-2">
        		<div class="col-sm-6">
-          		<h1>Kategori Tugas dan Fungsi</h1>
+          		<h1>Data DEFINA</h1>
        		</div>
        	</div>
     </div>
@@ -33,24 +33,30 @@ Kementerian Perdagangan Republik Indonesia | Kategori Tugas dan Fungsi
 									</button>
 								</div>
 								<div class="modal-body">
-									{!! Form::open(array('route' => 'dutycat.store','method'=>'POST', 'class' => 'form-horizontal')) !!}
+									{!! Form::open(array('route' => 'defina.store','method'=>'POST', 'class' => 'form-horizontal')) !!}
 									@csrf
 									<div class="form-group row">
-										<label for="inputEmail" class="col-sm-2 col-form-label">Nama Kategori (Bhs Indonesia)</label>
+										<label for="inputEmail" class="col-sm-2 col-form-label">Negara</label>
 										<div class="col-sm-10">
-											{!! Form::text('id_category', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
+											{!! Form::select('country_id', [null=>'Please Select'] + $countries,[], array('class' => 'form-control')) !!}
 										</div>
 									</div>
 									<div class="form-group row">
-										<label for="inputEmail" class="col-sm-2 col-form-label">Nama Kategori (Bhs Inggris)</label>
+										<label for="inputEmail" class="col-sm-2 col-form-label">Kode HS</label>
 										<div class="col-sm-10">
-											{!! Form::text('en_category', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
+											{!! Form::number('hs_code', null, array('placeholder' => 'Kode HS','class' => 'form-control')) !!}
 										</div>
 									</div>
 									<div class="form-group row">
-										<label for="inputEmail" class="col-sm-2 col-form-label">Situs</label>
+										<label for="inputEmail" class="col-sm-2 col-form-label">Uraian</label>
 										<div class="col-sm-10">
-											{!! Form::select('site_id', [null=>'Please Select'] + $sites,[], array('class' => 'form-control')) !!}
+											{!! Form::text('uraian', null, array('placeholder' => 'Uraian','class' => 'form-control')) !!}
+										</div>
+									</div>
+									<div class="form-group row">
+										<label for="inputEmail" class="col-sm-2 col-form-label">Tarif</label>
+										<div class="col-sm-10">
+											{!! Form::text('tarif', null, array('placeholder' => 'Tarif','class' => 'form-control')) !!}
 										</div>
 									</div>
 								</div>
@@ -79,28 +85,26 @@ Kementerian Perdagangan Republik Indonesia | Kategori Tugas dan Fungsi
 						<thead>
 							<tr>
 								<th>No</th>
-								@if(auth()->user()->site_id == '48887f82-bea4-47b3-a9de-4c27fdc6b85a')
-								<th>Situs</th>
-								@endif
-								<th>Nama Kategori</th>
-								<th>Terjemahan Inggris</th>
-								<th>Tgl Input</th>
+								<th>Negara</th>
+								<th>Kode HS</th>
+								<th>Uraian</th>
+								<th>Tarif</th>
+								<th>Tgl Data</th>
 								<th></th>
 							</tr>
 						</thead>
 						<tbody>
-							@foreach($categories as $key=>$data) 
+							@foreach($data as $key=>$val) 
 							<tr>
 								<td>{{ $key+1 }}</td>
-								@if(auth()->user()->site_id == '48887f82-bea4-47b3-a9de-4c27fdc6b85a')
-								<td>{{ $data->Sites->site_name }}</td>
-								@endif
-								<td>{{ $data->category_name }}</td>
-								<td>{{ $data->translations[0]->category_name }}</td>
-								<td>{{date("d F Y H:i",strtotime($data->created_at)) }}</td>
+								<td>{{ $val->Countries->country_name }}</td>
+								<td>{{ $val->hs_code }}</td>
+								<td>{{ $val->uraian }}</td>
+								<td>{{ $val->tarif }} %</td>
+								<td>{{date("d F Y H:i",strtotime($val->updated_at)) }}</td>
 								<td>
-									<a class="btn btn-xs btn-info modalLg" href="#" value="{{ action('Backend\MasterDataController@dutyCatEdit',['id'=>$data->id]) }}" data-toggle="modal" data-target="#modalLg" title="Ubah Data"><i class="far fa-edit"></i></a>
-									{!! Form::open(['method' => 'POST','route' => ['dutycat.destroy', $data->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
+									<a class="btn btn-xs btn-info modalLg" href="#" value="{{ action('Backend\CustomContentController@definaEdit',['id'=>$val->id]) }}" data-toggle="modal" data-target="#modalLg" title="Ubah Data"><i class="far fa-edit"></i></a>
+									{!! Form::open(['method' => 'POST','route' => ['defina.destroy', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
 									{!! Form::button('<i class="fas fa-trash-alt"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger']) !!}
 									{!! Form::close() !!}
 								</td>
@@ -132,7 +136,7 @@ Kementerian Perdagangan Republik Indonesia | Kategori Tugas dan Fungsi
 <script>
     function ConfirmDelete()
     {
-    var x = confirm("Data Akan Dihapus?");
+    var x = confirm("Publikasi Akan Dihapus?");
     if (x)
         return true;
     else

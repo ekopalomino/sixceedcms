@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddPublishyearToPostTabel extends Migration
+class CreateFootersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class AddPublishyearToPostTabel extends Migration
      */
     public function up()
     {
-        Schema::table('posts', function (Blueprint $table) {
-            $table->string('publish_year')->nullable();
+        Schema::create('footers', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->uuid('site_id');
+            $table->integer('urutan');
+            $table->string('url');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +29,6 @@ class AddPublishyearToPostTabel extends Migration
      */
     public function down()
     {
-        Schema::table('post_tabel', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('footers');
     }
 }

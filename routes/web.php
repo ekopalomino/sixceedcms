@@ -15,12 +15,12 @@ Route::get('/', function () {
     return view('backend.pages.login');
 });
 
-Auth::routes(['register' => false]);
+Auth::routes(['register' => true]);
 Route::group(['prefix' => 'cms', 'middleware' => ['auth']], function() {
     Route::get('/config','Backend\HomeController@adminIndex')->name('config.index'); 
     Route::get('/main','Backend\HomeController@mainIndex')->name('main.index');
     Route::get('/pengembangan-ekspor-nasional','Backend\HomeController@penIndex')->name('pen.index');
-    Route::get('/perundingan-perdagangan-internasional','Backend\HomeController@ppiIndex')->name('ppi.index');
+    Route::get('/perundingan-perdagangan-internasional','Backend\DashboardController@ppi')->name('ppi.index');
     Route::get('/perdagangan-luar-negeri','Backend\DashboardController@daglu')->name('pln.index');
     Route::get('/perlindungan-konsumen-tertib-niaga','Backend\HomeController@pktnIndex')->name('pktn.index');
     Route::get('/perdagangan-dalam-negeri','Backend\DashboardController@dagri')->name('pdn.index');
@@ -183,7 +183,11 @@ Route::group(['prefix' => 'cms', 'middleware' => ['auth']], function() {
     Route::post('/konten/kantor-perdagangan/update/{id}','Backend\ContentManagementController@regionalOfficeUpdate')->name('regionalOffice.update');
     Route::post('/konten/kantor-perdagangan/delete/{id}','Backend\ContentManagementController@regionalOfficeDelete')->name('regionalOffice.destroy');
 
-
+    Route::get('/konten/defina','Backend\ContentManagementController@definaIndex')->name('defina.index');
+    Route::post('/konten/defina/store','Backend\ContentManagementController@definaStore')->name('defina.store');
+    Route::get('/konten/defina/edit/{id}','Backend\ContentManagementController@definaEdit')->name('defina.edit');
+    Route::post('/konten/defina/update/{id}','Backend\ContentManagementController@definaUpdate')->name('defina.update');
+    Route::post('/konten/defina/delete/{id}','Backend\ContentManagementController@definaDelete')->name('defina.destroy');
 
     Route::get('/kontak-kami','Backend\ContentManagementController@messageIndex')->name('messageNew.index');
     Route::get('/konten/pejabat/create','Backend\ContentManagementController@officialCreate')->name('official.create');

@@ -19,6 +19,8 @@ class CreateOfficialsTable extends Migration
             $table->string('name');
             $table->string('address');
             $table->string('userpic');
+            $table->uuid('created_by');
+            $table->uuid('updated_by')->nullable();
             $table->timestamps();
         });
     }

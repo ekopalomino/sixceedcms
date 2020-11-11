@@ -33,6 +33,7 @@ use Sixceed\Models\ContactUsProcess;
 use Sixceed\Models\PublicationCategory;
 use Sixceed\Models\Oiml;
 use Sixceed\Models\RegionalTradeOffice;
+use Sixceed\Models\Defina;
 use File;
 use Carbon\Carbon;
 
@@ -53,7 +54,7 @@ class ContentManagementController extends Controller
     {
         $categories = DutyCategory::join('duty_category_translations','duty_category_translations.duty_category_id','duty_categories.id')
                                     ->where('duty_categories.site_id',auth()->user()->site_id)
-                                    ->pluck('duty_category_translations.category_name','duty_category_translations.duty_category_id')->toArray();
+                                    ->pluck('duty_category_translations.category_name','duty_category_translations.category_name')->toArray();
         
         return view('backend.input.mainDuty',compact('categories'));
     }
@@ -643,6 +644,7 @@ class ContentManagementController extends Controller
             $input = [
                 'title' => $request->input('title'),
                 'cover_image' => $filename,
+                'ref_code' => $request->input('ref_code'),
                 'link' => $request->input('link'),
                 'category_id' => $request->input('category_id'),
                 'section_id' => $request->input('section_id'),
@@ -664,6 +666,7 @@ class ContentManagementController extends Controller
                 'title' => $request->input('title'),
                 'cover_image' => $filename,
                 'link' => $request->input('link'),
+                'ref_code' => $request->input('ref_code'),
                 'category_id' => $request->input('category_id'),
                 'section_id' => $request->input('section_id'),
                 'publish_year' => $request->input('publish_year'),
@@ -1630,7 +1633,7 @@ class ContentManagementController extends Controller
 
     public function postCreate()
     {
-        $categories = ArticleCategory::where('site_id',auth()->user()->site_id)->orWhere('site_id','35991cce-ca61-4d89-a3e3-d9e938dc4b2f')->pluck('category_name','id')->toArray();
+        $categories = ArticleCategory::where('site_id',auth()->user()->site_id)->orWhere('site_id','48887f82-bea4-47b3-a9de-4c27fdc6b85a')->pluck('category_name','id')->toArray();
         $reporter = User::where('site_id',auth()->user()->site_id)->pluck('name','id')->toArray();
         
         return view('backend.input.content',compact('categories','reporter'));
@@ -1665,17 +1668,16 @@ class ContentManagementController extends Controller
                     'reporter_id' => $request->input('reporter_id'),
                     'source' => $request->input('source'),
                     'file' => $filename,
-                    'peraturan_id' => $request->input('peraturan_id'),
-                    'bppp_post_year' => $request->input('bppp_year'),
+                    'category_child_id' => $request->input('category_child_id'),
+                    'years' => $request->input('years'),
                     'created_by' => auth()->user()->id,
                     'site_id' => auth()->user()->site_id,
-                    'status_id' => '3bc97e4a-5e86-4d7c-86d5-7ee450a247ee',
+                    'status_id' => '928ebe55-2520-491e-86e4-7498df664a32',
                     'published_date' => $request->input('published_date'),
                     'keywords' => $request->input('keywords'),
                     'description' => $request->input('description'),
                     'type_id' => '2',
-                    'oiml_ref' => $request->input('oiml_ref'),
-                    'reg_dagri_year' => $request->input('reg_dagri_year'),
+                    'reference_custom' => $request->input('reference_custom'),
                     'publish_year' => $request->input('publish_year')
                 ];
         
@@ -1737,17 +1739,16 @@ class ContentManagementController extends Controller
                     'reporter_id' => $request->input('reporter_id'),
                     'source' => $request->input('source'),
                     'file' => $path,
-                    'peraturan_id' => $request->input('peraturan_id'),
-                    'bppp_post_year' => $request->input('bppp_year'),
+                    'category_child_id' => $request->input('category_child_id'),
+                    'years' => $request->input('years'),
                     'created_by' => auth()->user()->id,
                     'site_id' => auth()->user()->site_id,
-                    'status_id' => '3bc97e4a-5e86-4d7c-86d5-7ee450a247ee',
+                    'status_id' => '928ebe55-2520-491e-86e4-7498df664a32',
                     'published_date' => $request->input('published_date'),
                     'keywords' => $request->input('keywords'),
                     'description' => $request->input('description'),
                     'type_id' => '2',
-                    'oiml_ref' => $request->input('oiml_ref'),
-                    'reg_dagri_year' => $request->input('reg_dagri_year'),
+                    'reference_custom' => $request->input('reference_custom'),
                     'publish_year' => $request->input('publish_year')
                 ];
         
@@ -1773,17 +1774,16 @@ class ContentManagementController extends Controller
                     'category_id' => $request->input('category_id'),
                     'reporter_id' => $request->input('reporter_id'),
                     'source' => $request->input('source'),
-                    'peraturan_id' => $request->input('peraturan_id'),
-                    'bppp_post_year' => $request->input('bppp_year'),
+                    'category_child_id' => $request->input('category_child_id'),
+                    'years' => $request->input('years'),
                     'created_by' => auth()->user()->id,
                     'site_id' => auth()->user()->site_id,
-                    'status_id' => '3bc97e4a-5e86-4d7c-86d5-7ee450a247ee',
+                    'status_id' => '928ebe55-2520-491e-86e4-7498df664a32',
                     'published_date' => $request->input('published_date'),
                     'keywords' => $request->input('keywords'),
                     'description' => $request->input('description'),
                     'type_id' => '1',
-                    'oiml_ref' => $request->input('oiml_ref'),
-                    'reg_dagri_year' => $request->input('reg_dagri_year'),
+                    'reference_custom' => $request->input('reference_custom'),
                     'publish_year' => $request->input('publish_year')
                 ];
         
@@ -1844,11 +1844,11 @@ class ContentManagementController extends Controller
                     'category_id' => $request->input('category_id'),
                     'reporter_id' => $request->input('reporter_id'),
                     'source' => $request->input('source'),
-                    'peraturan_id' => $request->input('peraturan_id'),
+                    'category_child_id' => $request->input('category_child_id'),
                     'bppp_post_year' => $request->input('bppp_year'),
                     'created_by' => auth()->user()->id,
                     'site_id' => auth()->user()->site_id,
-                    'status_id' => '3bc97e4a-5e86-4d7c-86d5-7ee450a247ee',
+                    'status_id' => '928ebe55-2520-491e-86e4-7498df664a32',
                     'published_date' => $request->input('published_date'),
                     'keywords' => $request->input('keywords'),
                     'description' => $request->input('description'),
@@ -1909,13 +1909,13 @@ class ContentManagementController extends Controller
                         'reporter_id' => $request->input('reporter_id'),
                         'source' => $request->input('source'),
                         'file' => $filename,
-                        'peraturan_id' => $request->input('peraturan_id'),
+                        'category_child_id' => $request->input('category_child_id'),
                         'bppp_post_year' => $request->input('bppp_year'),
                         'oiml_ref' => $request->input('oiml_ref'),
                         'reg_dagri_year' => $request->input('reg_dagri_year'),
                         'updated_by' => auth()->user()->id,
                         'site_id' => auth()->user()->site_id,
-                        'status_id' => '97081d35-d4b2-4582-b88f-edd0c66adcb4',
+                        'status_id' => '7ed618b5-8e61-4483-91c7-0fa191a3a55a',
                         'keywords' => $request->input('keywords'),
                         'description' => $request->input('description'),
                         'publish_year' => $request->input('publish_year')
@@ -1981,13 +1981,13 @@ class ContentManagementController extends Controller
                         'reporter_id' => $request->input('reporter_id'),
                         'source' => $request->input('source'),
                         'file' => $path,
-                        'peraturan_id' => $request->input('peraturan_id'),
+                        'category_child_id' => $request->input('category_child_id'),
                         'bppp_post_year' => $request->input('bppp_year'),
                         'oiml_ref' => $request->input('oiml_ref'),
                         'reg_dagri_year' => $request->input('reg_dagri_year'),
                         'updated_by' => auth()->user()->id,
                         'site_id' => auth()->user()->site_id,
-                        'status_id' => '97081d35-d4b2-4582-b88f-edd0c66adcb4',
+                        'status_id' => '7ed618b5-8e61-4483-91c7-0fa191a3a55a',
                         'keywords' => $request->input('keywords'),
                         'description' => $request->input('description'),
                         'publish_year' => $request->input('publish_year')
@@ -2017,13 +2017,13 @@ class ContentManagementController extends Controller
                         'reporter_id' => $request->input('reporter_id'),
                         'source' => $request->input('source'),
                         'file' => $path,
-                        'peraturan_id' => $request->input('peraturan_id'),
+                        'category_child_id' => $request->input('category_child_id'),
                         'bppp_post_year' => $request->input('bppp_year'),
                         'oiml_ref' => $request->input('oiml_ref'),
                         'reg_dagri_year' => $request->input('reg_dagri_year'),
                         'updated_by' => auth()->user()->id,
                         'site_id' => auth()->user()->site_id,
-                        'status_id' => '97081d35-d4b2-4582-b88f-edd0c66adcb4',
+                        'status_id' => '7ed618b5-8e61-4483-91c7-0fa191a3a55a',
                         'published_date' => $request->input('published_date'),
                         'keywords' => $request->input('keywords'),
                         'description' => $request->input('description'),
@@ -2089,13 +2089,13 @@ class ContentManagementController extends Controller
                         'reporter_id' => $request->input('reporter_id'),
                         'source' => $request->input('source'),
                         'file' => $path,
-                        'peraturan_id' => $request->input('peraturan_id'),
+                        'category_child_id' => $request->input('category_child_id'),
                         'bppp_post_year' => $request->input('bppp_year'),
                         'oiml_ref' => $request->input('oiml_ref'),
                         'reg_dagri_year' => $request->input('reg_dagri_year'),
                         'updated_by' => auth()->user()->id,
                         'site_id' => auth()->user()->site_id,
-                        'status_id' => '97081d35-d4b2-4582-b88f-edd0c66adcb4',
+                        'status_id' => '7ed618b5-8e61-4483-91c7-0fa191a3a55a',
                         'published_date' => $request->input('published_date'),
                         'keywords' => $request->input('keywords'),
                         'description' => $request->input('description'),
@@ -2128,13 +2128,13 @@ class ContentManagementController extends Controller
                         'category_id' => $request->input('category_id'),
                         'reporter_id' => $request->input('reporter_id'),
                         'source' => $request->input('source'),
-                        'peraturan_id' => $request->input('peraturan_id'),
+                        'category_child_id' => $request->input('category_child_id'),
                         'bppp_post_year' => $request->input('bppp_year'),
                         'oiml_ref' => $request->input('oiml_ref'),
                         'reg_dagri_year' => $request->input('reg_dagri_year'),
                         'updated_by' => auth()->user()->id,
                         'site_id' => auth()->user()->site_id,
-                        'status_id' => '97081d35-d4b2-4582-b88f-edd0c66adcb4',
+                        'status_id' => '7ed618b5-8e61-4483-91c7-0fa191a3a55a',
                         'keywords' => $request->input('keywords'),
                         'description' => $request->input('description'),
                         'publish_year' => $request->input('publish_year')
@@ -2198,13 +2198,13 @@ class ContentManagementController extends Controller
                         'category_id' => $request->input('category_id'),
                         'reporter_id' => $request->input('reporter_id'),
                         'source' => $request->input('source'),
-                        'peraturan_id' => $request->input('peraturan_id'),
+                        'category_child_id' => $request->input('category_child_id'),
                         'bppp_post_year' => $request->input('bppp_year'),
                         'oiml_ref' => $request->input('oiml_ref'),
                         'reg_dagri_year' => $request->input('reg_dagri_year'),
                         'updated_by' => auth()->user()->id,
                         'site_id' => auth()->user()->site_id,
-                        'status_id' => '97081d35-d4b2-4582-b88f-edd0c66adcb4',
+                        'status_id' => '7ed618b5-8e61-4483-91c7-0fa191a3a55a',
                         'keywords' => $request->input('keywords'),
                         'description' => $request->input('description'),
                         'publish_year' => $request->input('publish_year')
@@ -2233,13 +2233,13 @@ class ContentManagementController extends Controller
                         'category_id' => $request->input('category_id'),
                         'reporter_id' => $request->input('reporter_id'),
                         'source' => $request->input('source'),
-                        'peraturan_id' => $request->input('peraturan_id'),
+                        'category_child_id' => $request->input('category_child_id'),
                         'bppp_post_year' => $request->input('bppp_year'),
                         'oiml_ref' => $request->input('oiml_ref'),
                         'reg_dagri_year' => $request->input('reg_dagri_year'),
                         'updated_by' => auth()->user()->id,
                         'site_id' => auth()->user()->site_id,
-                        'status_id' => '97081d35-d4b2-4582-b88f-edd0c66adcb4',
+                        'status_id' => '7ed618b5-8e61-4483-91c7-0fa191a3a55a',
                         'published_date' => $request->input('published_date'),
                         'keywords' => $request->input('keywords'),
                         'description' => $request->input('description'),
@@ -2304,13 +2304,13 @@ class ContentManagementController extends Controller
                         'category_id' => $request->input('category_id'),
                         'reporter_id' => $request->input('reporter_id'),
                         'source' => $request->input('source'),
-                        'peraturan_id' => $request->input('peraturan_id'),
+                        'category_child_id' => $request->input('category_child_id'),
                         'bppp_post_year' => $request->input('bppp_year'),
                         'oiml_ref' => $request->input('oiml_ref'),
                         'reg_dagri_year' => $request->input('reg_dagri_year'),
                         'updated_by' => auth()->user()->id,
                         'site_id' => auth()->user()->site_id,
-                        'status_id' => '97081d35-d4b2-4582-b88f-edd0c66adcb4',
+                        'status_id' => '7ed618b5-8e61-4483-91c7-0fa191a3a55a',
                         'published_date' => $request->input('published_date'),
                         'keywords' => $request->input('keywords'),
                         'description' => $request->input('description'),
@@ -2360,7 +2360,7 @@ class ContentManagementController extends Controller
     {
         $data = Post::withTranslation()->where('posts.id',$id)->first();
         $data->update([
-            'status_id'=> '2872ac69-2f76-438b-8b83-31c52787027d'
+            'status_id'=> '286ba307-7ea9-400b-8046-028238f03e86'
         ]);
 
         $log = 'Artikel '.($data->title).' berhasil dipublish';
@@ -2672,6 +2672,82 @@ class ContentManagementController extends Controller
         $delete = $data->delete();
         
         return redirect()->route('regionalOffice.index')->with($notification);
+    }
+
+    public function definaIndex()
+    {
+        $data = Defina::orderBy('country_id','ASC')->get();
+        $countries = Country::pluck('country_name','id')->toArray();
+
+        return view('backend.pages.defina',compact('data','countries'));
+    }
+
+    public function definaStore()
+    {
+        $request->validate([
+            'country_id' => 'required',
+            'hs_code' => 'required',
+            'uraian' => 'required',
+            'tarif' => 'required',
+        ]);
+
+        $input = $request->all();
+        
+        $data = Defina::create($input);
+        $log = 'Data Defina '.($data->hs_code).' Berhasil Disimpan';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Data Defina '.($data->hs_code).' Berhasil Disimpan',
+            'alert-type' => 'success'
+        );
+        
+        return redirect()->route('defina.index')->with($notification);
+    }
+
+    public function definaEdit($id)
+    {
+        $data = Defina::find($id);
+        $countries = Country::pluck('country_name','id')->toArray();
+
+        return view('backend.edit.defina',compact('data','countries'));
+    }
+
+    public function definaUpdate(Request $request,$id)
+    {
+        $request->validate([
+            'country_id' => 'required',
+            'hs_code' => 'required',
+            'uraian' => 'required',
+            'tarif' => 'required',
+        ]);
+
+        $input = $request->all();
+        
+        $data = Defina::find($id);
+        $data->update($input);
+        $log = 'Data Defina '.($data->hs_code).' Berhasil Diubah';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Data Defina '.($data->hs_code).' Berhasil Diubah',
+            'alert-type' => 'success'
+        );
+        
+        return redirect()->route('defina.index')->with($notification);
+    }
+
+    public function definaDelete($id)
+    {
+        $data = Defina::find($id);
+        $log = 'Data Defina '.($data->hs_code).' Berhasil Dihapus';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Data Defina '.($data->hs_code).' Berhasil Dihapus',
+            'alert-type' => 'success'
+        );
+
+        $delete = $data->delete();
+        
+        return redirect()->route('defina.index')->with($notification);
     }
 
     

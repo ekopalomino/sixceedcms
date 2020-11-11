@@ -61,6 +61,7 @@
 					</li>
 				</ul>
 			</li>
+			@if((auth()->user()->site_id)=='48887f82-bea4-47b3-a9de-4c27fdc6b85a')
 			<li class="nav-item has-treeview ">
 				<a href="#" class="nav-link ">
 					<i class="nav-icon fas fa-users"></i>
@@ -84,6 +85,7 @@
 					</li>
 				</ul>
 			</li>
+			@endif
 			<li class="nav-item has-treeview {{set_open(['country.index','region.index','city.index','dutycat.index','articlecat.index','faqcat.index','unit.index','pubCat.index','menu.index']) }}">
 				<a href="#" class="nav-link {{set_active(['country.index','region.index','city.index','dutycat.index','articlecat.index','faqcat.index','unit.index','pubCat.index','menu.index']) }}">
 					<i class="nav-icon fas fa-database"></i>
@@ -125,24 +127,28 @@
 							<p>Kategori</p>
 						</a>
 						<ul class="nav nav-treeview">
+							@if((auth()->user()->site_id)=='48887f82-bea4-47b3-a9de-4c27fdc6b85a')
 							<li class="nav-item">
 								<a href="{{ route('dutycat.index') }}" class="nav-link {{set_active('dutycat.index') }}">
 									<i class="far fa-circle nav-icon"></i>
 									<p>Tugas & Fungsi</p>
 								</a>
 							</li>
+							@endif
 							<li class="nav-item">
 								<a href="{{ route('articlecat.index') }}" class="nav-link {{set_active('articlecat.index') }}">
 									<i class="far fa-circle nav-icon"></i>
 									<p>Konten</p>
 								</a>
 							</li>
+							@if((auth()->user()->site_id)=='48887f82-bea4-47b3-a9de-4c27fdc6b85a')
 							<li class="nav-item">
 								<a href="{{ route('faqcat.index') }}" class="nav-link {{set_active('faqcat.index') }}">
 									<i class="far fa-circle nav-icon"></i>
 									<p>FAQ</p>
 								</a>
 							</li>
+							@endif
 							<li class="nav-item">
 								<a href="{{ route('pubCat.index') }}" class="nav-link {{set_active('pubCat.index') }}">
 									<i class="far fa-circle nav-icon"></i>
@@ -151,24 +157,20 @@
 							</li>
 						</ul>
 					</li>
+					@if((auth()->user()->site_id)=='48887f82-bea4-47b3-a9de-4c27fdc6b85a')
 					<li class="nav-item">
 						<a href="{{ route('unit.index') }}" class="nav-link {{set_active('unit.index') }}">
 							<i class="right fas fa-angle-right"></i>
 							<p>Unit Kerja</p>
 						</a>
 					</li>
-					<li class="nav-item">
-						<a href="{{ route('menu.index') }}" class="nav-link {{set_active('menu.index') }}">
-							<i class="right fas fa-angle-right"></i>
-							<p>Manajemen Menu</p>
-						</a>
-					</li>
+					@endif
 				</ul>
 			</li>
 			<li class="nav-item has-treeview {{set_open(['foto.index','image.create','video.index','fnban.index','fnpub.index','about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index','post.index','post.create','post.edit',
-				'postSearch.index','postQuery.index','faq.index','faq.create','faq.edit','event.index','event.create','event.edit','eventDocs.create','official.index','official.create','official.edit','organization.index','organization.edit','regionalOffice.index','regionalOffice.create','regionalOffice.edit']) }}">
+				'postSearch.index','postQuery.index','faq.index','faq.create','faq.edit','event.index','event.create','event.edit','eventDocs.create','official.index','official.create','official.edit','organization.index','organization.edit','regionalOffice.index','regionalOffice.create','regionalOffice.edit','defina.index','defina.edit']) }}">
 				<a href="#" class="nav-link {{set_active(['foto.index','image.create','video.index','fnban.index','fnpub.index','about.index','about.create','about.edit','duty.index','duty.create','duty.edit','strat.index','post.index','write.create','upload.create','post.edit',
-					'postSearch.index','postQuery.index','faq.index','faq.create','faq.edit','event.index','event.create','event.edit','eventDocs.create','official.index','official.create','official.edit','regionalOffice.index','regionalOffice.create','regionalOffice.edit']) }}">
+					'postSearch.index','postQuery.index','faq.index','faq.create','faq.edit','event.index','event.create','event.edit','eventDocs.create','official.index','official.create','official.edit','regionalOffice.index','regionalOffice.create','regionalOffice.edit','defina.index','defina.edit']) }}">
 					<i class="nav-icon fas fa-newspaper"></i>
 					<p>
 						Konten
@@ -237,6 +239,14 @@
 						<a href="" class="nav-link ">
 							<i class="right fas fa-angle-right"></i>
 							<p>Dokumen</p>
+						</a>
+					</li>
+					@endif
+					@if((auth()->user()->site_id)=='4e370498-4efd-41b4-b597-f7043079594f')
+					<li class="nav-item {{set_open(['defina.index','defina.edit']) }}">
+						<a href="{{ route('defina.index') }}" class="nav-link {{set_active(['defina.index','defina.edit']) }}">
+							<i class="right fas fa-angle-right"></i>
+							<p>DEFINA</p>
 						</a>
 					</li>
 					@endif

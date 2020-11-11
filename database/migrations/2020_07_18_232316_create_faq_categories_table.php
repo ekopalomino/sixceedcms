@@ -14,11 +14,11 @@ class CreateFaqCategoriesTable extends Migration
     public function up()
     {
         Schema::create('faq_categories', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('category_name');
             $table->uuid('site_id');
-            $table->string('created_by');
-            $table->string('updated_by')->nullable();
+            $table->uuid('created_by');
+            $table->uuid('updated_by')->nullable();
             $table->timestamps();
         });
     }

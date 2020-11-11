@@ -22,6 +22,7 @@ class CreateFrontBannersTable extends Migration
             $table->string('description')->nullable();
             $table->string('link')->nullable();
             $table->uuid('site_id');
+            $table->uuid('status_id')->nullable();
             $table->uuid('created_by');
             $table->uuid('updated_by')->nullable();
             $table->timestamps();

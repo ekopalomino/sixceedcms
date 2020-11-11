@@ -18,6 +18,7 @@ class Post extends Model implements TranslatableContract
         'content',
         'site_id',
         'category_id',
+        'category_child_id',
         'source',
         'file',
         'reporter_id',
@@ -25,12 +26,10 @@ class Post extends Model implements TranslatableContract
         'created_by',
         'updated_by',
         'published_date',
-        'regulation_id',
         'keywords',
         'description',
-        'bppp_post_year',
-        'oiml_ref',
-        'reg_dagri_year',
+        'years',
+        'reference_custom',
     ];
     
     public function author()

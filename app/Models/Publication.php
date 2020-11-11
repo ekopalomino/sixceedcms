@@ -15,6 +15,7 @@ class Publication extends Model
         'title',
         'link',
         'file',
+        'ref_code',
         'created_by',
         'updated_by',
     ];

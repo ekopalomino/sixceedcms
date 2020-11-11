@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMenuTranslationsTable extends Migration
+class CreateFooterTranslationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,13 @@ class CreateMenuTranslationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('menu_translations', function (Blueprint $table) {
+        Schema::create('footer_translations', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('menu_id')->unSigned();
+            $table->bigInteger('footer_id')->unSigned();
             $table->string('locale')->index();
-            $table->string('title');
-            $table->string('slug')->unique();
-            $table->unique(['menu_id', 'locale']);
-            $table->foreign('menu_id')->references('id')->on('menus')->onDelete('cascade');
+            $table->string('name');
+            $table->unique(['footer_id', 'locale']);
+            $table->foreign('footer_id')->references('id')->on('footers')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
@@ -31,6 +30,6 @@ class CreateMenuTranslationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('menu_translations');
+        Schema::dropIfExists('footer_translations');
     }
 }

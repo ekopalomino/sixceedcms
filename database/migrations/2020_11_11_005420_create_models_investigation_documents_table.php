@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateOimlsTable extends Migration
+class CreateModelsInvestigationDocumentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateOimlsTable extends Migration
      */
     public function up()
     {
-        Schema::create('oimls', function (Blueprint $table) {
+        Schema::create('investigation_documents', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('category');
-            $table->string('reference_no');
-            $table->text('title');
-            $table->string('link');
+            $table->uuid('investigation_id');
+            $table->string('filename');
+            $table->foreign('investigation_id')->references('id')->on('investigation_data')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateOimlsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('oimls');
+        Schema::dropIfExists('models_investigation_documents');
     }
 }

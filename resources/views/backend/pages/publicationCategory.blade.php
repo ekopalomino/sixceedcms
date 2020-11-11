@@ -41,6 +41,12 @@ Kementerian Perdagangan Republik Indonesia | Kategori Publikasi
 											{!! Form::text('category_name', null, array('placeholder' => 'Nama Kategori','class' => 'form-control')) !!}
 										</div>
 									</div>
+									<div class="form-group row">
+										<label for="inputVideo" class="col-sm-2 col-form-label">Situs</label>
+										<div class="col-sm-10">
+											{!! Form::select('site_id', [null=>'Please Select'] + $sites,[], array('class' => 'form-control','id'=>'category_id')) !!}
+										</div>
+									</div>
 								</div>
 				            	<div class="modal-footer ">
 				              		<button type="close" class="btn btn-default" data-dismiss="modal">Close</button>

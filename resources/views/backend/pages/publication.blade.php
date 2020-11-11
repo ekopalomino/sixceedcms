@@ -42,6 +42,12 @@ Kementerian Perdagangan Republik Indonesia | Publikasi
 										</div>
 									</div>
 									<div class="form-group row">
+										<label for="inputEmail" class="col-sm-2 col-form-label">Kode Referensi</label>
+										<div class="col-sm-10">
+											{!! Form::text('ref_code', null, array('placeholder' => 'Kode Referensi','class' => 'form-control')) !!}
+										</div>
+									</div>
+									<div class="form-group row">
 										<label for="inputEmail" class="col-sm-2 col-form-label">Tahun Publikasi</label>
 										<div class="col-sm-10">
 											<select name="publish_year" class="form-control">
