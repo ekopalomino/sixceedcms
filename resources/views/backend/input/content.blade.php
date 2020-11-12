@@ -114,6 +114,31 @@ Kementerian Perdagangan Republik Indonesia | Buat Konten
 							            </select>
 									</div>
 								</div>
+								<div class="col-12" id="row_ppi">
+									<div class="form-group">
+										<label><strong>Sub Kategori Perundingan</strong></label>
+										<select name="category_child_id" class="form-control">
+							                <option value="">Please Select</option>
+							                <option value="1">Pertanian</option>
+							                <option value="2">Sanitary & Phytosanitary Measures</option>
+							                <option value="3">Technical Barriers to Trade</option>
+							                <option value="4">Pembangunan dan Lingkungan</option>
+							                <option value="5">Teknologi Informasi</option>
+							                <option value="6">Aksesi</option>
+							                <option value="7">Pengamanan Perdagangan</option>
+							                <option value="8">Ketentuan Perdagangan</option>
+							                <option value="9">Penyelesaian Sengketa</option>
+							                <option value="10">TRIPS & TRIMS</option>
+							                <option value="11">Perdagangan & Pembangunan</option>
+							                <option value="12">Perdagangan & Lingkungan</option>
+							                <option value="13">Fasilitasi Perdagangan</option>
+							                <option value="14">Prosedur Perijinan Impor</option>
+							                <option value="15">Custom Valuation & Preshipment Inspection</option>
+							                <option value="16">Tinjauan Ketentuan Perdagangan</option>
+							                <option value="17">Isu Lainnya</option>
+							            </select>
+									</div>
+								</div>
 								<div class="col-12" id="row_dagri">
 									<div class="form-group">
 										<label><strong>Tahun Regulasi</strong></label>
@@ -228,6 +253,18 @@ Kementerian Perdagangan Republik Indonesia | Buat Konten
             $('#row_dagri').show(); 
         } else {
             $('#row_dagri').hide(); 
+        } 
+    });
+});
+</script>
+<script>
+  $(function() {
+    $('#row_ppi').hide(); 
+    $('#category_id').change(function(){
+        if($('#category_id').val() == '35') {
+            $('#row_ppi').show(); 
+        } else {
+            $('#row_ppi').hide(); 
         } 
     });
 });

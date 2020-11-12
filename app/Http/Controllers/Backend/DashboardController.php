@@ -44,4 +44,9 @@ class DashboardController extends Controller
     {
         return view('backend.dashboard.ppi');
     }
+
+    public function pktn()
+    {
+        return view('backend.dashboard.pktn');
+    }
 }

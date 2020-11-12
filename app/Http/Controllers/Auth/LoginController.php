@@ -41,7 +41,7 @@ class LoginController extends Controller
         } elseif(Auth::user()->site_id == 'aea46a1f-9997-4d3c-838a-2647155f568e') {
             return '/cms/perundingan-perdagangan-internasional';
         } elseif(Auth::user()->site_id == 'fbd007d8-938e-4e89-9246-625cc1879c4f') {
-            return '/cms/perlindungan-konsumen';
+            return '/cms/perlindungan-konsumen-tertib-niaga';
         } elseif(Auth::user()->site_id == 'cb0f7d61-5371-4683-b16e-a801f36625a3') {
             return '/cms/pengembangan-ekspor';
         } elseif(Auth::user()->site_id == 'd3dae269-6198-4162-aa01-97a4710e1311') {
