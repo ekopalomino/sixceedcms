@@ -49,4 +49,19 @@ class DashboardController extends Controller
     {
         return view('backend.dashboard.pktn');
     }
+
+    public function kpp()
+    {
+        return view('backend.dashboard.kpp');
+    }
+
+    public function djpen()
+    {
+        return view('backend.dashboard.djpen');
+    }
+
+    public function kadi()
+    {
+        return view('backend.dashboard.kadi');
+    }
 }

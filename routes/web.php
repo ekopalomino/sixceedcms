@@ -19,7 +19,7 @@ Auth::routes(['register' => true]);
 Route::group(['prefix' => 'cms', 'middleware' => ['auth']], function() {
     Route::get('/config','Backend\HomeController@adminIndex')->name('config.index'); 
     Route::get('/main','Backend\HomeController@mainIndex')->name('main.index');
-    Route::get('/pengembangan-ekspor-nasional','Backend\HomeController@penIndex')->name('pen.index');
+    Route::get('/pengembangan-ekspor-nasional','Backend\DashboardController@djpen')->name('pen.index');
     Route::get('/perundingan-perdagangan-internasional','Backend\DashboardController@ppi')->name('ppi.index');
     Route::get('/perdagangan-luar-negeri','Backend\DashboardController@daglu')->name('pln.index');
     Route::get('/perlindungan-konsumen-tertib-niaga','Backend\DashboardController@pktn')->name('pktn.index');
@@ -27,6 +27,8 @@ Route::group(['prefix' => 'cms', 'middleware' => ['auth']], function() {
     Route::get('/pusat-pengembangan-sumber-daya-kemetrologian','Backend\DashboardController@ppsdk')->name('ppsdk.index');
     Route::get('/badan-pengembangan-pengkajian-perdagangan','Backend\DashboardController@bppp')->name('bppp.index');
     Route::get('/inspektorat-jenderal','Backend\DashboardController@itjen')->name('itjen.index');
+    Route::get('/pengamanan-perdagangan','Backend\DashboardController@kpp')->name('kpp.index');
+    Route::get('/anti-dumping','Backend\DashboardController@kadi')->name('kadi.index');
 
     Route::get('/pengguna','Backend\UserManagementController@userIndex')->name('user.index');
     Route::get('/pengguna/menu-saya','Backend\UserManagementController@userMenu')->name('myMenu.index');
